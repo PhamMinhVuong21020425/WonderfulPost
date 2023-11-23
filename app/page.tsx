@@ -1,10 +1,12 @@
 /* Components */
-import { Counter } from './components/Counter/Counter'
-
 export default function IndexPage() {
-  return <Counter />
+  return (
+    <div className='text-3xl font-bold font-poppins'>
+      Hello World
+    </div>
+  )
 }
 
 export const metadata = {
-  title: 'Redux Toolkit',
+  title: 'Magic Post',
 }
