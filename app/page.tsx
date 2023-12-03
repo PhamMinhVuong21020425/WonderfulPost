@@ -1,8 +1,8 @@
 /* Components */
 export default function IndexPage() {
   return (
-    <div className='font-poppins'>
-      Whereas disregard and contempt for human rights have resulted in barbarous
+    <div>
+      The Redux Toolkit is a standardized way to write Redux logic (create actions and reducers, setup the store with some default middlewares like redux devtools extension). This example demonstrates each of these features with Next.js
     </div>
   )
 }
