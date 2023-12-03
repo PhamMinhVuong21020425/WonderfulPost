@@ -9,7 +9,7 @@ export default function RootLayout(props: React.PropsWithChildren) {
     <Providers>
       <html lang="en">
         <body>
-            <main>{props.children}</main>
+          <main className='font-poppins'>{props.children}</main>
         </body>
       </html>
     </Providers>
