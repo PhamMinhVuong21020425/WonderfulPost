@@ -1,6 +1,7 @@
 /* Components */
 import { Providers } from '@/lib/providers'
 
+
 /* Instruments */
 import './styles/globals.css'
 
