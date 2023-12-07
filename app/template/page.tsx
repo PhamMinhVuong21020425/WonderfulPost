@@ -17,6 +17,7 @@ import Sidebar from './components/Sidebar';
 import OrderTable from './components/OrderTable';
 import OrderList from './components/OrderList';
 import Header from './components/Header';
+import palette from '../styles/palette';
 
 const useEnhancedEffect =
     typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
@@ -34,7 +35,7 @@ export default function JoyOrderDashboardTemplate() {
     }, [status]);
 
     return (
-        <CssVarsProvider disableTransitionOnChange>
+        <CssVarsProvider disableTransitionOnChange theme={palette}>
             <CssBaseline />
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
                 <Header />
@@ -105,6 +106,7 @@ export default function JoyOrderDashboardTemplate() {
                             color="primary"
                             startDecorator={<DownloadRoundedIcon />}
                             size="sm"
+                            variant="outlined"
                         >
                             Download PDF
                         </Button>

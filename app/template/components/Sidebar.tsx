@@ -27,6 +27,7 @@ import SupportRoundedIcon from '@mui/icons-material/SupportRounded';
 import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import EggIcon from '@mui/icons-material/Egg';
 import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -120,9 +121,10 @@ export default function Sidebar() {
             />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <IconButton variant="soft" color="primary" size="sm">
-                    <BrightnessAutoRoundedIcon />
+                    {/* <BrightnessAutoRoundedIcon /> */}
+                    <EggIcon />
                 </IconButton>
-                <Typography level="title-lg">Acme Co.</Typography>
+                <Typography level="title-lg">MagicPost</Typography>
                 <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
             <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
@@ -265,7 +267,7 @@ export default function Sidebar() {
                         mb: 2,
                     }}
                 >
-                    <ListItem>
+                    {/* <ListItem>
                         <ListItemButton>
                             <SupportRoundedIcon />
                             Support
@@ -276,9 +278,9 @@ export default function Sidebar() {
                             <SettingsRoundedIcon />
                             Settings
                         </ListItemButton>
-                    </ListItem>
+                    </ListItem> */}
                 </List>
-                <Card
+                {/* <Card
                     invertedColors
                     variant="soft"
                     color="warning"
@@ -298,18 +300,14 @@ export default function Sidebar() {
                     <Button size="sm" variant="solid">
                         Upgrade plan
                     </Button>
-                </Card>
+                </Card> */}
             </Box>
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar
-                    variant="outlined"
-                    size="sm"
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=286"
-                />
+                <Avatar>JK</Avatar>
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">Siriwat K.</Typography>
-                    <Typography level="body-xs">siriwatk@test.com</Typography>
+                    <Typography level="title-sm">Zuanki</Typography>
+                    <Typography level="body-xs">zuanki@test.com</Typography>
                 </Box>
                 <IconButton size="sm" variant="plain" color="neutral">
                     <LogoutRoundedIcon />
