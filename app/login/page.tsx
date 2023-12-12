@@ -21,6 +21,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import GoogleIcon from './GoogleIcon';
 import styled from '@emotion/styled';
 
+import palette from '../styles/palette';
+
 interface FormElements extends HTMLFormControlsCollection {
     email: HTMLInputElement;
     password: HTMLInputElement;
@@ -65,7 +67,7 @@ function ColorSchemeToggle(props: IconButtonProps) {
 
 export default function JoySignInSideTemplate() {
     return (
-        <CssVarsProvider defaultMode="light" disableTransitionOnChange>
+        <CssVarsProvider defaultMode="light" disableTransitionOnChange theme={palette}>
             <CssBaseline />
             <GlobalStyles
                 styles={{
