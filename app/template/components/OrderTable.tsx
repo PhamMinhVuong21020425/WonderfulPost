@@ -322,6 +322,7 @@ export default function OrderTable() {
     );
     return (
         <React.Fragment>
+            {/* Mobile */}
             <Sheet
                 className="SearchAndFilters-mobile"
                 sx={{
@@ -353,7 +354,7 @@ export default function OrderTable() {
                         <Divider sx={{ my: 2 }} />
                         <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                             {renderFilters()}
-                            <Button color="primary" onClick={() => setOpen(false)}>
+                            <Button color="primary" onClick={() => setOpen(false)} variant='outlined'>
                                 Submit
                             </Button>
                         </Sheet>
@@ -379,6 +380,9 @@ export default function OrderTable() {
                 </FormControl>
                 {renderFilters()}
             </Box>
+
+
+            {/* Computer / Laptop */}
             <Sheet
                 className="OrderTableContainer"
                 variant="outlined"
@@ -444,10 +448,10 @@ export default function OrderTable() {
                                     Invoice
                                 </Link>
                             </th>
-                            <th style={{ width: 140, padding: '12px 6px' }}>Date</th>
-                            <th style={{ width: 140, padding: '12px 6px' }}>Status</th>
+                            <th style={{ width: 140, textAlign: 'center', padding: '12px 6px' }}>Date</th>
+                            <th style={{ width: 140, textAlign: 'center', padding: '12px 6px' }}>Status</th>
                             <th style={{ width: 240, padding: '12px 6px' }}>Customer</th>
-                            <th style={{ width: 140, padding: '12px 6px' }}> </th>
+                            <th style={{ width: 140, textAlign: 'center', padding: '12px 6px' }}> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -472,10 +476,10 @@ export default function OrderTable() {
                                 <td>
                                     <Typography level="body-xs">{row.id}</Typography>
                                 </td>
-                                <td>
+                                <td style={{ textAlign: 'center' }}>
                                     <Typography level="body-xs">{row.date}</Typography>
                                 </td>
-                                <td>
+                                <td style={{ textAlign: 'center' }}>
                                     <Chip
                                         variant="soft"
                                         size="sm"
@@ -489,7 +493,7 @@ export default function OrderTable() {
                                         color={
                                             {
                                                 Paid: 'success',
-                                                Refunded: 'neutral',
+                                                Refunded: 'warning',
                                                 Cancelled: 'danger',
                                             }[row.status] as ColorPaletteProp
                                         }
@@ -519,6 +523,9 @@ export default function OrderTable() {
                     </tbody>
                 </Table>
             </Sheet>
+
+
+            {/* Pagination */}
             <Box
                 className="Pagination-laptopUp"
                 sx={{
@@ -562,6 +569,6 @@ export default function OrderTable() {
                     Next
                 </Button>
             </Box>
-        </React.Fragment>
+        </React.Fragment >
     );
 }
