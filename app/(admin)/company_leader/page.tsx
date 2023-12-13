@@ -7,9 +7,16 @@ import Box from '@mui/joy/Box';
 import palette from '../../styles/palette';
 import Sidebar from './components/SideBar';
 import Header from './components/Header';
+import StaffTable from './components/StaffTable';
+import Button from '@mui/joy/Button';
+import AddIcon from '@mui/icons-material/Add';
+import Typography from '@mui/joy/Typography';
+import Modal from '@mui/joy/Modal';
+import ModalClose from '@mui/joy';
 
 
-export default function JoyOrderDashboardTemplate() {
+
+export default function CompanyLeader() {
 
     return (
         <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -36,6 +43,31 @@ export default function JoyOrderDashboardTemplate() {
                         gap: 1,
                     }}
                 >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            mb: 1,
+                            gap: 1,
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            alignItems: { xs: 'start', sm: 'center' },
+                            flexWrap: 'wrap',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Typography level="h2" component="h1">
+                            Staffs
+                        </Typography>
+                        <Button
+                            color="primary"
+                            startDecorator={<AddIcon />}
+                            size="sm"
+                            variant="outlined"
+                        >
+                            Add Staff
+                        </Button>
+                    </Box>
+                    <StaffTable />
+
                 </Box>
             </Box>
         </CssVarsProvider>
