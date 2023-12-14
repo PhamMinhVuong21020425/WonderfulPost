@@ -1,8 +1,5 @@
-'use client';
 import * as React from 'react';
-
 import Box from '@mui/joy/Box';
-
 
 import StaffTable from './StaffTable';
 import Button from '@mui/joy/Button';
@@ -23,9 +20,6 @@ import CountrySelector from './CountrySelector';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-
-
-
 
 
 export default function Staff() {

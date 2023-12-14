@@ -1,21 +1,11 @@
-'use client';
 import * as React from 'react';
-
 import Box from '@mui/joy/Box';
-
-
 import StaffTable from './StaffTable';
 import Button from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
 
-
-
-
-
-
 export default function Office() {
-
 
     return (
         <div>
