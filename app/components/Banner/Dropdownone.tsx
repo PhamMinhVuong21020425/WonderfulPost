@@ -4,9 +4,9 @@ import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 
 type Coursetype = {
   name: string;
-  };
-  
-  const course: Coursetype[] = [
+};
+
+const course: Coursetype[] = [
   { name: 'UX and UI Design' },
   { name: 'Front End Development' },
   { name: 'Back End Development' },
@@ -19,7 +19,7 @@ const Dropdown = () => {
   return (
     <div className="w-full">
       <Listbox value={selected} onChange={setSelected}>
-      <h3 className='text-lg text-lightgrey'>What do you want to learn?</h3>
+        <h3 className='text-lg text-lightgrey'>What do you want to learn?</h3>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white text-xl py-2 pr-10 text-left focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate text-xl font-semibold ">{selected.name}</span>
@@ -41,8 +41,7 @@ const Dropdown = () => {
                 <Listbox.Option
                   key={personIdx}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                      active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
                     }`
                   }
                   value={person}
@@ -50,9 +49,8 @@ const Dropdown = () => {
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
+                        className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                          }`}
                       >
                         {person.name}
                       </span>
