@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  return Response.json({ app: 'Magic Post' })
+  return NextResponse.json({ app: 'Magic Post' })
 }
 
 export async function POST(req: Request, res: Response) {
