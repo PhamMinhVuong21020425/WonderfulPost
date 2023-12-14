@@ -1,7 +1,7 @@
 export default function OfficeTable() {
     return (
         <div>
-            <h1>OfficeList</h1>
+            <h1>OfficeTable</h1>
         </div>
-    );
+    )
 }

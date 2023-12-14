@@ -25,6 +25,13 @@ import MenuItem from '@mui/joy/MenuItem';
 import Dropdown from '@mui/joy/Dropdown';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
+import Card from '@mui/joy/Card';
+import CardActions from '@mui/joy/CardActions';
+import CardOverflow from '@mui/joy/CardOverflow';
+import CountrySelector from './CountrySelector';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import DialogActions from '@mui/joy/DialogActions';
 
 // Icons
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
@@ -36,18 +43,12 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
+import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import { CardHeader } from '@mui/material';
+import Staff from '../../../types/StaffType';
 
-
-// Staff's interface is defined here
-interface Staff {
-    id: string;
-    name: string;
-    office: string;
-    email: string;
-    phone: string;
-    position: "TRANSACTION" | "GATHERING",
-    status: "ACTIVE" | "INACTIVE";
-}
 
 const staffs: Staff[] = [
     {
@@ -241,21 +242,123 @@ function RowMenu() {
     const [openEditModal, setOpenEditModal] = React.useState(false);
     const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
 
-    const renderEditModal = (oM: boolean) => {
+    const renderEditModal = () => {
         return (
-            <Modal open={oM} onClose={() => setOpenEditModal(false)}>
-                <ModalDialog>
-                    Edit
-                </ModalDialog>
+            <Modal
+                open={openEditModal}
+                onClose={() => setOpenEditModal(false)}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}
+            >
+                <Card
+                    style={{
+                        width: '100%',
+                        maxWidth: 600,
+                        // borderRadius: 12,
+                        // overflow: 'hidden',
+                    }}
+                >
+                    <Box sx={{ mb: 1 }}>
+                        <Typography level="title-md">Personal Information</Typography>
+                        <Typography level="body-sm">
+                            Customize how your profile information will apper to the networks.
+                        </Typography>
+                    </Box>
+                    <Divider />
+                    <Stack
+                        direction="row"
+                    >
+                        <Stack direction="column" spacing={1}>
+
+                        </Stack>
+                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
+                            <Stack spacing={1}>
+                                <FormLabel>Name</FormLabel>
+                                <FormControl
+                                >
+                                    <Input size="sm" placeholder="Your name" />
+                                </FormControl>
+                                <FormLabel>Phone</FormLabel>
+                                <FormControl
+                                >
+                                    <Input size="sm" placeholder="Phone" />
+                                </FormControl>
+
+                            </Stack>
+                            <Stack direction="row" spacing={2}>
+                                <FormControl>
+                                    <FormLabel>Role</FormLabel>
+                                    <Select
+                                        size="sm"
+                                        defaultValue="1"
+                                    >
+                                        <Option value="1">
+                                            <Typography level='body-sm'>
+                                                GATHERING
+                                            </Typography>
+                                        </Option>
+                                        <Option value="2">
+                                            <Typography level='body-sm'>
+                                                TRANSACTION
+                                            </Typography>
+                                        </Option>
+                                    </Select>
+                                </FormControl>
+                                <FormControl sx={{ flexGrow: 1 }}>
+                                    <FormLabel>Email</FormLabel>
+                                    <Input
+                                        size="sm"
+                                        type="email"
+                                        startDecorator={<EmailRoundedIcon />}
+                                        placeholder="@magic-post.com"
+                                        sx={{ flexGrow: 1 }}
+                                    />
+                                </FormControl>
+                            </Stack>
+                            <div>
+                                <CountrySelector />
+                            </div>
+                        </Stack>
+                    </Stack>
+                    <CardOverflow >
+                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
+                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenEditModal(false)}>
+                                Cancel
+                            </Button>
+                            <Button size="sm" variant="outlined" color="primary" onClick={() => setOpenEditModal(false)}>
+                                Save
+                            </Button>
+                        </CardActions>
+                    </CardOverflow>
+                </Card>
+
             </Modal>
         );
     }
 
-    const renderDeleteModal = (oM: boolean) => {
+    const renderDeleteModal = () => {
         return (
-            <Modal open={oM} onClose={() => setOpenDeleteModal(false)}>
-                <ModalDialog>
-                    Delete
+            <Modal open={openDeleteModal} onClose={() => setOpenDeleteModal(false)}>
+                <ModalDialog variant="outlined" role="alertdialog">
+                    <DialogTitle>
+                        <WarningRoundedIcon />
+                        Confirmation
+                    </DialogTitle>
+                    <Divider />
+                    <DialogContent>
+                        Are you sure you want to delete this staff?
+                    </DialogContent>
+                    <DialogActions>
+                        <Button variant="outlined" color="danger" onClick={() => setOpenDeleteModal(false)}>
+                            Discard notes
+                        </Button>
+                        <Button variant="outlined" color="neutral" onClick={() => setOpenDeleteModal(false)}>
+                            Cancel
+                        </Button>
+                    </DialogActions>
                 </ModalDialog>
             </Modal>
         );
@@ -287,8 +390,8 @@ function RowMenu() {
                     </Box>
                 </MenuItem>
             </Menu>
-            {renderEditModal(openEditModal)}
-            {renderDeleteModal(openDeleteModal)}
+            {renderEditModal()}
+            {renderDeleteModal()}
         </Dropdown >
     );
 }

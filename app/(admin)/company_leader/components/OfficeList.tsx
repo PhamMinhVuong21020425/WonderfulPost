@@ -3,5 +3,5 @@ export default function OfficeList() {
         <div>
             <h1>OfficeList</h1>
         </div>
-    );
+    )
 }
