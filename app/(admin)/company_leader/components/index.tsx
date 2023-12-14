@@ -8,7 +8,7 @@ import palette from '@/app/styles/palette';
 import Sidebar from './SideBar';
 import Header from './Header';
 import Staff from './Staff';
-import Office from './Office';
+// import Office from './Office';
 
 
 
@@ -26,7 +26,7 @@ export default function CompanyLeader() {
                     <Office />
 
                 </Box> */}
-                <Office />
+                <Staff />
             </Box>
         </CssVarsProvider>
     );
