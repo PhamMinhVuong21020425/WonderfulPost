@@ -1,6 +1,10 @@
 /* Core */
 import { NextResponse } from 'next/server'
 
+export async function GET() {
+  return NextResponse.json({ app: 'Magic Post' })
+}
+
 export async function POST(req: Request, res: Response) {
   const body = await req.json()
   const { amount = 1 } = body
