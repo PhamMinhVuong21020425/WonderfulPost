@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 import { LockClosedIcon } from '@heroicons/react/20/solid'
-
+import { useRouter } from "next/navigation"
 
 const Register = () => {
     let [isOpen, setIsOpen] = useState(false)
@@ -15,16 +15,16 @@ const Register = () => {
     }
 
     return (
-        <>
+        <form method='POST' action='/auth/logout'>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto  sm:pr-0">
                 <div className='hidden md:block'>
-                    <button className="bg-red-500 hover:bg-red-400 text-white text-15px font-medium ml-8 px-3 py-2 rounded" onClick={openModal}>
-                        Register
+                    <button type="submit" className="bg-red-500 hover:bg-red-400 text-white text-15px font-medium ml-8 px-3 py-2 rounded">
+                        Logout
                     </button>
                 </div>
             </div>
 
-            <Transition appear show={isOpen} as={Fragment}>
+            {/* <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={closeModal}>
                     <Transition.Child
                         as={Fragment}
@@ -141,8 +141,8 @@ const Register = () => {
                         </div>
                     </div>
                 </Dialog>
-            </Transition>
-        </>
+            </Transition> */}
+        </form>
     )
 }
 
