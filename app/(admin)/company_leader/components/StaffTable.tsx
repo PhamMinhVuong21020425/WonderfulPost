@@ -580,7 +580,7 @@ function RowMenu() {
                     <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                         <EditRoundedIcon />
                         <Typography
-                            level="body-xs"
+                            style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                             color='neutral'
                         >
                             Edit
@@ -590,7 +590,7 @@ function RowMenu() {
                 <MenuItem color="danger" onClick={() => setOpenDeleteModal(true)}>
                     <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                         <DeleteRoundedIcon />
-                        <Typography level="body-xs" color='danger'>Delete</Typography>
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} color='danger'>Delete</Typography>
                     </Box>
                 </MenuItem>
             </Menu>
@@ -609,7 +609,7 @@ function Row(props: { row: any; initialOpen?: boolean }) {
             <tr key={row.id}>
                 <td style={{ width: '12%', padding: "6px 12px" }}>
                     <Typography
-                        level="body-xs"
+                        style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                     >{row.id}</Typography>
                 </td>
                 <td style={{ width: '30%', padding: "6px 12px" }}>
@@ -622,7 +622,7 @@ function Row(props: { row: any; initialOpen?: boolean }) {
                             {initialName(row.name)}
                         </Avatar>
                         <div>
-                            <Typography level="body-xs">{row.name}</Typography>
+                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{row.name}</Typography>
                             <Typography
                                 style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                             >{row.email}</Typography>
@@ -659,21 +659,21 @@ function Row(props: { row: any; initialOpen?: boolean }) {
                         }
 
                         <Typography
-                            level='body-xs'
+                            style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                         >{row.office.address}</Typography>
 
                     </Box>
                 </td>
 
                 <td style={{ width: '15%', padding: "6px 12px" }}>
-                    <Typography level="body-xs">{row.phone}</Typography>
+                    <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{row.phone}</Typography>
                 </td>
 
                 <td style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>
-                    <Typography level="body-xs">11</Typography>
+                    <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
                 </td>
                 <td style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>
-                    <Typography level="body-xs">11</Typography>
+                    <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
                 </td>
 
                 <td style={{ width: '6%', textAlign: 'center' }}>

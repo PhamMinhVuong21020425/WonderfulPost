@@ -1,7 +1,5 @@
-export default function TransactionPointPage() {
-    return (
-        <div>
-            <h1>TransactionPointPage</h1>
-        </div>
-    );
+import LeaderTransactionPoint from "./components";
+
+export default function Page() {
+    return <LeaderTransactionPoint />;
 }

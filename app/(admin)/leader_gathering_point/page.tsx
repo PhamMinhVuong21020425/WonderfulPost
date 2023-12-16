@@ -1,7 +1,7 @@
-export default function ConsolidationPointPage() {
+import LeaderGatheringPoint from "./components";
+
+export default function Page() {
     return (
-        <div>
-            <h1>ConsolidationPointPage</h1>
-        </div>
-    );
+        <LeaderGatheringPoint />
+    )
 }
