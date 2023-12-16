@@ -15,7 +15,6 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
 import Divider from '@mui/joy/Divider';
-import { Chip, LinearProgress } from '@mui/joy';
 
 import CountrySelector from './CountrySelector';
 import Select from '@mui/joy/Select';
@@ -123,32 +122,7 @@ export default function Staff() {
 
             </Modal>
         );
-    }
-
-    const renderFilters = () => (
-        <React.Fragment>
-            <FormControl size="sm" >
-                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Status</FormLabel>
-                <Select
-                    size="sm"
-                    placeholder="Filter by position"
-                    slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
-                    style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
-                >
-                    <Option value="gathering">
-                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Gathering</Typography>
-                    </Option>
-                    <Option value="transaction">
-                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Transaction</Typography>
-                    </Option>
-                    <Option value="all">
-                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>All</Typography>
-                    </Option>
-                </Select>
-            </FormControl>
-
-        </React.Fragment>
-    );
+    };
 
     return (
         <div>
@@ -182,43 +156,15 @@ export default function Staff() {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Typography level="h2" component="h1" style={{ color: 'var(--joy-palette-text-secondary)', fontWeight: "600" }}>
+                    <Typography level="h2" component="h1">
                         Staffs
                     </Typography>
-
-                    <Box>
-                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                            <Chip
-                                size="sm"
-                                color="warning"
-                                sx={{ minWidth: 100, minHeight: 5 }}
-                            />
-                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                Gathering
-                            </Typography>
-
-                        </Box>
-                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                            <Chip
-                                size="sm"
-                                color="success"
-                                sx={{ minWidth: 100, minHeight: 5 }}
-                            />
-                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                Transaction
-                            </Typography>
-
-                        </Box>
-                    </Box>
-
-
                     <Button
                         color="primary"
                         startDecorator={<AddIcon />}
                         size="sm"
                         variant="outlined"
                         onClick={() => setOpenAddStaff(true)}
-                        style={{ fontWeight: "600" }}
                     >
                         Add Staff
                     </Button>
@@ -240,11 +186,10 @@ export default function Staff() {
                         <FormLabel >Search for staff</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
-                    {renderFilters()}
                 </Box>
                 <StaffTable />
             </Box>
             {renderAddStaffModal()}
-        </div >
+        </div>
     );
 }
