@@ -7,7 +7,6 @@ import palette from '@/app/styles/palette';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
-import Staff from './Staff';
 
 export default function Page() {
     return (
@@ -16,7 +15,6 @@ export default function Page() {
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
                 <Header />
                 <SideBar />
-                <Staff />
             </Box>
         </CssVarsProvider>
     )
