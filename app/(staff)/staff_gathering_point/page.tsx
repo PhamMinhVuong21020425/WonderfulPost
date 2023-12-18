@@ -1,7 +1,5 @@
-export default function StaffConsolidationPointPage() {
-    return (
-        <div>
-            <h1>StaffConsolidationPointPage</h1>
-        </div>
-    );
+import StaffGatheringPointPage from "./components";
+
+export default function Page() {
+    return <StaffGatheringPointPage />;
 }
