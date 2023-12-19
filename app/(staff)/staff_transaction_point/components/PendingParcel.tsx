@@ -31,6 +31,9 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
+import { ModalDialogProps } from '@mui/joy/ModalDialog';
+import ModalOverflow from '@mui/joy/ModalOverflow';
+import { makeStyles } from '@mui/material';
 
 // Icons
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
@@ -55,6 +58,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 import Parcel from "@/app/types/ParcelType"
@@ -496,9 +501,429 @@ export default function PendingParcel() {
         );
     };
 
+    const [layout, setLayout] = React.useState<ModalDialogProps['layout'] | undefined>(
+        undefined,
+    );
+
+    // Type of layout: undefined, 'fullscreen', 'responsive', 'fixed'
+
+    const renderAddParcelModal = () => {
+        return (
+            <Modal
+                open={!!layout}
+                onClose={() => {
+                    setLayout(undefined);
+                }}
+            >
+                <ModalOverflow>
+                    <ModalDialog
+                        aria-labelledby="modal-dialog-overflow"
+                        layout={layout}
+                    >
+                        <ModalClose />
+
+
+                        <Box
+                            style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '20px',
+
+                            }}
+                        >
+                            <Box>
+                                <Typography level="h4">
+                                    Sender Information
+                                </Typography>
+                                {/* Form */}
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        marginTop: '20px',
+                                        gap: 2,
+                                        '& > *': {
+                                            minWidth: { xs: '120px', md: '160px' },
+                                        },
+                                    }}
+                                >
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Name <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Nguyen Van A"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Contact <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="0123456789"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Address <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="UET"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Province/City <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Ha Noi"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                District <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Cau Giay"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Town <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Xuan Thuy"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Typography level="h4">
+                                    Recipient Information
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        marginTop: '20px',
+                                        gap: 2,
+                                        '& > *': {
+                                            minWidth: { xs: '120px', md: '160px' },
+                                        },
+                                    }}
+                                >
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Name <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Nguyen Van A"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Contact <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="0123456789"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Address <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="UET"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Province/City <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Ha Noi"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                District <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Cau Giay"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Town <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="Xuan Thuy"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                </Box>
+
+                            </Box>
+                            <Box>
+                                <Typography level="h4">
+                                    Parcel Information
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        marginTop: '20px',
+                                        gap: 2,
+                                        '& > *': {
+                                            minWidth: { xs: '120px', md: '160px' },
+                                        },
+                                    }}
+                                >
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Length (cm)
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="30"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Height (cm)
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="20"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Width (cm)
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="10"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Weight (gram)
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="200"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                            type='float'
+                                        />
+                                    </FormControl>
+                                    <FormControl>
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Parcel Type
+                                            </Typography>
+                                        </FormLabel>
+                                        <Box sx={{ display: 'flex', marginTop: '10px', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <Checkbox label="Documents" size='sm' variant='soft' defaultChecked />
+                                            <Checkbox label="Goods" size='sm' variant='soft' />
+                                        </Box>
+                                    </FormControl>
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Typography level="h4">
+                                    Postage
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        marginTop: '20px',
+                                        gap: 2,
+                                        '& > *': {
+                                            minWidth: { xs: '120px', md: '160px' },
+                                        },
+                                    }}
+                                >
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                COD money <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="VND"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                            type='float'
+                                        />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Main Fee <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="VND"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft'
+                                        />
+
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Extra Fee <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="VND"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                VAT Fee <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="VND"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Total VAT Fee <span style={{ color: 'red' }}>*</span>
+                                            </Typography>
+                                        </FormLabel>
+                                        <Input
+                                            placeholder="VND"
+                                            style={{ fontSize: '0.8rem' }}
+                                            variant='soft' />
+                                    </FormControl>
+                                    {/* Total Fee */}
+                                    <FormControl >
+                                        <FormLabel>
+                                            <Typography level="title-sm">
+                                                Total Fee
+                                            </Typography>
+                                        </FormLabel>
+                                        <Typography level="title-sm" color='success'>
+                                            + 100,000 VND
+                                        </Typography>
+                                    </FormControl>
+                                </Box>
+                            </Box>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                padding: '10px',
+                            }}
+                        >
+                            <Button
+                                style={{
+                                    backgroundColor: 'none',
+                                }}
+                            >
+
+                            </Button>
+                            <Button
+                                variant="outlined"
+                                color="success"
+                                size="sm"
+                                onClick={() => setLayout(undefined)}
+                            >
+                                Confirm
+                            </Button>
+                        </Box>
+                    </ModalDialog>
+                </ModalOverflow>
+            </Modal >
+        );
+    }
+
+
 
     return (
         <React.Fragment>
+            <Box
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography level="h2" component="h1">
+                    Parcels
+                </Typography>
+                <Button
+                    color="primary"
+                    startDecorator={<AddIcon />}
+                    size="sm"
+                    onClick={() => setLayout('fullscreen')}
+                    variant="outlined"
+                    style={{ fontWeight: "600" }}
+                >
+                    Add Parcel
+                </Button>
+            </Box>
             <Box
                 className="SearchAndFilters-tabletUp"
                 sx={{
@@ -624,7 +1049,7 @@ export default function PendingParcel() {
                         }
                     </tbody>
                 </Table>
-
+                {renderAddParcelModal()}
             </Sheet>
         </React.Fragment >
     )

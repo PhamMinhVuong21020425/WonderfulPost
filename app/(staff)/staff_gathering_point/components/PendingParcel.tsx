@@ -31,6 +31,9 @@ import CardOverflow from '@mui/joy/CardOverflow';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
+import { ModalDialogProps } from '@mui/joy/ModalDialog';
+import ModalOverflow from '@mui/joy/ModalOverflow';
+import { makeStyles } from '@mui/material';
 
 // Icons
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
@@ -55,91 +58,168 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 import Parcel from "@/app/types/ParcelType"
 
 const data: Parcel[] = [
+
     {
-        "id": "ABC123",
-        "length": 20,
-        "price": 15.99,
-        "height": 10,
+        "id": "P001",
+        "length": 12,
+        "price": 25.99,
+        "height": 8,
         "weight": 5,
-        "width": 15,
-        "status": "ON_GOING",
+        "width": 6,
+        "status": "ON_PENDING",
         "recipient_address": "123 Main St, Cityville",
-        "recipient_contact": "555-1234",
+        "recipient_contact": "+1234567890",
         "recipient_name": "John Doe",
-        "sender_address": "456 Oak St, Townsville",
-        "sender_contact": "555-5678",
+        "sender_address": "456 Oak Ave, Townsville",
+        "sender_contact": "+1987654321",
         "sender_name": "Jane Smith"
     },
     {
-        "id": "DEF456",
-        "length": 25,
-        "price": 20.5,
-        "height": 12,
+        "id": "P002",
+        "length": 15,
+        "price": 32.5,
+        "height": 10,
         "weight": 7,
-        "width": 18,
-        "status": "SUCCESS",
-        "recipient_address": "789 Elm St, Villagetown",
-        "recipient_contact": "555-2468",
+        "width": 9,
+        "status": "ON_PENDING",
+        "recipient_address": "789 Elm St, Villageton",
+        "recipient_contact": "+1122334455",
         "recipient_name": "Alice Johnson",
-        "sender_address": "321 Pine St, Hamletville",
-        "sender_contact": "555-1357",
-        "sender_name": "Bob Brown"
+        "sender_address": "321 Cedar Rd, Hamletville",
+        "sender_contact": "+5566778899",
+        "sender_name": "Bob Anderson"
     },
     {
-        "id": "GHI789",
-        "length": 15,
-        "price": 12.75,
-        "height": 8,
-        "weight": 3,
-        "width": 10,
-        "status": "CANCEL",
-        "recipient_address": "567 Cedar St, Boroughburg",
-        "recipient_contact": "555-9876",
-        "recipient_name": "Eva Garcia",
-        "sender_address": "654 Maple St, Villageville",
-        "sender_contact": "555-4321",
+        "id": "P003",
+        "length": 18,
+        "price": 42.75,
+        "height": 12,
+        "weight": 9,
+        "width": 7,
+        "status": "ON_PENDING",
+        "recipient_address": "567 Pine St, Hillside",
+        "recipient_contact": "+9988776655",
+        "recipient_name": "Eva Martinez",
+        "sender_address": "890 Maple Ave, Riverside",
+        "sender_contact": "+4433221100",
         "sender_name": "David Wilson"
     },
     {
-        "id": "JKL012",
-        "length": 30,
-        "price": 25.99,
-        "height": 14,
-        "weight": 9,
-        "width": 20,
-        "status": "ON_GOING",
-        "recipient_address": "987 Birch St, Township",
-        "recipient_contact": "555-8765",
-        "recipient_name": "Sophia Lee",
-        "sender_address": "741 Walnut St, Hamlet",
-        "sender_contact": "555-6789",
-        "sender_name": "Oliver Davis"
+        "id": "P004",
+        "length": 10,
+        "price": 20.0,
+        "height": 6,
+        "weight": 4,
+        "width": 5,
+        "status": "ON_PENDING",
+        "recipient_address": "234 Cedar St, Lakeside",
+        "recipient_contact": "+6677889900",
+        "recipient_name": "Grace Brown",
+        "sender_address": "432 Elmwood Blvd, Mountainview",
+        "sender_contact": "+1122334455",
+        "sender_name": "Sophia Garcia"
     },
     {
-        "id": "MNO345",
-        "length": 22,
-        "price": 18.25,
-        "height": 11,
+        "id": "P005",
+        "length": 14,
+        "price": 28.75,
+        "height": 9,
         "weight": 6,
-        "width": 16,
-        "status": "SUCCESS",
-        "recipient_address": "234 Oak St, Citytown",
-        "recipient_contact": "555-3456",
-        "recipient_name": "Grace Martinez",
-        "sender_address": "876 Pine St, Villageton",
-        "sender_contact": "555-7890",
-        "sender_name": "William Taylor"
+        "width": 8,
+        "status": "ON_PENDING",
+        "recipient_address": "876 Oak St, Parkville",
+        "recipient_contact": "+5544332211",
+        "recipient_name": "Michael Clark",
+        "sender_address": "654 Birch Rd, Seaview",
+        "sender_contact": "+9988776655",
+        "sender_name": "Olivia White"
+    },
+    {
+        "id": "P006",
+        "length": 20,
+        "price": 50.0,
+        "height": 14,
+        "weight": 11,
+        "width": 10,
+        "status": "ON_PENDING",
+        "recipient_address": "543 Birch St, Hilltop",
+        "recipient_contact": "+6677889900",
+        "recipient_name": "Lucas Rodriguez",
+        "sender_address": "789 Pine Rd, Lakeside",
+        "sender_contact": "+5544332211",
+        "sender_name": "Isabella Martinez"
+    },
+    {
+        "id": "P007",
+        "length": 16,
+        "price": 35.5,
+        "height": 11,
+        "weight": 8,
+        "width": 7,
+        "status": "ON_PENDING",
+        "recipient_address": "321 Elmwood Ave, Riverside",
+        "recipient_contact": "+1122334455",
+        "recipient_name": "Daniel Lee",
+        "sender_address": "567 Oak St, Parkville",
+        "sender_contact": "+9988776655",
+        "sender_name": "Emma Thompson"
+    },
+    {
+        "id": "P008",
+        "length": 12,
+        "price": 25.99,
+        "height": 8,
+        "weight": 5,
+        "width": 6,
+        "status": "ON_PENDING",
+        "recipient_address": "123 Main St, Cityville",
+        "recipient_contact": "+1234567890",
+        "recipient_name": "Liam Baker",
+        "sender_address": "456 Oak Ave, Townsville",
+        "sender_contact": "+1987654321",
+        "sender_name": "Ava Turner"
+    },
+    {
+        "id": "P009",
+        "length": 22,
+        "price": 60.0,
+        "height": 16,
+        "weight": 13,
+        "width": 12,
+        "status": "ON_PENDING",
+        "recipient_address": "987 Maple St, Hillside",
+        "recipient_contact": "+5544332211",
+        "recipient_name": "Mia Wright",
+        "sender_address": "345 Cedar Rd, Hamletville",
+        "sender_contact": "+6677889900",
+        "sender_name": "Noah Hall"
+    },
+    {
+        "id": "P010",
+        "length": 18,
+        "price": 42.75,
+        "height": 12,
+        "weight": 9,
+        "width": 7,
+        "status": "ON_PENDING",
+        "recipient_address": "567 Pine St, Hillside",
+        "recipient_contact": "+9988776655",
+        "recipient_name": "Sophie King",
+        "sender_address": "890 Maple Ave, Riverside",
+        "sender_contact": "+4433221100",
+        "sender_name": "Ethan Cook"
     }
 ]
 
 
-
-export default function ConfirmedParcel() {
+export default function PendingParcel() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
 
     const renderModal = (item: Parcel, index: number) => {
@@ -190,7 +270,7 @@ export default function ConfirmedParcel() {
                                     <th style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>Price</th>
                                     <th style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>Height</th>
                                     <th style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>Weight</th>
-                                    <th style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>Status</th>
+                                    <th style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>Width</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -392,18 +472,52 @@ export default function ConfirmedParcel() {
                             </Table>
                         </Sheet>
                     </Box>
-
+                    <Box
+                        sx={{
+                            display: { xs: 'block', sm: 'flex' },
+                            justifyContent: { xs: 'initial', sm: 'space-between' },
+                        }}
+                        style={{ padding: '10px' }}
+                    >
+                        <Button
+                            variant="outlined"
+                            color="danger"
+                            size="sm"
+                            onClick={() => setOpenModalIndex(null)}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="outlined"
+                            color="success"
+                            size="sm"
+                            onClick={() => setOpenModalIndex(null)}
+                        >
+                            Confirm
+                        </Button>
+                    </Box>
                 </ModalDialog>
             </Modal>
         );
     };
 
 
+
+
     return (
         <React.Fragment>
-            <Typography level="h2" component="h1">
-                Overview
-            </Typography>
+            <Box
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                }}
+            >
+                <Typography level="h2" component="h1">
+                    Parcels
+                </Typography>
+
+            </Box>
             <Box
                 className="SearchAndFilters-tabletUp"
                 sx={{
@@ -505,27 +619,14 @@ export default function ConfirmedParcel() {
                                             <Typography
                                                 level="body-xs"
                                             >
+
                                                 <Chip
                                                     variant="soft"
                                                     size="sm"
+                                                    color={'warning'}
                                                     style={{ padding: "0px 10px" }}
-                                                    color={
-                                                        {
-                                                            ON_GOING: 'primary',
-                                                            SUCCESS: 'success',
-                                                            CANCEL: 'danger',
-                                                            ON_PENDING: 'default',
-                                                        }[row.status] as ColorPaletteProp
-                                                    }
                                                 >
-                                                    {
-                                                        {
-                                                            ON_GOING: 'Going',
-                                                            SUCCESS: 'Success',
-                                                            CANCEL: 'Cancel',
-                                                            ON_PENDING: 'Pending',
-                                                        }[row.status] as string
-                                                    }
+                                                    Pending
                                                 </Chip>
 
                                             </Typography>
@@ -542,7 +643,6 @@ export default function ConfirmedParcel() {
                         }
                     </tbody>
                 </Table>
-
             </Sheet>
         </React.Fragment >
     )

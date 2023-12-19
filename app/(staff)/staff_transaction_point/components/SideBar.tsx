@@ -4,8 +4,6 @@ import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import IconButton from '@mui/joy/IconButton';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
@@ -75,7 +73,7 @@ export default function Sidebar(props: SideBarProps) {
                     md: 'none',
                 },
                 transition: 'transform 0.4s, width 0.4s',
-                zIndex: 10000,
+                // zIndex: 10000,
                 height: '100dvh',
                 width: 'var(--Sidebar-width)',
                 top: 0,
@@ -188,12 +186,38 @@ export default function Sidebar(props: SideBarProps) {
                                         View Parcels
                                     </ListItemButton>
                                 </ListItem>
+                            </List>
+                        </Toggler>
+                    </ListItem>
+                    <ListItem nested>
+                        <Toggler
+                            renderToggle={({ open, setOpen }) => (
+                                <ListItemButton onClick={() => setOpen(!open)}>
+                                    <AssignmentRoundedIcon />
+                                    <ListItemContent>
+                                        <Typography level="title-sm">Received</Typography>
+                                    </ListItemContent>
+                                    <KeyboardArrowDownIcon
+                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
+                                    />
+                                </ListItemButton>
+                            )}
+                        >
+                            <List   >
+                                <ListItem sx={{ mt: 0.5 }}>
+                                    <ListItemButton
+                                        onClick={() => props.onStatusChange && props.onStatusChange('pending_receipt')}
+                                        selected={props.status === 'pending_receipt'}
+                                    >
+                                        Pending
+                                    </ListItemButton>
+                                </ListItem>
                                 <ListItem>
                                     <ListItemButton
-                                        onClick={() => props.onStatusChange && props.onStatusChange('new')}
-                                        selected={props.status === 'new'}
+                                        onClick={() => props.onStatusChange && props.onStatusChange('confirmed_receipt')}
+                                        selected={props.status === 'confirmed_receipt'}
                                     >
-                                        New Parcel
+                                        Confirmed
                                     </ListItemButton>
                                 </ListItem>
                             </List>
