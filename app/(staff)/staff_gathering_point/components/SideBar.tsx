@@ -4,8 +4,6 @@ import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Divider from '@mui/joy/Divider';
 import IconButton from '@mui/joy/IconButton';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import List from '@mui/joy/List';
 import ListItem from '@mui/joy/ListItem';
 import ListItemButton, { listItemButtonClasses } from '@mui/joy/ListItemButton';
@@ -15,6 +13,8 @@ import Sheet from '@mui/joy/Sheet';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import EggIcon from '@mui/icons-material/Egg';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
@@ -45,15 +45,23 @@ function Toggler({
                     },
                 }}
             >
-                {children}
+                <Typography
+                    level="body-xs"
+                >
+                    {children}
+                </Typography>
             </Box>
         </React.Fragment>
     );
 }
 
-export default function Sidebar() {
+type SideBarProps = {
+    status: string;
+    onStatusChange?: (status: string) => void;
+};
+
+export default function Sidebar(props: SideBarProps) {
     // Home, Staff, Reports, Settings
-    const [selected, setSelected] = React.useState<string>("staff");
 
     return (
         <Sheet
@@ -65,7 +73,7 @@ export default function Sidebar() {
                     md: 'none',
                 },
                 transition: 'transform 0.4s, width 0.4s',
-                zIndex: 10000,
+                // zIndex: 10000,
                 height: '100dvh',
                 width: 'var(--Sidebar-width)',
                 top: 0,
@@ -135,42 +143,73 @@ export default function Sidebar() {
                     }}
                 >
 
-                    <ListItem>
-                        <ListItemButton
-                            onClick={() => setSelected("dashboard")}
-                            selected={selected === "dashboard"}
+                    <ListItem nested>
+                        <Toggler
+                            renderToggle={({ open, setOpen }) => (
+                                <ListItemButton onClick={() => setOpen(!open)}>
+                                    <AssignmentRoundedIcon />
+                                    <ListItemContent>
+                                        <Typography level="title-sm">Parcels</Typography>
+                                    </ListItemContent>
+                                    <KeyboardArrowDownIcon
+                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
+                                    />
+                                </ListItemButton>
+                            )}
                         >
-                            <DashboardRoundedIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Dashboard</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
+                            <List   >
+                                <ListItem sx={{ mt: 0.5 }}>
+                                    <ListItemButton
+                                        onClick={() => props.onStatusChange && props.onStatusChange('pending')}
+                                        selected={props.status === 'pending'}
+                                    >
+                                        Pending Confirmation
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemButton
+                                        onClick={() => props.onStatusChange && props.onStatusChange('confirmed')}
+                                        selected={props.status === 'confirmed'}
+                                    >
+                                        View Parcels
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </Toggler>
                     </ListItem>
-
-                    <ListItem>
-                        <ListItemButton
-                            onClick={() => setSelected("office")}
-                            selected={selected === "office"}
+                    <ListItem nested>
+                        <Toggler
+                            renderToggle={({ open, setOpen }) => (
+                                <ListItemButton onClick={() => setOpen(!open)}>
+                                    <AssignmentRoundedIcon />
+                                    <ListItemContent>
+                                        <Typography level="title-sm">Received</Typography>
+                                    </ListItemContent>
+                                    <KeyboardArrowDownIcon
+                                        sx={{ transform: open ? 'rotate(180deg)' : 'none' }}
+                                    />
+                                </ListItemButton>
+                            )}
                         >
-                            <HomeWorkIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Office</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-
-
-
-                    <ListItem>
-                        <ListItemButton
-                            onClick={() => setSelected("staff")}
-                            selected={selected === "staff"}
-                        >
-                            <PeopleAltIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Staff</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
+                            <List   >
+                                <ListItem sx={{ mt: 0.5 }}>
+                                    <ListItemButton
+                                        onClick={() => props.onStatusChange && props.onStatusChange('pending_receipt')}
+                                        selected={props.status === 'pending_receipt'}
+                                    >
+                                        Pending
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemButton
+                                        onClick={() => props.onStatusChange && props.onStatusChange('confirmed_receipt')}
+                                        selected={props.status === 'confirmed_receipt'}
+                                    >
+                                        Confirmed
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                        </Toggler>
                     </ListItem>
                 </List>
 

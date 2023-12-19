@@ -2,7 +2,6 @@ import PendingParcel from "./PendingParcel";
 import ConfirmedParcel from "./ConfirmedParcel";
 import PendingParcelReceipt from "./PendingParcelReceipt";
 import ConfirmedParcelReceipt from "./ConfirmedParcelReceipt";
-import Dashboard from "./Dashboard";
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 
@@ -34,9 +33,6 @@ export default function Parcel(props: Props) {
                     gap: 1,
                 }}
             >
-                {
-                    props.status === 'dashboard' && <Dashboard />
-                }
                 {
                     props.status === 'pending' && <PendingParcel />
                 }
