@@ -61,21 +61,6 @@ import Parcel from "@/app/types/ParcelType"
 
 const data: Parcel[] = [
     {
-        "id": "ABC123",
-        "length": 20,
-        "price": 15.99,
-        "height": 10,
-        "weight": 5,
-        "width": 15,
-        "status": "ON_GOING",
-        "recipient_address": "123 Main St, Cityville",
-        "recipient_contact": "555-1234",
-        "recipient_name": "John Doe",
-        "sender_address": "456 Oak St, Townsville",
-        "sender_contact": "555-5678",
-        "sender_name": "Jane Smith"
-    },
-    {
         "id": "DEF456",
         "length": 25,
         "price": 20.5,
