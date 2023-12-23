@@ -49,9 +49,6 @@ export default function Staff() {
                 >
                     <Box sx={{ mb: 1 }}>
                         <Typography level="title-md">Personal Information</Typography>
-                        <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
-                        </Typography>
                     </Box>
                     <Divider />
                     <Stack
@@ -65,12 +62,12 @@ export default function Staff() {
                                 <FormLabel>Name</FormLabel>
                                 <FormControl
                                 >
-                                    <Input size="sm" placeholder="Your name" />
+                                    <Input size="sm" placeholder="" />
                                 </FormControl>
                                 <FormLabel>Phone</FormLabel>
                                 <FormControl
                                 >
-                                    <Input size="sm" placeholder="Phone" />
+                                    <Input size="sm" placeholder="" />
                                 </FormControl>
 
                             </Stack>
@@ -80,14 +77,17 @@ export default function Staff() {
                                     <Select
                                         size="sm"
                                         defaultValue="1"
+                                        style={{
+                                            color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600"
+                                        }}
                                     >
                                         <Option value="1">
-                                            <Typography level='body-sm'>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
                                                 GATHERING
                                             </Typography>
                                         </Option>
                                         <Option value="2">
-                                            <Typography level='body-sm'>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
                                                 TRANSACTION
                                             </Typography>
                                         </Option>
@@ -100,6 +100,7 @@ export default function Staff() {
                                         type="email"
                                         startDecorator={<EmailRoundedIcon />}
                                         placeholder="@magic-post.com"
+                                        style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                                         sx={{ flexGrow: 1 }}
                                     />
                                 </FormControl>
@@ -240,8 +241,13 @@ export default function Staff() {
                         <FormLabel >Search for staff</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
+                    <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for Office</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl>
                     {renderFilters()}
                 </Box>
+
                 <StaffTable />
             </Box>
             {renderAddStaffModal()}
