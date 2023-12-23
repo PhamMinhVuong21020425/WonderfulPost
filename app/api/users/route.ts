@@ -5,11 +5,42 @@ import { Database } from '@/lib/database.type';
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function POST(req: Request, res: Response) {
     const cookieStore = cookies()
     const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore } )
 
-    const { data } = await supabase.from('profiles').select('*');
+    const { data: { user } } = await supabase.auth.getUser();
 
-    return NextResponse.json(data)
+    const id = user?.id as string;
+
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', id).single();
+
+    return NextResponse.json(profile);
 }
+
+export async function PUT(req: Request, res: Response) {
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore })
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const id = user?.id as string;
+
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', id).single();
+
+    return NextResponse.json(profile);
+}
+
+export async function DELETE(req: Request, res: Response) {
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient<Database>({ cookies: () => cookieStore })
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const id = user?.id as string;
+
+    const { data: profile } = await supabase.from('profiles').select('*').eq('id', id).single();
+
+    return NextResponse.json(profile);
+}
+
