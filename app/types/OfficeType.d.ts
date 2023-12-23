@@ -1,8 +1,12 @@
 type Office = {
     id: string;
     name: string;
-    address: string;
-    phone: string;
+    country: string;
+    city: string | null;
+    district: string | null;
+    commune: string | null;
+    address: string | null;
+    phone: string | null;
     email: string;
     fax: string;
     sub_offices: Office[] | [];

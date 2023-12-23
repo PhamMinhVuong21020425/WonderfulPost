@@ -1,12 +1,13 @@
+import axios from '@/lib/axios';
+
 export const fetchIdentityCount = async (
   amount = 1
 ): Promise<{ data: number }> => {
-  const response = await fetch('http://localhost:3000/api/identity-count', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ amount }),
+  const response = await axios.post('/api/identity-count', JSON.stringify({ amount }), {
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
-  const result = await response.json()
-
-  return result
+  
+  return response
 }

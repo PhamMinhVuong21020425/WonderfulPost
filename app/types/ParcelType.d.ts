@@ -1,5 +1,6 @@
 type Parcel = {
-    id: string;
+    id: number;
+    name: string | null
     length: number;
     price: number;
     height: number;
@@ -12,6 +13,12 @@ type Parcel = {
     sender_address: string;
     sender_contact: string;
     sender_name: string;
+    type: string | null;
+    date_created: string | null;
+    description: string | null;
+    from_branch_id: string;
+    to_branch_id: string;
+
 }
 
 export default Parcel;
