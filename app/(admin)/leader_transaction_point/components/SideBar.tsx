@@ -51,7 +51,7 @@ function Toggler({
     );
 }
 
-export default function SideBar() {
+export default function Sidebar() {
     // Home, Staff, Reports, Settings
     const [selected, setSelected] = React.useState<string>("staff");
 
