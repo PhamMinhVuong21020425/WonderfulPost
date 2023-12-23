@@ -6,47 +6,53 @@ export type Json =
     | { [key: string]: Json | undefined }
     | Json[]
 
-export type Database = {
+export interface Database {
     public: {
         Tables: {
             branches: {
                 Row: {
                     city: string
+                    commune: string | null
                     contact: string
                     country: string
                     date_created: string | null
-                    id: number
-                    reference: number | null
+                    district: string | null
+                    id: string
+                    name: string | null
+                    reference_id: string | null
                     street: string
-                    type: string | null
-                    zip_code: string
+                    type: Database["public"]["Enums"]["branches_type"] | null
                 }
                 Insert: {
                     city: string
+                    commune?: string | null
                     contact: string
-                    country: string
+                    country?: string
                     date_created?: string | null
-                    id?: number
-                    reference?: number | null
+                    district?: string | null
+                    id: string
+                    name?: string | null
+                    reference_id?: string | null
                     street: string
-                    type?: string | null
-                    zip_code: string
+                    type?: Database["public"]["Enums"]["branches_type"] | null
                 }
                 Update: {
                     city?: string
+                    commune?: string | null
                     contact?: string
                     country?: string
                     date_created?: string | null
-                    id?: number
-                    reference?: number | null
+                    district?: string | null
+                    id?: string
+                    name?: string | null
+                    reference_id?: string | null
                     street?: string
-                    type?: string | null
-                    zip_code?: string
+                    type?: Database["public"]["Enums"]["branches_type"] | null
                 }
                 Relationships: [
                     {
-                        foreignKeyName: "branches_reference_fkey"
-                        columns: ["reference"]
+                        foreignKeyName: "branches_reference_id_fkey"
+                        columns: ["reference_id"]
                         isOneToOne: false
                         referencedRelation: "branches"
                         referencedColumns: ["id"]
@@ -56,34 +62,51 @@ export type Database = {
             parcel_tracks: {
                 Row: {
                     date_created: string | null
-                    from: number | null
+                    from: string | null
                     id: number
                     parcel_id: number
-                    status: number
-                    to: number | null
+                    status: Database["public"]["Enums"]["status"] | null
+                    to: string | null
+                    updated_time: string | null
                 }
                 Insert: {
                     date_created?: string | null
-                    from?: number | null
+                    from?: string | null
                     id?: number
                     parcel_id: number
-                    status: number
-                    to?: number | null
+                    status?: Database["public"]["Enums"]["status"] | null
+                    to?: string | null
+                    updated_time?: string | null
                 }
                 Update: {
                     date_created?: string | null
-                    from?: number | null
+                    from?: string | null
                     id?: number
                     parcel_id?: number
-                    status?: number
-                    to?: number | null
+                    status?: Database["public"]["Enums"]["status"] | null
+                    to?: string | null
+                    updated_time?: string | null
                 }
                 Relationships: [
+                    {
+                        foreignKeyName: "parcel_tracks_from_fkey"
+                        columns: ["from"]
+                        isOneToOne: false
+                        referencedRelation: "branches"
+                        referencedColumns: ["id"]
+                    },
                     {
                         foreignKeyName: "parcel_tracks_parcel_id_fkey"
                         columns: ["parcel_id"]
                         isOneToOne: false
                         referencedRelation: "parcels"
+                        referencedColumns: ["id"]
+                    },
+                    {
+                        foreignKeyName: "parcel_tracks_to_fkey"
+                        columns: ["to"]
+                        isOneToOne: false
+                        referencedRelation: "branches"
                         referencedColumns: ["id"]
                     }
                 ]
@@ -91,10 +114,12 @@ export type Database = {
             parcels: {
                 Row: {
                     date_created: string | null
-                    from_branch_id: number
+                    description: string | null
+                    from_branch_id: string
                     height: string
                     id: number
                     length: string
+                    name: string | null
                     price: number
                     recipient_address: string
                     recipient_contact: string
@@ -103,18 +128,20 @@ export type Database = {
                     sender_address: string
                     sender_contact: string
                     sender_name: string
-                    status: number
-                    to_branch_id: number
-                    type: number
+                    status: Database["public"]["Enums"]["status"] | null
+                    to_branch_id: string
+                    type: string | null
                     weight: string
                     width: string
                 }
                 Insert: {
                     date_created?: string | null
-                    from_branch_id: number
+                    description?: string | null
+                    from_branch_id: string
                     height: string
                     id?: number
                     length: string
+                    name?: string | null
                     price: number
                     recipient_address: string
                     recipient_contact: string
@@ -123,18 +150,20 @@ export type Database = {
                     sender_address: string
                     sender_contact: string
                     sender_name: string
-                    status?: number
-                    to_branch_id: number
-                    type: number
+                    status?: Database["public"]["Enums"]["status"] | null
+                    to_branch_id: string
+                    type?: string | null
                     weight: string
                     width: string
                 }
                 Update: {
                     date_created?: string | null
-                    from_branch_id?: number
+                    description?: string | null
+                    from_branch_id?: string
                     height?: string
                     id?: number
                     length?: string
+                    name?: string | null
                     price?: number
                     recipient_address?: string
                     recipient_contact?: string
@@ -143,9 +172,9 @@ export type Database = {
                     sender_address?: string
                     sender_contact?: string
                     sender_name?: string
-                    status?: number
-                    to_branch_id?: number
-                    type?: number
+                    status?: Database["public"]["Enums"]["status"] | null
+                    to_branch_id?: string
+                    type?: string | null
                     weight?: string
                     width?: string
                 }
@@ -195,37 +224,40 @@ export type Database = {
             }
             users: {
                 Row: {
-                    branch_id: number
+                    branch_id: string
                     date_created: string | null
                     email: string
                     firstname: string
                     id: number
                     lastname: string
                     password: string
-                    position: string
-                    role: number
+                    phone: string | null
+                    position: Database["public"]["Enums"]["branches_type"] | null
+                    role: Database["public"]["Enums"]["role"] | null
                 }
                 Insert: {
-                    branch_id: number
+                    branch_id: string
                     date_created?: string | null
                     email: string
                     firstname: string
-                    id?: number
+                    id: number
                     lastname: string
                     password: string
-                    position?: string
-                    role: number
+                    phone?: string | null
+                    position?: Database["public"]["Enums"]["branches_type"] | null
+                    role?: Database["public"]["Enums"]["role"] | null
                 }
                 Update: {
-                    branch_id?: number
+                    branch_id?: string
                     date_created?: string | null
                     email?: string
                     firstname?: string
                     id?: number
                     lastname?: string
                     password?: string
-                    position?: string
-                    role?: number
+                    phone?: string | null
+                    position?: Database["public"]["Enums"]["branches_type"] | null
+                    role?: Database["public"]["Enums"]["role"] | null
                 }
                 Relationships: [
                     {
@@ -245,7 +277,9 @@ export type Database = {
             [_ in never]: never
         }
         Enums: {
-            [_ in never]: never
+            branches_type: "GATHERING" | "TRANSACTION"
+            role: "STAFF" | "LEADER" | "ADMIN"
+            status: "ON PENDING" | "ON GOING" | "SUCCESS" | "CANCEL"
         }
         CompositeTypes: {
             [_ in never]: never

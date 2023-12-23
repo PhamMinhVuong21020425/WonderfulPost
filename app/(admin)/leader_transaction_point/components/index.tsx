@@ -9,7 +9,7 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Staff from './Staff';
 
-export default function LeaderGatheringPoint() {
+export default function Page() {
     return (
         <CssVarsProvider disableTransitionOnChange theme={palette}>
             <CssBaseline />
