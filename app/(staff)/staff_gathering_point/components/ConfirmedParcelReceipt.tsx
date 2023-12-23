@@ -1,61 +1,22 @@
 import * as React from 'react';
 import { ColorPaletteProp } from '@mui/joy/styles';
-import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
 import Chip from '@mui/joy/Chip';
-import Divider from '@mui/joy/Divider';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel from '@mui/joy/FormLabel';
-import Link from '@mui/joy/Link';
 import Input from '@mui/joy/Input';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
-import ModalClose from '@mui/joy/ModalClose';
-import Select from '@mui/joy/Select';
-import Option from '@mui/joy/Option';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
-import Checkbox from '@mui/joy/Checkbox';
-import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
+import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
-import Menu from '@mui/joy/Menu';
-import MenuButton from '@mui/joy/MenuButton';
-import MenuItem from '@mui/joy/MenuItem';
-import Dropdown from '@mui/joy/Dropdown';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
 
 // Icons
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
-import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
-import BlockIcon from '@mui/icons-material/Block';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
-import AccessTimeFilledRoundedIcon from '@mui/icons-material/AccessTimeFilledRounded';
-import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { CardHeader, Icon } from '@mui/material';
-import User from '@/app/types/UserType';
-import Office from '@/app/types/OfficeType';
-import RemoveIcon from '@mui/icons-material/Remove';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import SearchIcon from '@mui/icons-material/Search';
 
+import PdfParcel from './PdfParcel';
 
 import Parcel from "@/app/types/ParcelType"
 
@@ -148,9 +109,7 @@ export default function ConfirmedParcel() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                         <Typography level='title-lg'>Parcel Details</Typography>
                         <Typography level='title-lg'>
-                            <IconButton variant="soft" size="sm">
-                                <LocalPrintshopIcon />
-                            </IconButton>
+                            <PdfParcel />
                         </Typography>
                     </Box>
                     <Sheet

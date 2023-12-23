@@ -53,9 +53,9 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import SearchIcon from '@mui/icons-material/Search';
 
+import PdfParcel from '@/app/(staff)/staff_gathering_point/components/PdfParcel';
 
 import Parcel from "@/app/types/ParcelType"
 
@@ -148,9 +148,7 @@ export default function ConfirmedParcel() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                         <Typography level='title-lg'>Parcel Details</Typography>
                         <Typography level='title-lg'>
-                            <IconButton variant="soft" size="sm">
-                                <LocalPrintshopIcon />
-                            </IconButton>
+                            <PdfParcel />
                         </Typography>
                     </Box>
                     <Sheet
