@@ -320,16 +320,6 @@ function initialName(name: string) {
 
 
 
-// function Row(props: { row: any; initialOpen?: boolean }) {
-//     const { row } = props;
-//     // const [open, setOpen] = React.useState(props.initialOpen || false);
-
-//     return (
-
-//     );
-// }
-
-
 export default function LeaderTable() {
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
@@ -613,7 +603,8 @@ export default function LeaderTable() {
                                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                                                 <Avatar
                                                     size="sm"
-                                                    color={LEADER.position === 'LEADER TRANSACTION' ? 'success' : 'warning'}
+                                                    color={LEADER.position.includes('LEADER') ? LEADER.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+
                                                     style={{ fontSize: '0.75rem' }}
                                                 >
                                                     {initialName(LEADER.full_name ?? 'Anonymous User')}

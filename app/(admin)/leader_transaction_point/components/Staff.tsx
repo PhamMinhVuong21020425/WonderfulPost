@@ -74,24 +74,7 @@ export default function Staff() {
 
                             </Stack>
                             <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        defaultValue="1"
-                                    >
-                                        <Option value="1">
-                                            <Typography level='body-sm'>
-                                                GATHERING
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            <Typography level='body-sm'>
-                                                TRANSACTION
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
+
                                 <FormControl sx={{ flexGrow: 1 }}>
                                     <FormLabel>Email</FormLabel>
                                     <Input
