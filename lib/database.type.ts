@@ -116,9 +116,9 @@ export interface Database {
                     date_created: string | null
                     description: string | null
                     from_branch_id: string
-                    height: string
+                    height: number | null
                     id: number
-                    length: string
+                    length: number | null
                     name: string | null
                     price: number
                     recipient_address: string
@@ -130,39 +130,39 @@ export interface Database {
                     sender_name: string
                     status: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
-                    type: string | null
-                    weight: string
-                    width: string
+                    type: Database["public"]["Enums"]["parcel_type"] | null
+                    weight: number | null
+                    width: number | null
                 }
                 Insert: {
                     date_created?: string | null
                     description?: string | null
                     from_branch_id: string
-                    height: string
+                    height?: number | null
                     id?: number
-                    length: string
+                    length?: number | null
                     name?: string | null
                     price: number
                     recipient_address: string
                     recipient_contact: string
                     recipient_name: string
-                    reference_number: string
+                    reference_number?: string
                     sender_address: string
                     sender_contact: string
                     sender_name: string
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
-                    type?: string | null
-                    weight: string
-                    width: string
+                    type?: Database["public"]["Enums"]["parcel_type"] | null
+                    weight?: number | null
+                    width?: number | null
                 }
                 Update: {
                     date_created?: string | null
                     description?: string | null
                     from_branch_id?: string
-                    height?: string
+                    height?: number | null
                     id?: number
-                    length?: string
+                    length?: number | null
                     name?: string | null
                     price?: number
                     recipient_address?: string
@@ -174,9 +174,9 @@ export interface Database {
                     sender_name?: string
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id?: string
-                    type?: string | null
-                    weight?: string
-                    width?: string
+                    type?: Database["public"]["Enums"]["parcel_type"] | null
+                    weight?: number | null
+                    width?: number | null
                 }
                 Relationships: [
                     {
@@ -191,6 +191,57 @@ export interface Database {
                         columns: ["to_branch_id"]
                         isOneToOne: false
                         referencedRelation: "branches"
+                        referencedColumns: ["id"]
+                    }
+                ]
+            }
+            profiles: {
+                Row: {
+                    avatar_url: string | null
+                    branch_id: string | null
+                    created_at: string | null
+                    email: string
+                    full_name: string
+                    id: string
+                    position: Database["public"]["Enums"]["position_type"] | null
+                    updated_at: string | null
+                    website: string | null
+                }
+                Insert: {
+                    avatar_url?: string | null
+                    branch_id?: string | null
+                    created_at?: string | null
+                    email?: string
+                    full_name: string
+                    id?: string
+                    position?: Database["public"]["Enums"]["position_type"] | null
+                    updated_at?: string | null
+                    website?: string | null
+                }
+                Update: {
+                    avatar_url?: string | null
+                    branch_id?: string | null
+                    created_at?: string | null
+                    email?: string
+                    full_name?: string
+                    id?: string
+                    position?: Database["public"]["Enums"]["position_type"] | null
+                    updated_at?: string | null
+                    website?: string | null
+                }
+                Relationships: [
+                    {
+                        foreignKeyName: "profiles_branch_id_fkey"
+                        columns: ["branch_id"]
+                        isOneToOne: false
+                        referencedRelation: "branches"
+                        referencedColumns: ["id"]
+                    },
+                    {
+                        foreignKeyName: "profiles_id_fkey"
+                        columns: ["id"]
+                        isOneToOne: true
+                        referencedRelation: "users"
                         referencedColumns: ["id"]
                     }
                 ]
@@ -222,53 +273,6 @@ export interface Database {
                 }
                 Relationships: []
             }
-            users: {
-                Row: {
-                    branch_id: string
-                    date_created: string | null
-                    email: string
-                    firstname: string
-                    id: number
-                    lastname: string
-                    password: string
-                    phone: string | null
-                    position: Database["public"]["Enums"]["branches_type"] | null
-                    role: Database["public"]["Enums"]["role"] | null
-                }
-                Insert: {
-                    branch_id: string
-                    date_created?: string | null
-                    email: string
-                    firstname: string
-                    id: number
-                    lastname: string
-                    password: string
-                    phone?: string | null
-                    position?: Database["public"]["Enums"]["branches_type"] | null
-                    role?: Database["public"]["Enums"]["role"] | null
-                }
-                Update: {
-                    branch_id?: string
-                    date_created?: string | null
-                    email?: string
-                    firstname?: string
-                    id?: number
-                    lastname?: string
-                    password?: string
-                    phone?: string | null
-                    position?: Database["public"]["Enums"]["branches_type"] | null
-                    role?: Database["public"]["Enums"]["role"] | null
-                }
-                Relationships: [
-                    {
-                        foreignKeyName: "users_branch_id_fkey"
-                        columns: ["branch_id"]
-                        isOneToOne: false
-                        referencedRelation: "branches"
-                        referencedColumns: ["id"]
-                    }
-                ]
-            }
         }
         Views: {
             [_ in never]: never
@@ -278,7 +282,14 @@ export interface Database {
         }
         Enums: {
             branches_type: "GATHERING" | "TRANSACTION"
-            role: "STAFF" | "LEADER" | "ADMIN"
+            parcel_type: "DELIVER" | "PICKUP"
+            position_type:
+            | "ADMIN"
+            | "LEADER GATHERING"
+            | "LEADER TRANSACTION"
+            | "STAFF GATHERING"
+            | "STAFF TRANSACTION"
+            | "CUSTOMER"
             status: "ON PENDING" | "ON GOING" | "SUCCESS" | "CANCEL"
         }
         CompositeTypes: {

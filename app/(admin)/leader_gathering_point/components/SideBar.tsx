@@ -19,6 +19,14 @@ import EggIcon from '@mui/icons-material/Egg';
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
 
+import {
+    userSlice,
+    useSelector,
+    useDispatch,
+    selectUser,
+    getUserInfoAsync,
+} from '@/lib/redux'
+
 function Toggler({
     defaultExpanded = false,
     renderToggle,
@@ -54,6 +62,14 @@ function Toggler({
 export default function Sidebar() {
     // Home, Staff, Reports, Settings
     const [selected, setSelected] = React.useState<string>("staff");
+
+    const dispatch = useDispatch();
+    const userInfo = useSelector(selectUser);
+
+    React.useEffect(() => {
+        dispatch(getUserInfoAsync())
+    }, []);
+
 
     return (
         <Sheet
@@ -188,14 +204,16 @@ export default function Sidebar() {
             </Box>
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar>JK</Avatar>
+                <Avatar src={userInfo.avatar_url!} />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">Zuanki</Typography>
-                    <Typography level="body-xs">zuanki@magic-post.com</Typography>
+                    <Typography level="title-sm">{userInfo.full_name}</Typography>
+                    <Typography level="body-xs" style={{ wordWrap: 'break-word' }}>{userInfo.email}</Typography>
                 </Box>
-                <IconButton size="sm" variant="plain" color="neutral">
-                    <LogoutRoundedIcon />
-                </IconButton>
+                <form action="/auth/logout" method="POST">
+                    <IconButton type='submit' size="sm" variant="plain" color="neutral">
+                        <LogoutRoundedIcon />
+                    </IconButton>
+                </form>
             </Box>
         </Sheet>
     );
