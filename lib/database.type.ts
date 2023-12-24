@@ -72,7 +72,7 @@ export interface Database {
                 Insert: {
                     date_created?: string | null
                     from?: string | null
-                    id: number
+                    id?: number
                     parcel_id: number
                     status?: Database["public"]["Enums"]["status"] | null
                     to?: string | null
@@ -116,67 +116,67 @@ export interface Database {
                     date_created: string | null
                     description: string | null
                     from_branch_id: string
-                    height: number
+                    height: number | null
                     id: number
-                    length: number
+                    length: number | null
                     name: string | null
                     price: number
                     recipient_address: string
                     recipient_contact: string
                     recipient_name: string
-                    reference_number: string | null
+                    reference_number: string
                     sender_address: string
                     sender_contact: string
                     sender_name: string
                     status: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
                     type: Database["public"]["Enums"]["parcel_type"] | null
-                    weight: number
-                    width: number
+                    weight: number | null
+                    width: number | null
                 }
                 Insert: {
                     date_created?: string | null
                     description?: string | null
                     from_branch_id: string
-                    height: number
+                    height?: number | null
                     id?: number
-                    length: number
+                    length?: number | null
                     name?: string | null
                     price: number
                     recipient_address: string
                     recipient_contact: string
                     recipient_name: string
-                    reference_number?: string | null
+                    reference_number?: string
                     sender_address: string
                     sender_contact: string
                     sender_name: string
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
                     type?: Database["public"]["Enums"]["parcel_type"] | null
-                    weight: number
-                    width: number
+                    weight?: number | null
+                    width?: number | null
                 }
                 Update: {
                     date_created?: string | null
                     description?: string | null
                     from_branch_id?: string
-                    height?: number
+                    height?: number | null
                     id?: number
-                    length?: number
+                    length?: number | null
                     name?: string | null
                     price?: number
                     recipient_address?: string
                     recipient_contact?: string
                     recipient_name?: string
-                    reference_number?: string | null
+                    reference_number?: string
                     sender_address?: string
                     sender_contact?: string
                     sender_name?: string
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id?: string
                     type?: Database["public"]["Enums"]["parcel_type"] | null
-                    weight?: number
-                    width?: number
+                    weight?: number | null
+                    width?: number | null
                 }
                 Relationships: [
                     {
@@ -201,7 +201,7 @@ export interface Database {
                     branch_id: string | null
                     created_at: string | null
                     email: string
-                    full_name: string | null
+                    full_name: string
                     id: string
                     position: Database["public"]["Enums"]["position_type"] | null
                     updated_at: string | null
@@ -212,8 +212,8 @@ export interface Database {
                     branch_id?: string | null
                     created_at?: string | null
                     email?: string
-                    full_name?: string | null
-                    id: string
+                    full_name: string
+                    id?: string
                     position?: Database["public"]["Enums"]["position_type"] | null
                     updated_at?: string | null
                     website?: string | null
@@ -223,7 +223,7 @@ export interface Database {
                     branch_id?: string | null
                     created_at?: string | null
                     email?: string
-                    full_name?: string | null
+                    full_name?: string
                     id?: string
                     position?: Database["public"]["Enums"]["position_type"] | null
                     updated_at?: string | null
