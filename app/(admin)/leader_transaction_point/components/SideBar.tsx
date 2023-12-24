@@ -59,9 +59,12 @@ function Toggler({
     );
 }
 
-export default function Sidebar() {
-    // Home, Staff, Reports, Settings
-    const [selected, setSelected] = React.useState<string>("staff");
+type SideBarProps = {
+    status: string;
+    onStatusChange?: (status: string) => void;
+};
+
+export default function Sidebar(props: SideBarProps) {
 
     const dispatch = useDispatch();
     const userInfo = useSelector(selectUser);
@@ -153,8 +156,8 @@ export default function Sidebar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("dashboard")}
-                            selected={selected === "dashboard"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("dashboard")}
+                            selected={props.status === "dashboard"}
                         >
                             <DashboardRoundedIcon />
                             <ListItemContent>
@@ -162,25 +165,10 @@ export default function Sidebar() {
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
-
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("office")}
-                            selected={selected === "office"}
-                        >
-                            <HomeWorkIcon />
-                            <ListItemContent>
-                                <Typography level="title-sm">Office</Typography>
-                            </ListItemContent>
-                        </ListItemButton>
-                    </ListItem>
-
-
-
-                    <ListItem>
-                        <ListItemButton
-                            onClick={() => setSelected("staff")}
-                            selected={selected === "staff"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("staff")}
+                            selected={props.status === "staff"}
                         >
                             <PeopleAltIcon />
                             <ListItemContent>

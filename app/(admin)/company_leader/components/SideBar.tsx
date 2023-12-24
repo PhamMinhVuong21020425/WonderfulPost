@@ -59,9 +59,12 @@ function Toggler({
     );
 }
 
-export default function SideBar() {
-    // Home, Staff, Reports, Settings
-    const [selected, setSelected] = React.useState<string>("staff");
+type SideBarProps = {
+    status: string;
+    onStatusChange?: (status: string) => void;
+};
+
+export default function SideBar(props: SideBarProps) {
 
     const dispatch = useDispatch();
     const userInfo = useSelector(selectUser);
@@ -152,8 +155,8 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("dashboard")}
-                            selected={selected === "dashboard"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("dashboard")}
+                            selected={props.status === "dashboard"}
                         >
                             <DashboardRoundedIcon />
                             <ListItemContent>
@@ -164,8 +167,8 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("office")}
-                            selected={selected === "office"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("office")}
+                            selected={props.status === "office"}
                         >
                             <HomeWorkIcon />
                             <ListItemContent>
@@ -178,8 +181,8 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("staff")}
-                            selected={selected === "staff"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("staff")}
+                            selected={props.status === "staff"}
                         >
                             <PeopleAltIcon />
                             <ListItemContent>
@@ -206,7 +209,7 @@ export default function SideBar() {
                 <Avatar src={userInfo.avatar_url!} />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                     <Typography level="title-sm">{userInfo.full_name}</Typography>
-                    <Typography level="body-xs" style={{ wordWrap: 'break-word'}}>{userInfo.email}</Typography>
+                    <Typography level="body-xs" style={{ wordWrap: 'break-word' }}>{userInfo.email}</Typography>
                 </Box>
                 <form action="/auth/logout" method="POST">
                     <IconButton type='submit' size="sm" variant="plain" color="neutral">

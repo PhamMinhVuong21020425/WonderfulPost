@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { ColorPaletteProp } from '@mui/joy/styles';
+import Avatar from '@mui/joy/Avatar';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import Chip from '@mui/joy/Chip';
@@ -9,10 +11,11 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Table from '@mui/joy/Table';
 import Sheet from '@mui/joy/Sheet';
-import IconButton from '@mui/joy/IconButton';
+import IconButton, { iconButtonClasses } from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 
-// Icons
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -216,6 +219,22 @@ const data: Parcel[] = [
 
 export default function PendingParcel() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
+
+    // Table Pagination
+    const rowPerPage = 5;
+    const totalRows = data.length;
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+
+    // Calculate the index range for the current page
+    const indexOfLastRow = currentPage * rowPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowPerPage;
+    const currentRows = data.slice(indexOfFirstRow, indexOfLastRow);
+
+    // Function to change page
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    }
 
     const renderModal = (item: Parcel, index: number) => {
         return (
@@ -568,7 +587,7 @@ export default function PendingParcel() {
                     </thead>
                     <tbody>
                         {
-                            data.map((row, index) => (
+                            currentRows.map((row, index) => (
                                 <React.Fragment key={index}>
                                     <tr key={row.id}>
                                         <td style={{ width: '16%', padding: "6px 12px" }}>
@@ -637,6 +656,55 @@ export default function PendingParcel() {
                     </tbody>
                 </Table>
             </Sheet>
+            <Box
+                className="Pagination-laptopUp"
+                sx={{
+                    pt: 2,
+                    gap: 1,
+                    [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
+                    display: {
+                        xs: 'none',
+                        md: 'flex',
+                    },
+                }}
+            >
+                <Button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    size="sm"
+                    variant="outlined"
+                    color="neutral"
+                    startDecorator={<KeyboardArrowLeftIcon />}
+                    disabled={currentPage === 1}
+                >
+                    Previous
+                </Button>
+
+                <Box sx={{ flex: 1 }} />
+                {Array.from({ length: Math.ceil(totalRows / rowPerPage) }, (_, i) => (
+                    <IconButton
+                        key={i + 1}
+                        size="sm"
+                        variant={currentPage === i + 1 ? 'outlined' : 'plain'}
+                        color="neutral"
+                        onClick={() => handlePageChange(i + 1)}
+                    >
+                        {i + 1}
+                    </IconButton>
+                ))}
+                <Box sx={{ flex: 1 }} />
+
+
+                <Button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    size="sm"
+                    variant="outlined"
+                    color="neutral"
+                    endDecorator={<KeyboardArrowRightIcon />}
+                    disabled={indexOfLastRow >= totalRows}
+                >
+                    Next
+                </Button>
+            </Box>
         </React.Fragment >
     )
 }

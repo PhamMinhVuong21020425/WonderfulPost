@@ -5,11 +5,11 @@ import ModalDialog from "@mui/joy/ModalDialog";
 import Typography from "@mui/joy/Typography";
 import React, { useState } from "react";
 
-export default function Dashboard() {
+export default function Office() {
     return (
         <Box display="flex">
             <Typography level="h2" component="h1">
-                Dashboard
+                Office
             </Typography>
         </Box>
     );

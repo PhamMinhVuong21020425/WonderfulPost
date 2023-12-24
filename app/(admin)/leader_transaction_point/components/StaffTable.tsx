@@ -541,6 +541,22 @@ function RowMenu() {
 }
 
 export default function StaffTable() {
+    // Table Pagination
+    const rowPerPage = 5;
+    const totalRows = STAFFs.length;
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+
+    // Calculate the index range for the current page
+    const indexOfLastRow = currentPage * rowPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowPerPage;
+    const currentRows = STAFFs.slice(indexOfFirstRow, indexOfLastRow);
+
+    // Function to change page
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    }
+
     return (
         <React.Fragment>
             <Sheet
@@ -578,7 +594,7 @@ export default function StaffTable() {
                     </thead>
                     <tbody>
                         {
-                            STAFFs.map((STAFF) => (
+                            currentRows.map((STAFF) => (
                                 <Row key={STAFF.id} row={STAFF} />
                             ))
                         }
@@ -599,32 +615,38 @@ export default function StaffTable() {
                 }}
             >
                 <Button
+                    onClick={() => handlePageChange(currentPage - 1)}
                     size="sm"
                     variant="outlined"
                     color="neutral"
                     startDecorator={<KeyboardArrowLeftIcon />}
+                    disabled={currentPage === 1}
                 >
                     Previous
                 </Button>
 
                 <Box sx={{ flex: 1 }} />
-                {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
+                {Array.from({ length: Math.ceil(totalRows / rowPerPage) }, (_, i) => (
                     <IconButton
-                        key={page}
+                        key={i + 1}
                         size="sm"
-                        variant={Number(page) ? 'outlined' : 'plain'}
+                        variant={currentPage === i + 1 ? 'outlined' : 'plain'}
                         color="neutral"
+                        onClick={() => handlePageChange(i + 1)}
                     >
-                        {page}
+                        {i + 1}
                     </IconButton>
                 ))}
                 <Box sx={{ flex: 1 }} />
 
+
                 <Button
+                    onClick={() => handlePageChange(currentPage + 1)}
                     size="sm"
                     variant="outlined"
                     color="neutral"
                     endDecorator={<KeyboardArrowRightIcon />}
+                    disabled={indexOfLastRow >= totalRows}
                 >
                     Next
                 </Button>
