@@ -1,3 +1,5 @@
+import { off } from "process"
+
 export type Json =
     | string
     | number
@@ -11,42 +13,43 @@ export interface Database {
         Tables: {
             branches: {
                 Row: {
+                    address: string | null
                     city: string
                     commune: string | null
-                    contact: string
                     country: string
-                    date_created: string | null
+                    created_at: string | null
                     district: string | null
                     id: string
                     name: string | null
+                    phone: string | null
                     reference_id: string | null
-                    street: string
                     type: Database["public"]["Enums"]["branches_type"] | null
+                    branches?: Database["public"]["Tables"]["branches"]["Row"][] | null
                 }
                 Insert: {
+                    address?: string | null
                     city: string
                     commune?: string | null
-                    contact: string
                     country?: string
-                    date_created?: string | null
+                    created_at?: string | null
                     district?: string | null
                     id: string
                     name?: string | null
+                    phone?: string | null
                     reference_id?: string | null
-                    street: string
                     type?: Database["public"]["Enums"]["branches_type"] | null
                 }
                 Update: {
+                    address?: string | null
                     city?: string
                     commune?: string | null
-                    contact?: string
                     country?: string
-                    date_created?: string | null
+                    created_at?: string | null
                     district?: string | null
                     id?: string
                     name?: string | null
+                    phone?: string | null
                     reference_id?: string | null
-                    street?: string
                     type?: Database["public"]["Enums"]["branches_type"] | null
                 }
                 Relationships: [
@@ -61,31 +64,31 @@ export interface Database {
             }
             parcel_tracks: {
                 Row: {
-                    date_created: string | null
+                    created_at: string | null
                     from: string | null
                     id: number
                     parcel_id: number
                     status: Database["public"]["Enums"]["status"] | null
                     to: string | null
-                    updated_time: string | null
+                    updated_at: string | null
                 }
                 Insert: {
-                    date_created?: string | null
+                    created_at?: string | null
                     from?: string | null
                     id?: number
                     parcel_id: number
                     status?: Database["public"]["Enums"]["status"] | null
                     to?: string | null
-                    updated_time?: string | null
+                    updated_at?: string | null
                 }
                 Update: {
-                    date_created?: string | null
+                    created_at?: string | null
                     from?: string | null
                     id?: number
                     parcel_id?: number
                     status?: Database["public"]["Enums"]["status"] | null
                     to?: string | null
-                    updated_time?: string | null
+                    updated_at?: string | null
                 }
                 Relationships: [
                     {
@@ -113,7 +116,7 @@ export interface Database {
             }
             parcels: {
                 Row: {
-                    date_created: string | null
+                    created_at: string | null
                     description: string | null
                     from_branch_id: string
                     height: number | null
@@ -135,7 +138,7 @@ export interface Database {
                     width: number | null
                 }
                 Insert: {
-                    date_created?: string | null
+                    created_at?: string | null
                     description?: string | null
                     from_branch_id: string
                     height?: number | null
@@ -157,7 +160,7 @@ export interface Database {
                     width?: number | null
                 }
                 Update: {
-                    date_created?: string | null
+                    created_at?: string | null
                     description?: string | null
                     from_branch_id?: string
                     height?: number | null
@@ -203,9 +206,11 @@ export interface Database {
                     email: string
                     full_name: string
                     id: string
+                    phone: string | null
                     position: Database["public"]["Enums"]["position_type"] | null
                     updated_at: string | null
                     website: string | null
+                    office?: Database["public"]["Tables"]["branches"]["Row"] | null
                 }
                 Insert: {
                     avatar_url?: string | null
@@ -214,6 +219,7 @@ export interface Database {
                     email?: string
                     full_name: string
                     id?: string
+                    phone?: string | null
                     position?: Database["public"]["Enums"]["position_type"] | null
                     updated_at?: string | null
                     website?: string | null
@@ -225,6 +231,7 @@ export interface Database {
                     email?: string
                     full_name?: string
                     id?: string
+                    phone?: string | null
                     position?: Database["public"]["Enums"]["position_type"] | null
                     updated_at?: string | null
                     website?: string | null

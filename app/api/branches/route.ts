@@ -11,10 +11,9 @@ export async function GET(req: Request, res: Response) {
         cookies: () => cookieStore,
     });
 
-    const { data } = await supabase
-        .from("profiles")
-        .select(`*, branches(*)`)
-        .filter("position", "in", '("STAFF TRANSACTION","STAFF GATHERING")');
+    const { data: offices } = await supabase
+        .from("branches")
+        .select(`*, branches(*)`);
 
-    return NextResponse.json(data);
+    return NextResponse.json(offices);
 }

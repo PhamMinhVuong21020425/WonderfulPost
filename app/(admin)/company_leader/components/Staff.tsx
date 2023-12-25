@@ -5,126 +5,19 @@ import StaffTable from './StaffTable';
 import Button from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
-import Modal from '@mui/joy/Modal';
 
 import FormControl from '@mui/joy/FormControl';
 import Input from '@mui/joy/Input';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
-import Divider from '@mui/joy/Divider';
-import { Chip, LinearProgress } from '@mui/joy';
-
-import CountrySelector from './CountrySelector';
+import { Chip } from '@mui/joy';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AddStaffModal from './AddStaffModal';
 
 
 export default function Staff() {
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
-
-    const renderAddStaffModal = () => {
-        return (
-            <Modal
-                open={openAddStaff}
-                onClose={() => setOpenAddStaff(false)}
-                // title="Add Staff"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Card
-                    style={{
-                        width: '100%',
-                        maxWidth: 600,
-                        // borderRadius: 12,
-                        // overflow: 'hidden',
-                    }}
-                >
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal Information</Typography>
-                    </Box>
-                    <Divider />
-                    <Stack
-                        direction="row"
-                    >
-                        <Stack direction="column" spacing={1}>
-
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="" />
-                                </FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="" />
-                                </FormControl>
-
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        defaultValue="1"
-                                        style={{
-                                            color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600"
-                                        }}
-                                    >
-                                        <Option value="1">
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                                GATHERING
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                                TRANSACTION
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="@magic-post.com"
-                                        style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <CountrySelector />
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <CardOverflow >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenAddStaff(false)}>
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="outlined" color="primary">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
-            </Modal>
-        );
-    }
 
     const renderFilters = () => (
         <React.Fragment>
@@ -238,7 +131,7 @@ export default function Staff() {
                     }}
                 >
                     <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for staff</FormLabel>
+                        <FormLabel >Search for Staff</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
                     <FormControl sx={{ flex: 1 }} size="sm">
@@ -250,7 +143,7 @@ export default function Staff() {
 
                 <StaffTable />
             </Box>
-            {renderAddStaffModal()}
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
         </div >
     );
 }

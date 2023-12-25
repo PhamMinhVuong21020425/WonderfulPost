@@ -1,15 +1,16 @@
 type Office = {
     id: string;
-    name: string;
+    name: string | null;
     country: string;
-    city: string | null;
+    city: string;
     district: string | null;
     commune: string | null;
     address: string | null;
     phone: string | null;
-    email: string;
-    fax: string;
-    sub_offices: Office[] | [];
+    type: "TRANSACTION" | "GATHERING";
+    reference_id: string | null;
+    created_at: string | null;
+    branches: Office[] | [];
 }
 
 export default Office;
