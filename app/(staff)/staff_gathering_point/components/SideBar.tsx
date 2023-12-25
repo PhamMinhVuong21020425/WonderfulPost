@@ -242,10 +242,10 @@ export default function Sidebar(props: SideBarProps) {
             </Box>
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar src={userInfo.avatar_url!} />
+                <Avatar src={userInfo?.avatar_url!} />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">{userInfo.full_name}</Typography>
-                    <Typography level="body-xs" style={{ wordWrap: 'break-word' }}>{userInfo.email}</Typography>
+                    <Typography level="title-sm">{userInfo?.full_name}</Typography>
+                    <Typography level="body-xs" style={{ wordWrap: 'break-word' }}>{userInfo?.email}</Typography>
                 </Box>
                 <form action="/auth/logout" method="POST">
                     <IconButton type='submit' size="sm" variant="plain" color="neutral">

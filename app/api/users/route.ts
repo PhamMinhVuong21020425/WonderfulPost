@@ -23,13 +23,13 @@ export async function GET(req: Request, res: Response) {
     .eq("id", id)
     .single();
 
-    if (profile && profile.branches) {
-        profile.office = { ...profile.branches, branches: [] };
-        const { branches, ...result } = profile;
-        return NextResponse.json(result);
-    }
+  if (profile && profile.branches) {
+    profile.office = { ...profile.branches, branches: [] };
+    const { branches, ...result } = profile;
+    return NextResponse.json(result);
+  }
 
-    return NextResponse.json(null);
+  return NextResponse.json(null);
 }
 
 export async function POST(req: Request, res: Response) {
