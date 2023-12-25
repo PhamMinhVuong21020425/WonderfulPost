@@ -13,7 +13,7 @@ export async function GET(req: Request, res: Response) {
 
     const { data } = await supabase
         .from("profiles")
-        .select("*")
+        .select(`*, branches(*)`)
         .filter("position", "in", '("STAFF TRANSACTION","STAFF GATHERING")');
 
     return NextResponse.json(data);

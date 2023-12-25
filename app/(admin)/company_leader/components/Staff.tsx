@@ -5,23 +5,15 @@ import StaffTable from './StaffTable';
 import Button from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
-import Modal from '@mui/joy/Modal';
 
 import FormControl from '@mui/joy/FormControl';
 import Input from '@mui/joy/Input';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
-import Divider from '@mui/joy/Divider';
-import { Chip, LinearProgress } from '@mui/joy';
-
-import CountrySelector from './CountrySelector';
+import { Chip } from '@mui/joy';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AddStaffModal from './AddStaffModal';
 
 
 export default function Staff() {
@@ -238,7 +230,11 @@ export default function Staff() {
                     }}
                 >
                     <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for staff</FormLabel>
+                        <FormLabel >Search for Staff</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl>
+                    <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for Office</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
                     <FormControl sx={{ flex: 1 }} size="sm">
@@ -250,7 +246,7 @@ export default function Staff() {
 
                 <StaffTable />
             </Box>
-            {renderAddStaffModal()}
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
         </div >
     );
 }
