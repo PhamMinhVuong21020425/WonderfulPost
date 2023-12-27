@@ -289,7 +289,7 @@ export interface Database {
         }
         Enums: {
             branches_type: "GATHERING" | "TRANSACTION"
-            parcel_type: "DELIVER" | "PICKUP"
+            parcel_type: "DOCUMENTS" | "GOODS"
             position_type:
             | "ADMIN"
             | "LEADER GATHERING"
