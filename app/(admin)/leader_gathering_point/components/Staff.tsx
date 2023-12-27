@@ -21,10 +21,17 @@ import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import StaffList from './StaffList';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import IconButton from '@mui/joy/IconButton';
+import Sheet from '@mui/joy/Sheet';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
 
 export default function Staff() {
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const renderAddStaffModal = () => {
         return (
@@ -106,6 +113,31 @@ export default function Staff() {
         );
     };
 
+    const renderFilters = () => (
+        <React.Fragment>
+            <FormControl size="sm" >
+                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Status</FormLabel>
+                <Select
+                    size="sm"
+                    placeholder="Filter by position"
+                    slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+                    style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
+                >
+                    <Option value="gathering">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Gathering</Typography>
+                    </Option>
+                    <Option value="transaction">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Transaction</Typography>
+                    </Option>
+                    <Option value="all">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>All</Typography>
+                    </Option>
+                </Select>
+            </FormControl>
+
+        </React.Fragment>
+    );
+
     return (
         <div>
             <Box
@@ -143,7 +175,7 @@ export default function Staff() {
                     </Typography>
                     <Button
                         color="primary"
-                        startDecorator={<AddIcon />}
+                        startDecorator={<AddCircleOutlineIcon />}
                         size="sm"
                         variant="outlined"
                         onClick={() => setOpenAddStaff(true)}
@@ -169,7 +201,46 @@ export default function Staff() {
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
                 </Box>
+                <Sheet
+                    className="SearchAndFilters-mobile"
+                    sx={{
+                        display: { xs: 'flex', sm: 'none' },
+                        my: 1,
+                        gap: 1,
+                    }}
+                >
+                    <Input
+                        size="sm"
+                        placeholder="Search"
+                        startDecorator={<SearchIcon />}
+                        sx={{ flexGrow: 1 }}
+                    />
+                    <IconButton
+                        size="sm"
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => setOpen(true)}
+                    >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <ModalDialog aria-labelledby="filter-modal" layout="fullscreen">
+                            <ModalClose />
+                            <Typography id="filter-modal" level="h2">
+                                Filters
+                            </Typography>
+                            <Divider sx={{ my: 2 }} />
+                            <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {renderFilters()}
+                                <Button color="primary" onClick={() => setOpen(false)} variant='outlined'>
+                                    Submit
+                                </Button>
+                            </Sheet>
+                        </ModalDialog>
+                    </Modal>
+                </Sheet>
                 <StaffTable />
+                <StaffList />
             </Box>
             {renderAddStaffModal()}
         </div>

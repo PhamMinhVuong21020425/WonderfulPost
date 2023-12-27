@@ -58,10 +58,13 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-import PdfParcel from '@/app/(staff)/staff_gathering_point/components/PdfParcel';
+import PdfParcel from './PdfParcel';
 
 import Parcel from "@/app/types/ParcelType"
+import PendingParcelList from './PendingParcelList';
+import { PaginationLaptop } from '@/app/components/Pagination';
 
 const data: Parcel[] = [
     {
@@ -955,201 +958,186 @@ export default function PendingParcel() {
     return (
         <React.Fragment>
             <Box
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}
-            >
-                <Typography level="h2" component="h1">
-                    Parcels
-                </Typography>
-                <Button
-                    color="primary"
-                    startDecorator={<AddIcon />}
-                    size="sm"
-                    onClick={() => setLayout('fullscreen')}
-                    variant="outlined"
-                    style={{ fontWeight: "600" }}
-                >
-                    Add Parcel
-                </Button>
-            </Box>
-            <Box
-                className="SearchAndFilters-tabletUp"
+                component="main"
+                className="MainContent"
                 sx={{
-                    borderRadius: 'sm',
-                    py: 2,
-                    display: { xs: 'none', sm: 'flex' },
-                    flexWrap: 'wrap',
-                    gap: 1.5,
-                    '& > *': {
-                        minWidth: { xs: '120px', md: '160px' },
+                    px: { xs: 2, md: 6 },
+                    pt: {
+                        xs: 'calc(12px + var(--Header-height))',
+                        sm: 'calc(12px + var(--Header-height))',
+                        md: 3,
                     },
+                    pb: { xs: 2, sm: 2, md: 3 },
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    minWidth: 0,
+                    height: '100dvh',
+                    gap: 1,
                 }}
             >
-                <FormControl sx={{ flex: 1 }} size="sm">
-                    <FormLabel >Search for parcel</FormLabel>
-                    <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
-                </FormControl>
-            </Box>
-            <Sheet
-                className="LEADERTableContainer"
-                variant="outlined"
-                sx={{
-                    display: { xs: 'none', sm: 'initial' },
-                    width: '100%',
-                    borderRadius: 'sm',
-                    flexShrink: 1,
-                    overflow: 'auto',
-                    minHeight: 0,
-                }}
-
-            >
-                <Table
-                    aria-labelledby="tableTitle"
-                    stickyHeader
-
-                    hoverRow
+                <Box
                     sx={{
-                        '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
-                        '--Table-headerUnderlineThickness': '1px',
-                        '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
-                        '--TableCell-paddingY': '4px',
-                        '--TableCell-paddingX': '8px',
+                        display: 'flex',
+                        mb: 1,
+                        gap: 1,
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        alignItems: { xs: 'start', sm: 'center' },
+                        flexWrap: 'wrap',
+                        justifyContent: 'space-between',
                     }}
                 >
-                    <thead>
-                        <tr>
-                            <th style={{ width: '16%', padding: "6px 12px" }}>Parcel ID</th>
-                            <th style={{ width: '16%', padding: "6px 12px" }}>Sender</th>
-                            <th style={{ width: '16%', padding: "6px 12px" }}>Recipient</th>
-                            <th style={{ width: '16%', padding: "6px 12px" }}>Recipient Address</th>
-                            <th style={{ width: '16%', padding: "6px 12px" }}>Contact</th>
-                            <th style={{ width: '14%', padding: "6px 12px" }}>Status</th>
-                            <th style={{ width: '6%', padding: "6px 12px" }}></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            currentRows.map((row, index) => (
-                                <React.Fragment key={index}>
-                                    <tr key={row.id}>
-                                        <td style={{ width: '16%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-                                                {row.id}
-                                            </Typography>
-                                        </td>
-                                        <td style={{ width: '16%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-                                                {row.sender_name}
-                                            </Typography>
-                                        </td>
-                                        <td style={{ width: '16%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-                                                {row.recipient_name}
-                                            </Typography>
-                                        </td>
-
-                                        <td style={{ width: '16%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-                                                {row.recipient_address}
-                                            </Typography>
-
-                                        </td>
-                                        <td style={{ width: '16%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-                                                {row.recipient_contact}
-                                            </Typography>
-                                        </td>
-                                        <td style={{ width: '14%', padding: "6px 12px" }}>
-                                            <Typography
-                                                level="body-xs"
-                                            >
-
-                                                <Chip
-                                                    variant="soft"
-                                                    size="sm"
-                                                    color={'warning'}
-                                                    style={{ padding: "0px 10px" }}
-                                                >
-                                                    Pending
-                                                </Chip>
-
-                                            </Typography>
-                                        </td>
-                                        <td style={{ width: '6%', padding: "6px 12px" }}>
-                                            <IconButton variant="soft" size="sm" onClick={() => setOpenModalIndex(index)}>
-                                                <VisibilityIcon />
-                                            </IconButton>
-                                        </td>
-                                    </tr>
-                                    {renderModal(row, index)}
-                                </React.Fragment>
-                            ))
-                        }
-                    </tbody>
-                </Table>
-                {renderAddParcelModal()}
-            </Sheet>
-            <Box
-                className="Pagination-laptopUp"
-                sx={{
-                    pt: 2,
-                    gap: 1,
-                    [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-                    display: {
-                        xs: 'none',
-                        md: 'flex',
-                    },
-                }}
-            >
-                <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    startDecorator={<KeyboardArrowLeftIcon />}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </Button>
-
-                <Box sx={{ flex: 1 }} />
-                {Array.from({ length: Math.ceil(totalRows / rowPerPage) }, (_, i) => (
-                    <IconButton
-                        key={i + 1}
+                    <Typography level="h2" component="h1">
+                        Parcels
+                    </Typography>
+                    <Button
+                        color="primary"
+                        startDecorator={<AddCircleOutlineIcon />}
                         size="sm"
-                        variant={currentPage === i + 1 ? 'outlined' : 'plain'}
-                        color="neutral"
-                        onClick={() => handlePageChange(i + 1)}
+                        onClick={() => setLayout('fullscreen')}
+                        variant="outlined"
+                        style={{ fontWeight: "600" }}
                     >
-                        {i + 1}
-                    </IconButton>
-                ))}
-                <Box sx={{ flex: 1 }} />
-
-
-                <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    endDecorator={<KeyboardArrowRightIcon />}
-                    disabled={indexOfLastRow >= totalRows}
+                        Add Parcel
+                    </Button>
+                </Box>
+                <Box
+                    className="SearchAndFilters-tabletUp"
+                    sx={{
+                        borderRadius: 'sm',
+                        py: 2,
+                        display: { xs: 'none', sm: 'flex' },
+                        flexWrap: 'wrap',
+                        gap: 1.5,
+                        '& > *': {
+                            minWidth: { xs: '120px', md: '160px' },
+                        },
+                    }}
                 >
-                    Next
-                </Button>
+                    <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for parcel</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl>
+                </Box>
+                <Sheet
+                    className="LEADERTableContainer"
+                    variant="outlined"
+                    sx={{
+                        display: { xs: 'none', sm: 'initial' },
+                        width: '100%',
+                        borderRadius: 'sm',
+                        flexShrink: 1,
+                        overflow: 'auto',
+                        minHeight: 0,
+                    }}
+
+                >
+                    <Table
+                        aria-labelledby="tableTitle"
+                        stickyHeader
+
+                        hoverRow
+                        sx={{
+                            '--TableCell-headBackground': 'var(--joy-palette-background-level1)',
+                            '--Table-headerUnderlineThickness': '1px',
+                            '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
+                            '--TableCell-paddingY': '4px',
+                            '--TableCell-paddingX': '8px',
+                        }}
+                    >
+                        <thead>
+                            <tr>
+                                <th style={{ width: '16%', padding: "6px 12px" }}>Parcel ID</th>
+                                <th style={{ width: '16%', padding: "6px 12px" }}>Sender</th>
+                                <th style={{ width: '16%', padding: "6px 12px" }}>Recipient</th>
+                                <th style={{ width: '16%', padding: "6px 12px" }}>Recipient Address</th>
+                                <th style={{ width: '16%', padding: "6px 12px" }}>Contact</th>
+                                <th style={{ width: '14%', padding: "6px 12px" }}>Status</th>
+                                <th style={{ width: '6%', padding: "6px 12px" }}></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                currentRows.map((row, index) => (
+                                    <React.Fragment key={index}>
+                                        <tr key={row.id}>
+                                            <td style={{ width: '16%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+                                                    {row.id}
+                                                </Typography>
+                                            </td>
+                                            <td style={{ width: '16%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+                                                    {row.sender_name}
+                                                </Typography>
+                                            </td>
+                                            <td style={{ width: '16%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+                                                    {row.recipient_name}
+                                                </Typography>
+                                            </td>
+
+                                            <td style={{ width: '16%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+                                                    {row.recipient_address}
+                                                </Typography>
+
+                                            </td>
+                                            <td style={{ width: '16%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+                                                    {row.recipient_contact}
+                                                </Typography>
+                                            </td>
+                                            <td style={{ width: '14%', padding: "6px 12px" }}>
+                                                <Typography
+                                                    level="body-xs"
+                                                >
+
+                                                    <Chip
+                                                        variant="soft"
+                                                        size="sm"
+                                                        color={'warning'}
+                                                        style={{ padding: "0px 10px" }}
+                                                    >
+                                                        Pending
+                                                    </Chip>
+
+                                                </Typography>
+                                            </td>
+                                            <td style={{ width: '6%', padding: "6px 12px" }}>
+                                                <IconButton variant="soft" size="sm" onClick={() => setOpenModalIndex(index)}>
+                                                    <VisibilityIcon />
+                                                </IconButton>
+                                            </td>
+                                        </tr>
+                                        {renderModal(row, index)}
+                                    </React.Fragment>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+                    {renderAddParcelModal()}
+                </Sheet>
+                <PaginationLaptop
+                    rowPerPage={rowPerPage}
+                    currentPage={currentPage}
+                    totalRows={totalRows}
+                    indexOfLastRow={indexOfLastRow}
+                    indexOfFirstRow={indexOfFirstRow}
+                    setCurrentPage={setCurrentPage}
+                    handlePageChange={handlePageChange}
+                />
+                <PendingParcelList />
             </Box>
         </React.Fragment >
     )

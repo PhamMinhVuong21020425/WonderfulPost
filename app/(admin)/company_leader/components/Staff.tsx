@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 
 import StaffTable from './StaffTable';
+import StaffList from './StaffList';
 import Button from '@mui/joy/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
@@ -16,12 +17,19 @@ import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
 import Divider from '@mui/joy/Divider';
 import { Chip, LinearProgress } from '@mui/joy';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import IconButton from '@mui/joy/IconButton';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
+import Sheet from '@mui/joy/Sheet';
+
 
 import CountrySelector from './CountrySelector';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 export default function Staff() {
@@ -150,6 +158,7 @@ export default function Staff() {
 
         </React.Fragment>
     );
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div>
@@ -215,7 +224,7 @@ export default function Staff() {
 
                     <Button
                         color="primary"
-                        startDecorator={<AddIcon />}
+                        startDecorator={<AddCircleOutlineIcon />}
                         size="sm"
                         variant="outlined"
                         onClick={() => setOpenAddStaff(true)}
@@ -241,14 +250,54 @@ export default function Staff() {
                         <FormLabel >Search for staff</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
-                    <FormControl sx={{ flex: 1 }} size="sm">
+                    {/* <FormControl sx={{ flex: 1 }} size="sm">
                         <FormLabel >Search for Office</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
-                    </FormControl>
+                    </FormControl> */}
                     {renderFilters()}
                 </Box>
+                <Sheet
+                    className="SearchAndFilters-mobile"
+                    sx={{
+                        display: { xs: 'flex', sm: 'none' },
+                        my: 1,
+                        gap: 1,
+                    }}
+                >
+                    <Input
+                        size="sm"
+                        placeholder="Search"
+                        startDecorator={<SearchIcon />}
+                        sx={{ flexGrow: 1 }}
+                    />
+                    <IconButton
+                        size="sm"
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => setOpen(true)}
+                    >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <ModalDialog aria-labelledby="filter-modal" layout="fullscreen">
+                            <ModalClose />
+                            <Typography id="filter-modal" level="h2">
+                                Filters
+                            </Typography>
+                            <Divider sx={{ my: 2 }} />
+                            <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {renderFilters()}
+                                <Button color="primary" onClick={() => setOpen(false)} variant='outlined'>
+                                    Submit
+                                </Button>
+                            </Sheet>
+                        </ModalDialog>
+                    </Modal>
+                </Sheet>
+
 
                 <StaffTable />
+                <StaffList />
             </Box>
             {renderAddStaffModal()}
         </div >

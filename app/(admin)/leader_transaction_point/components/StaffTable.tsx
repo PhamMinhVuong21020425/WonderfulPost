@@ -53,6 +53,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { PaginationLaptop } from '@/app/components/Pagination';
 
 
 const STAFFs: User[] = [
@@ -602,55 +603,15 @@ export default function StaffTable() {
                 </Table>
 
             </Sheet>
-            <Box
-                className="Pagination-laptopUp"
-                sx={{
-                    pt: 2,
-                    gap: 1,
-                    [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-                    display: {
-                        xs: 'none',
-                        md: 'flex',
-                    },
-                }}
-            >
-                <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    startDecorator={<KeyboardArrowLeftIcon />}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </Button>
-
-                <Box sx={{ flex: 1 }} />
-                {Array.from({ length: Math.ceil(totalRows / rowPerPage) }, (_, i) => (
-                    <IconButton
-                        key={i + 1}
-                        size="sm"
-                        variant={currentPage === i + 1 ? 'outlined' : 'plain'}
-                        color="neutral"
-                        onClick={() => handlePageChange(i + 1)}
-                    >
-                        {i + 1}
-                    </IconButton>
-                ))}
-                <Box sx={{ flex: 1 }} />
-
-
-                <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    endDecorator={<KeyboardArrowRightIcon />}
-                    disabled={indexOfLastRow >= totalRows}
-                >
-                    Next
-                </Button>
-            </Box>
+            <PaginationLaptop
+                rowPerPage={rowPerPage}
+                currentPage={currentPage}
+                totalRows={totalRows}
+                indexOfLastRow={indexOfLastRow}
+                indexOfFirstRow={indexOfFirstRow}
+                setCurrentPage={setCurrentPage}
+                handlePageChange={handlePageChange}
+            />
         </React.Fragment >
     )
 }
