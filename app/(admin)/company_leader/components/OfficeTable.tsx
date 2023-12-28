@@ -416,8 +416,8 @@ export default function OfficeTable() {
                                                         </MenuItem>
 
                                                     </Menu>
-                                                    {renderEditModal(index)}
-                                                    {renderDeleteModal(index)}
+                                                    {/* {renderEditModal(index)}
+                                                    {renderDeleteModal(index)} */}
                                                     {renderViewModal(office, index)}
                                                 </Dropdown >
                                             </IconButton>

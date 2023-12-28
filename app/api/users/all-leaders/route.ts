@@ -1,5 +1,5 @@
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Database } from "@/lib/database.type";
@@ -28,18 +28,23 @@ export async function GET(req: Request, res: Response) {
 }
 
 export async function POST(request: Request) {
-  const formData = await request.json()
-  console.log(formData)
-  const name = String(formData?.full_name)
-  const email = String(formData?.email)
-  const password = '12345678'
-  const phone = String(formData?.phone)
-  const position = String(formData?.position) as "ADMIN" | "LEADER GATHERING" | "LEADER TRANSACTION" | "STAFF TRANSACTION" | "STAFF GATHERING"
-  const postalCode = String(formData?.branch_id)
+  const formData = await request.json();
+  console.log(formData);
+  const name = String(formData?.full_name);
+  const email = String(formData?.email);
+  const password = "12345678";
+  const phone = String(formData?.phone);
+  const position = String(formData?.position) as
+    | "ADMIN"
+    | "LEADER GATHERING"
+    | "LEADER TRANSACTION"
+    | "STAFF TRANSACTION"
+    | "STAFF GATHERING";
+  const postalCode = String(formData?.branch_id);
 
   const supabaseAdmin = createClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
   );
 
   const { error } = await supabaseAdmin.auth.admin.createUser({
@@ -47,15 +52,22 @@ export async function POST(request: Request) {
     password,
     email_confirm: false,
     phone_confirm: false,
-    user_metadata: { full_name: name }
-  })
+    user_metadata: { full_name: name },
+  });
 
   if (error) {
-    return NextResponse.json({ data: { message: error } })
+    return NextResponse.json({ data: { message: error } });
   }
 
-  await supabaseAdmin.from('profiles').update({ phone, position, branch_id: postalCode }).match({ email });
-  const { data: leader } = await supabaseAdmin.from('profiles').select(`*, branches(*)`).match({ email }).single();
+  await supabaseAdmin
+    .from("profiles")
+    .update({ phone, position, branch_id: postalCode })
+    .match({ email });
+  const { data: leader } = await supabaseAdmin
+    .from("profiles")
+    .select(`*, branches(*)`)
+    .match({ email })
+    .single();
 
   if (leader && leader.branches) {
     leader.office = { ...leader.branches, branches: [] } as Office;
@@ -64,4 +76,67 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json(null);
+}
+
+export async function PUT(request: Request) {
+  const formData = await request.json();
+  const id = String(formData?.id);
+  const name = String(formData?.full_name);
+  const email = String(formData?.email);
+  const phone = String(formData?.phone);
+  const position = String(formData?.position) as
+    | "ADMIN"
+    | "LEADER GATHERING"
+    | "LEADER TRANSACTION"
+    | "STAFF TRANSACTION"
+    | "STAFF GATHERING";
+  const postalCode = String(formData?.branch_id);
+
+  const supabase = createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const { error } = await supabase.auth.admin.updateUserById(
+    id,
+    { 
+      email,
+      email_confirm: false,
+      phone_confirm: false,
+      user_metadata: { full_name: name } 
+    }
+  )
+
+  await supabase
+    .from("profiles")
+    .update({ full_name: name, email, phone, position, branch_id: postalCode })
+    .eq("id", id);
+
+  const { data: leader } = await supabase
+    .from("profiles")
+    .select(`*, branches(*)`)
+    .eq("id", id)
+    .single();
+
+  if (leader && leader.branches) {
+    leader.office = { ...leader.branches, branches: [] } as Office;
+    const { branches, ...result } = leader;
+    return NextResponse.json(result);
+  }
+
+  return NextResponse.json(null);
+}
+
+export async function DELETE(request: Request) {
+  const formData = await request.json();
+  const id = String(formData?.id);
+
+  const supabase = createClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const { error } = await supabase.auth.admin.deleteUser(id)
+
+  return NextResponse.json(id);
 }

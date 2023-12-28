@@ -37,12 +37,13 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import User from '@/app/types/UserType';
 import Office from '@/app/types/OfficeType';
+import EditStaffModal from './EditStaffModal';
 import {
     useSelector,
     useDispatch,
     selectLeader,
-    getAllLeadersInfoAsync,
     getSubOfficesInfoAsync,
+    deleteLeaderAsync,
 } from '@/lib/redux';
 
 function initialName(name: string) {
@@ -51,114 +52,23 @@ function initialName(name: string) {
 }
 
 export default function LeaderTable() {
-    const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
-    const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
+    const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
+    const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
 
     const dispatch = useDispatch();
     const LEADERs = useSelector(selectLeader);
 
-    const renderEditModal = (index: number) => {
-        return (
-            <Modal
-                open={openEditModalIndex == index}
-                onClose={() => setOpenEditModalIndex(null)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Card
-                    style={{
-                        width: '100%',
-                        maxWidth: 600,
-                        // borderRadius: 12,
-                        // overflow: 'hidden',
-                    }}
-                >
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal Information</Typography>
-                        <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack
-                        direction="row"
-                    >
-                        <Stack direction="column" spacing={1}>
-
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Your name" />
-                                </FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Phone" />
-                                </FormControl>
-
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        defaultValue="1"
-                                    >
-                                        <Option value="1">
-                                            <Typography>
-                                                GATHERING
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            <Typography level='body-sm'>
-                                                TRANSACTION
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="@magic-post.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <CountrySelector />
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <CardOverflow >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenEditModalIndex(null)}>
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="outlined" color="primary" onClick={() => setOpenEditModalIndex(null)}>
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
-            </Modal>
-        );
+    const handleDelete = (event: React.FormEvent<HTMLFormElement>, id: string) => {
+        event.preventDefault();
+        dispatch(deleteLeaderAsync(id));
+        setOpenDeleteModalIndex(null);
     }
 
-    const renderDeleteModal = (index: number) => {
+    const renderDeleteModal = (id: string) => {
         return (
             <Modal
-                open={openDeleteModalIndex == index}
+                open={openDeleteModalIndex === id}
                 onClose={() => setOpenDeleteModalIndex(null)}
             >
                 <ModalDialog variant="outlined" role="alertdialog">
@@ -171,9 +81,11 @@ export default function LeaderTable() {
                         Are you sure you want to delete this LEADER?
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="outlined" color="danger" onClick={() => setOpenDeleteModalIndex(null)}>
-                            Discard notes
-                        </Button>
+                        <form onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleDelete(event, id)}>
+                            <Button type='submit' variant="outlined" color="danger">
+                                Discard notes
+                            </Button>
+                        </form>
                         <Button variant="outlined" color="neutral" onClick={() => setOpenDeleteModalIndex(null)}>
                             Cancel
                         </Button>
@@ -267,7 +179,7 @@ export default function LeaderTable() {
     }
 
     // Table Pagination
-    const rowPerPage = 5;
+    const rowPerPage = 6;
     const totalRows = LEADERs.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -384,7 +296,7 @@ export default function LeaderTable() {
                                                         <MoreHorizRoundedIcon />
                                                     </MenuButton>
                                                     <Menu size="sm" sx={{ minWidth: 140 }}>
-                                                        <MenuItem onClick={() => setOpenEditModalIndex(index)}>
+                                                        <MenuItem onClick={() => setOpenEditModal(LEADER.id)}>
                                                             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                                 <EditRoundedIcon />
                                                                 <Typography
@@ -410,7 +322,7 @@ export default function LeaderTable() {
                                                                 </Box>
                                                             </MenuItem>
                                                         }
-                                                        <MenuItem onClick={() => setOpenDeleteModalIndex(index)}>
+                                                        <MenuItem onClick={() => setOpenDeleteModalIndex(LEADER.id)}>
                                                             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                                 <DeleteRoundedIcon />
                                                                 <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Delete</Typography>
@@ -418,10 +330,10 @@ export default function LeaderTable() {
                                                         </MenuItem>
 
                                                     </Menu>
-                                                    {renderEditModal(index)}
-                                                    {renderDeleteModal(index)}
+                                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} leader={LEADER} />
+                                                    {renderDeleteModal(LEADER.id)}
                                                     {renderViewModal(LEADER, index)}
-                                                </Dropdown >
+                                                </Dropdown>
                                             </IconButton>
                                         </td>
 

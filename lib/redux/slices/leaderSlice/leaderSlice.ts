@@ -4,7 +4,7 @@ import type User from '@/app/types/UserType'
 import type Office from '@/app/types/OfficeType'
 
 /* Instruments */
-import { getAllLeadersInfoAsync, getSubOfficesInfoAsync, addLeaderAsync } from './thunkActions'
+import { getAllLeadersInfoAsync, getSubOfficesInfoAsync, addLeaderAsync, editLeaderAsync, deleteLeaderAsync } from './thunkActions'
 
 const initialState: LeaderSliceState = {
     value: [] as User[],
@@ -47,6 +47,30 @@ export const leaderSlice = createSlice({
             .addCase(addLeaderAsync.fulfilled, (state, action: PayloadAction<User>) => {
                 state.status = 'idle'
                 state.value = [action.payload, ...state.value]
+            })
+            .addCase(editLeaderAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(editLeaderAsync.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'idle'
+                state.value = state.value.map((item) => {
+                    if (item.id === action.payload.id) {
+                        return action.payload
+                    }
+                    return item
+                })
+            })
+            .addCase(deleteLeaderAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(deleteLeaderAsync.fulfilled, (state, action: PayloadAction<string>) => {
+                state.status = 'idle'
+                state.value = state.value.filter((item) => {
+                    if (item.id === action.payload) {
+                        return false
+                    }
+                    return true
+                })
             })
     },
 })
