@@ -16,7 +16,7 @@ type Parcel = {
     sender_contact: string;
     sender_name: string;
     to_branch_id: string;
-    type: "DELIVER" | "PICKUP";
+    type: "DOCUMENTS" | "GOODS";
     weight: number | null;
     width: number | null;
 }

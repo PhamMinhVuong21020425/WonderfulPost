@@ -1,5 +1,3 @@
-import { off } from "process"
-
 export type Json =
     | string
     | number
@@ -65,6 +63,7 @@ export interface Database {
             parcel_tracks: {
                 Row: {
                     created_at: string | null
+                    current_branch: string | null
                     from: string | null
                     id: number
                     parcel_id: number
@@ -74,6 +73,7 @@ export interface Database {
                 }
                 Insert: {
                     created_at?: string | null
+                    current_branch?: string | null
                     from?: string | null
                     id?: number
                     parcel_id: number
@@ -83,6 +83,7 @@ export interface Database {
                 }
                 Update: {
                     created_at?: string | null
+                    current_branch?: string | null
                     from?: string | null
                     id?: number
                     parcel_id?: number
@@ -91,6 +92,13 @@ export interface Database {
                     updated_at?: string | null
                 }
                 Relationships: [
+                    {
+                        foreignKeyName: "parcel_tracks_current_branch_fkey"
+                        columns: ["current_branch"]
+                        isOneToOne: false
+                        referencedRelation: "branches"
+                        referencedColumns: ["id"]
+                    },
                     {
                         foreignKeyName: "parcel_tracks_from_fkey"
                         columns: ["from"]
@@ -134,6 +142,7 @@ export interface Database {
                     status: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
                     type: Database["public"]["Enums"]["parcel_type"] | null
+                    updated_at: string | null
                     weight: number | null
                     width: number | null
                 }
@@ -156,6 +165,7 @@ export interface Database {
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id: string
                     type?: Database["public"]["Enums"]["parcel_type"] | null
+                    updated_at?: string | null
                     weight?: number | null
                     width?: number | null
                 }
@@ -178,6 +188,7 @@ export interface Database {
                     status?: Database["public"]["Enums"]["status"] | null
                     to_branch_id?: string
                     type?: Database["public"]["Enums"]["parcel_type"] | null
+                    updated_at?: string | null
                     weight?: number | null
                     width?: number | null
                 }
@@ -289,7 +300,7 @@ export interface Database {
         }
         Enums: {
             branches_type: "GATHERING" | "TRANSACTION"
-            parcel_type: "DELIVER" | "PICKUP"
+            parcel_type: "DOCUMENTS" | "GOODS"
             position_type:
             | "ADMIN"
             | "LEADER GATHERING"

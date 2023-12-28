@@ -2,6 +2,7 @@ import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Database } from "@/lib/database.type";
+import User from "@/app/types/UserType";
 
 export const dynamic = "force-dynamic";
 
@@ -23,8 +24,8 @@ export async function GET(req: Request, res: Response) {
     .eq("id", id)
     .single();
 
-  if (profile && profile.branches) {
-    profile.office = { ...profile.branches, branches: [] };
+  if (profile) {
+    profile.office = profile.branches ? { ...profile.branches } : null;
     const { branches, ...result } = profile;
     return NextResponse.json(result);
   }
@@ -44,7 +45,7 @@ export async function POST(req: Request, res: Response) {
 
   const { error } = await supabase.from("profiles").insert({
     full_name: name,
-    position: "ADMIN",
+    position: "CUSTOMER",
     email: email,
   });
 

@@ -61,12 +61,7 @@ export default function OfficeTable() {
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
 
-    const dispatch = useDispatch();
     const offices = useSelector(selectOffice);
-
-    React.useEffect(() => {
-        dispatch(getAllOfficesInfoAsync());
-    }, []);
 
     const renderEditModal = (index: number) => {
         return (

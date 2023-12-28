@@ -2,7 +2,6 @@
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk'
 import type { ReduxThunkAction } from '@/lib/redux'
 import { fetchUser } from './fetchUser'
-import { selectUser } from './selectors'
 
 export const getUserInfoAsync = createAppAsyncThunk(
     'user/fetchUser',

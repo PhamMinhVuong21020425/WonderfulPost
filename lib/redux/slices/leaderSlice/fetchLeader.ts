@@ -21,3 +21,13 @@ export const fetchSubOffices = async (id: string): Promise<{ data: Office[] }> =
 
     return response
 }
+
+export const addLeader = async (formData: object): Promise<{ data: User }> => {
+    const response = await axios.post<User>('/api/users/all-leaders', formData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return response
+}

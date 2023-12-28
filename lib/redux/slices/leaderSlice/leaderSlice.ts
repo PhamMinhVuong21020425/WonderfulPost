@@ -4,7 +4,7 @@ import type User from '@/app/types/UserType'
 import type Office from '@/app/types/OfficeType'
 
 /* Instruments */
-import { getAllLeadersInfoAsync, getSubOfficesInfoAsync } from './thunkActions'
+import { getAllLeadersInfoAsync, getSubOfficesInfoAsync, addLeaderAsync } from './thunkActions'
 
 const initialState: LeaderSliceState = {
     value: [] as User[],
@@ -40,6 +40,13 @@ export const leaderSlice = createSlice({
                         state.value[index] = newItem
                     }
                 })
+            })
+            .addCase(addLeaderAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(addLeaderAsync.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'idle'
+                state.value = [action.payload, ...state.value]
             })
     },
 })

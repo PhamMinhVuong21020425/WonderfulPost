@@ -20,12 +20,13 @@ import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
 
 import {
-    userSlice,
     useSelector,
     useDispatch,
     selectUser,
     getUserInfoAsync,
-} from '@/lib/redux'
+    getAllOfficesInfoAsync,
+    getAllLeadersInfoAsync,
+} from '@/lib/redux';
 
 function Toggler({
     defaultExpanded = false,
@@ -71,6 +72,8 @@ export default function SideBar(props: SideBarProps) {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync())
+        dispatch(getAllLeadersInfoAsync());
+        dispatch(getAllOfficesInfoAsync())
     }, []);
 
     return (
@@ -186,7 +189,7 @@ export default function SideBar(props: SideBarProps) {
                         >
                             <PeopleAltIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">Staff</Typography>
+                                <Typography level="title-sm">Leader</Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>

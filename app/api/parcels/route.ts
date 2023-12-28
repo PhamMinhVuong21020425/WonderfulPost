@@ -35,7 +35,7 @@ export async function GET(req: Request, res: Response) {
         sender_name: "John Doe",
         status: "ON PENDING",
         to_branch_id: "116700",
-        type: "PICKUP",
+        type: "DOCUMENTS",
         weight: 14,
         width: 40,
     });

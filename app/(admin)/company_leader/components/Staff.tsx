@@ -114,7 +114,7 @@ export default function Staff() {
                         onClick={() => setOpenAddStaff(true)}
                         style={{ fontWeight: "600" }}
                     >
-                        Add Staff
+                        Add Leader
                     </Button>
                 </Box>
                 <Box

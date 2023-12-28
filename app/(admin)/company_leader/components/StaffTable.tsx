@@ -64,10 +64,6 @@ export default function LeaderTable() {
     const dispatch = useDispatch();
     const LEADERs = useSelector(selectLeader);
 
-    React.useEffect(() => {
-        dispatch(getAllLeadersInfoAsync());
-    }, []);
-
     const renderEditModal = (index: number) => {
         return (
             <Modal
@@ -348,7 +344,7 @@ export default function LeaderTable() {
                                                 <Avatar
                                                     size="sm"
                                                     src={LEADER.avatar_url ?? ''}
-                                                    color={LEADER.position.includes('LEADER') ? LEADER.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+                                                    color={LEADER.position?.includes('TRANSACTION') ? 'success' : 'warning'}
                                                     style={{ fontSize: '0.75rem' }}
                                                 >
                                                     {initialName(LEADER.full_name ?? 'Anonymous User')}
