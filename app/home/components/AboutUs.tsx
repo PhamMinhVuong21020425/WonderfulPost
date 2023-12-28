@@ -16,13 +16,13 @@ const AboutUs = () => {
                     </div>
                 </h1>
                 <p className="text-md mb-4">
-                    MagicPost is a leading delivery service company operating nationwide. We specialize in providing efficient and reliable delivery solutions.
+                    <span className='font-bold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'>MagicPost</span> is a leading delivery service company operating nationwide. We specialize in providing efficient and reliable delivery solutions.
                 </p>
                 <p className="text-md mb-4">
                     Our extensive network of transaction and consolidation points ensures seamless handling and delivery of items across the country.
                 </p>
                 <p className="text-md mb-4">
-                    At MagicPost, we prioritize customer satisfaction and aim to deliver packages swiftly and securely to their destinations.
+                    At <span className='font-bold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'>MagicPost</span>, we prioritize customer satisfaction and aim to deliver packages swiftly and securely to their destinations.
                 </p>
                 <h2 className="text-2xl font-bold mt-6 mb-4">Our Services</h2>
 
