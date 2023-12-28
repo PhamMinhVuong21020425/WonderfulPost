@@ -26,43 +26,31 @@ import CountrySelector from './CountrySelector';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
-import { styled } from '@mui/system';
-import {
-    TablePagination,
-    tablePaginationClasses as classes,
-} from '@mui/base/TablePagination';
+import { PaginationLaptop } from '@/app/components/Pagination';
 
 // Icons
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { PaginationLaptop } from '@/app/components/Pagination';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import User from '@/app/types/UserType';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Office from '@/app/types/OfficeType';
-import {
-    useSelector,
-    useDispatch,
-    selectOffice,
-    getAllOfficesInfoAsync,
-    getSubOfficesInfoAsync,
-} from '@/lib/redux';
+
+const LEADERs: User[] = [];
 
 function initialName(name: string) {
     if (!name) return '';
     return name.split(' ').map((word) => word[0]).join('');
 }
 
+
+
 export default function OfficeTable() {
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
-
-    const offices = useSelector(selectOffice);
 
     const renderEditModal = (index: number) => {
         return (
@@ -189,7 +177,7 @@ export default function OfficeTable() {
         );
     }
 
-    const renderViewModal = (office: Office, index: number) => {
+    const renderViewModal = (leader: User, index: number) => {
         return (
             <Modal
                 open={openViewModalIndex == index}
@@ -212,7 +200,7 @@ export default function OfficeTable() {
 
                     </Box>
                     <Sheet
-                        style={{ paddingBottom: '10px', maxHeight: '500px', overflowY: 'auto' }}
+                        style={{ padding: '10px' }}
                     >
                         <Table
                             aria-labelledby="tableTitle"
@@ -236,7 +224,7 @@ export default function OfficeTable() {
                             </thead>
                             <tbody>
                                 {
-                                    office?.branches.map((sub_office: Office) => (
+                                    leader.office?.branches.map((sub_office: Office) => (
                                         <tr key={sub_office.id}>
                                             <td style={{ width: '30%', padding: "6px 12px", fontSize: "0.7rem" }}>
                                                 <Typography
@@ -272,15 +260,15 @@ export default function OfficeTable() {
     }
 
     // Table Pagination
-    const rowPerPage = 8;
-    const totalRows = offices.length;
+    const rowPerPage = 5;
+    const totalRows = LEADERs.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
 
     // Calculate the index range for the current page
     const indexOfLastRow = currentPage * rowPerPage;
     const indexOfFirstRow = indexOfLastRow - rowPerPage;
-    const currentRows = offices.slice(indexOfFirstRow, indexOfLastRow);
+    const currentRows = LEADERs.slice(indexOfFirstRow, indexOfLastRow);
 
     // Function to change page
     const handlePageChange = (page: number) => {
@@ -316,12 +304,12 @@ export default function OfficeTable() {
                 >
                     <thead>
                         <tr>
-                            <th style={{ width: '9%', padding: "6px 12px" }}>Office ID</th>
-                            <th style={{ width: '25%', padding: "6px 12px" }}>Office Name</th>
-                            <th style={{ width: '9%', padding: "6px 12px" }}>City</th>
-                            <th style={{ width: '11%', padding: "6px 12px" }}>District</th>
-                            <th style={{ width: '30%', padding: "6px 12px" }}>Address</th>
-                            <th style={{ width: '10%', padding: "6px 12px" }}>Phone</th>
+                            <th style={{ width: '12%', padding: "6px 12px" }}>Staff ID</th>
+                            <th style={{ width: '30%', padding: "6px 12px" }}>Staff</th>
+                            <th style={{ width: '20%', padding: "6px 12px" }}>Office</th>
+                            <th style={{ width: '15%', padding: "6px 12px" }}>Phone</th>
+                            <th style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>Sent</th>
+                            <th style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>Received</th>
                             <th style={{ width: '6%', padding: "6px 12px", textAlign: 'center' }}></th>
                         </tr>
                     </thead>
@@ -329,29 +317,30 @@ export default function OfficeTable() {
                         {
                             (
                                 currentRows
-                            ).map((office, index) => (
+                            ).map((LEADER, index) => (
                                 // <Row key={LEADER.id} row={LEADER} />
                                 <React.Fragment>
-                                    <tr key={office.id}>
+                                    <tr key={LEADER.id}>
                                         <td style={{ width: '12%', padding: "6px 12px" }}>
                                             <Typography
                                                 style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
-                                            >{office.id}</Typography>
+                                            >{LEADER.id}</Typography>
                                         </td>
                                         <td style={{ width: '30%', padding: "6px 12px" }}>
                                             <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                                                 <Avatar
                                                     size="sm"
+                                                    color={LEADER.position.includes('LEADER') ? LEADER.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+
                                                     style={{ fontSize: '0.75rem' }}
-                                                    color={(office.type === 'GATHERING') ? 'success' : 'warning'}
                                                 >
-                                                    {initialName(office.name ?? 'Anonymous Office')}
+                                                    {initialName(LEADER.full_name ?? 'Anonymous User')}
                                                 </Avatar>
                                                 <div>
-                                                    <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{office.name}</Typography>
+                                                    <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{LEADER.full_name}</Typography>
                                                     <Typography
                                                         style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
-                                                    >{office.type}</Typography>
+                                                    >{LEADER.email}</Typography>
                                                 </div>
                                             </Box>
                                         </td>
@@ -362,20 +351,20 @@ export default function OfficeTable() {
 
                                                 <Typography
                                                     style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
-                                                >{office.city}</Typography>
+                                                >{LEADER.office?.address}</Typography>
 
                                             </Box>
                                         </td>
 
                                         <td style={{ width: '15%', padding: "6px 12px" }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{office.district}</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{LEADER.phone}</Typography>
                                         </td>
 
-                                        <td style={{ width: '8%', padding: "6px 12px" }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{office.address}</Typography>
+                                        <td style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
                                         </td>
-                                        <td style={{ width: '9%', padding: "6px 12px" }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{office.phone}</Typography>
+                                        <td style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
                                         </td>
 
                                         <td style={{ width: '6%', textAlign: 'center' }}>
@@ -400,7 +389,7 @@ export default function OfficeTable() {
                                                             </Box>
                                                         </MenuItem>
                                                         {
-                                                            office.type === 'GATHERING' &&
+                                                            LEADER.position == 'LEADER GATHERING' &&
                                                             <MenuItem onClick={() => setOpenViewModalIndex(index)}>
                                                                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                                     <VisibilityIcon />
@@ -418,7 +407,7 @@ export default function OfficeTable() {
                                                     </Menu>
                                                     {renderEditModal(index)}
                                                     {renderDeleteModal(index)}
-                                                    {renderViewModal(office, index)}
+                                                    {renderViewModal(LEADER, index)}
                                                 </Dropdown >
                                             </IconButton>
                                         </td>

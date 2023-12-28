@@ -44,13 +44,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import User from '@/app/types/UserType';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import {
-    useSelector,
-    useDispatch,
-    selectLeader,
-    getAllLeadersInfoAsync,
-    getSubOfficesInfoAsync,
-} from '@/lib/redux';
+import { getAllStaffsInfoAsync, selectStaff, useDispatch, useSelector } from '@/lib/redux';
 
 function initialName(name: string) {
     if (!name) return '';
@@ -63,7 +57,7 @@ export default function StaffList() {
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
 
     const dispatch = useDispatch();
-    const LEADERs = useSelector(selectLeader);
+    const STAFFs = useSelector(selectStaff);
 
     const renderEditModal = (index: number) => {
         return (
@@ -219,15 +213,15 @@ export default function StaffList() {
     }
 
     // Table Pagination
-    const rowPerPage = 5;
-    const totalRows = LEADERs.length;
+    const rowPerPage = 8;
+    const totalRows = STAFFs.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
 
     // Calculate the index range for the current page
     const indexOfLastRow = currentPage * rowPerPage;
     const indexOfFirstRow = indexOfLastRow - rowPerPage;
-    const currentRows = LEADERs.slice(indexOfFirstRow, indexOfLastRow);
+    const currentRows = STAFFs.slice(indexOfFirstRow, indexOfLastRow);
 
     // Function to change page
     const handlePageChange = (page: number) => {

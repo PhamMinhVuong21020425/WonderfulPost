@@ -44,13 +44,7 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import User from '@/app/types/UserType';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import {
-    useSelector,
-    useDispatch,
-    selectLeader,
-    getAllLeadersInfoAsync,
-    getSubOfficesInfoAsync,
-} from '@/lib/redux';
+const LEADERs: User[] = [];
 
 function initialName(name: string) {
     if (!name) return '';
@@ -61,9 +55,6 @@ export default function StaffList() {
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
-
-    const dispatch = useDispatch();
-    const LEADERs = useSelector(selectLeader);
 
     const renderEditModal = (index: number) => {
         return (

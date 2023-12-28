@@ -26,16 +26,10 @@ import CountrySelector from './CountrySelector';
 import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
-import { styled } from '@mui/system';
-import {
-    TablePagination,
-    tablePaginationClasses as classes,
-} from '@mui/base/TablePagination';
+import { PaginationLaptop } from '@/app/components/Pagination';
 
 // Icons
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
@@ -317,8 +311,8 @@ export default function LeaderTable() {
                 >
                     <thead>
                         <tr>
-                            <th style={{ width: '12%', padding: "6px 12px" }}>Staff ID</th>
-                            <th style={{ width: '30%', padding: "6px 12px" }}>Staff</th>
+                            <th style={{ width: '12%', padding: "6px 12px" }}>Leader ID</th>
+                            <th style={{ width: '30%', padding: "6px 12px" }}>Leader</th>
                             <th style={{ width: '20%', padding: "6px 12px" }}>Office</th>
                             <th style={{ width: '15%', padding: "6px 12px" }}>Phone</th>
                             <th style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>Sent</th>
@@ -440,59 +434,15 @@ export default function LeaderTable() {
                 </Table>
 
             </Sheet>
-            <Box
-                className="Pagination-laptopUp"
-                sx={{
-                    pt: 2,
-                    gap: 1,
-                    [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-                    display: {
-                        xs: 'none',
-                        md: 'flex',
-                    },
-                }}
-            >
-                <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    startDecorator={<KeyboardArrowLeftIcon />}
-                    disabled={currentPage === 1}
-                >
-                    Previous
-                </Button>
-
-                <Box sx={{ flex: 1 }} />
-                {Array.from({ length: Math.ceil(totalRows / rowPerPage) }, (_, i) => {
-                    if (currentPage > i + 10 || currentPage < i - 9) return null;
-                    return (
-                        <IconButton
-                            key={i + 1}
-                            size="sm"
-                            variant={currentPage === i + 1 ? 'outlined' : 'plain'}
-                            color="neutral"
-                            onClick={() => handlePageChange(i + 1)}
-                        >
-                            {i + 1}
-                        </IconButton>
-                    );
-                })
-                }
-                <Box sx={{ flex: 1 }} />
-
-
-                <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    endDecorator={<KeyboardArrowRightIcon />}
-                    disabled={indexOfLastRow >= totalRows}
-                >
-                    Next
-                </Button>
-            </Box>
+            <PaginationLaptop
+                rowPerPage={rowPerPage}
+                currentPage={currentPage}
+                totalRows={totalRows}
+                indexOfLastRow={indexOfLastRow}
+                indexOfFirstRow={indexOfFirstRow}
+                setCurrentPage={setCurrentPage}
+                handlePageChange={handlePageChange}
+            />
         </React.Fragment >
     )
 

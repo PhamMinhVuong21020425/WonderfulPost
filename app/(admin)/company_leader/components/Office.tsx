@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Box from '@mui/joy/Box';
 import OfficeTable from './OfficeTable';
+import OfficeList from './OfficeList';
 import Button from '@mui/joy/Button';
-import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/joy/Typography';
 import FormControl from '@mui/joy/FormControl';
 import Input from '@mui/joy/Input';
@@ -10,10 +10,17 @@ import FormLabel from '@mui/joy/FormLabel';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import SearchIcon from '@mui/icons-material/Search';
-import { Chip } from '@mui/joy';
 import AddStaffModal from './AddStaffModal';
+import Sheet from '@mui/joy/Sheet';
+import IconButton from '@mui/joy/IconButton';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
+import Divider from '@mui/material/Divider';
 
 export default function Office() {
+    const [open, setOpen] = React.useState(false);
 
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
 
@@ -74,71 +81,51 @@ export default function Office() {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Typography level="h2" component="h1" style={{ color: 'var(--joy-palette-text-secondary)', fontWeight: "600" }}>
+                    <Typography level="h2" component="h1">
                         Offices
                     </Typography>
 
-                    <Box>
-                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                            <Chip
-                                size="sm"
-                                color="warning"
-                                sx={{ minWidth: 100, minHeight: 5 }}
-                            />
-                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                Gathering
-                            </Typography>
-
-                        </Box>
-                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
-                            <Chip
-                                size="sm"
-                                color="success"
-                                sx={{ minWidth: 100, minHeight: 5 }}
-                            />
-                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
-                                Transaction
-                            </Typography>
-
-                        </Box>
-                    </Box>
-
-
-                    <Button
-                        color="primary"
-                        startDecorator={<AddIcon />}
-                        size="sm"
-                        variant="outlined"
-                        onClick={() => setOpenAddStaff(true)}
-                        style={{ fontWeight: "600" }}
-                    >
-                        Add Leader
-                    </Button>
                 </Box>
-                <Box
-                    className="SearchAndFilters-tabletUp"
+                <Sheet
+                    className="SearchAndFilters-mobile"
                     sx={{
-                        borderRadius: 'sm',
-                        py: 2,
-                        display: { xs: 'none', sm: 'flex' },
-                        flexWrap: 'wrap',
-                        gap: 1.5,
-                        '& > *': {
-                            minWidth: { xs: '120px', md: '160px' },
-                        },
+                        display: { xs: 'flex', sm: 'none' },
+                        my: 1,
+                        gap: 1,
                     }}
                 >
-                    <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for Staff</FormLabel>
-                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
-                    </FormControl>
-                    <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for Office</FormLabel>
-                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
-                    </FormControl>
-                    {renderFilters()}
-                </Box>
+                    <Input
+                        size="sm"
+                        placeholder="Search"
+                        startDecorator={<SearchIcon />}
+                        sx={{ flexGrow: 1 }}
+                    />
+                    <IconButton
+                        size="sm"
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => setOpen(true)}
+                    >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <ModalDialog aria-labelledby="filter-modal" layout="fullscreen">
+                            <ModalClose />
+                            <Typography id="filter-modal" level="h2">
+                                Filters
+                            </Typography>
+                            <Divider sx={{ my: 2 }} />
+                            <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {renderFilters()}
+                                <Button color="primary" onClick={() => setOpen(false)} variant='outlined'>
+                                    Submit
+                                </Button>
+                            </Sheet>
+                        </ModalDialog>
+                    </Modal>
+                </Sheet>
                 <OfficeTable />
+                <OfficeList />
             </Box>
             <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
         </div >
