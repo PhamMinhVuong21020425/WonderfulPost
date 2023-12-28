@@ -31,3 +31,19 @@ export const addLeader = async (formData: object): Promise<{ data: User }> => {
 
     return response
 }
+
+export const editLeader = async (formData: object): Promise<{ data: User }> => {
+    const response = await axios.put<User>('/api/users/all-leaders', formData, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return response
+}
+
+export const deleteLeader = async (id: string): Promise<{ data: string }> => {
+    const response = await axios.delete<string>('/api/users/all-leaders', { data: { id } })
+
+    return response
+}
