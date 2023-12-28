@@ -2,128 +2,32 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 
 import StaffTable from './StaffTable';
+import StaffList from './StaffList';
 import Button from '@mui/joy/Button';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/joy/Typography';
 import Modal from '@mui/joy/Modal';
+import Typography from '@mui/joy/Typography';
 
 import FormControl from '@mui/joy/FormControl';
 import Input from '@mui/joy/Input';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
+import { Chip } from '@mui/joy';
 import Divider from '@mui/joy/Divider';
-import { Chip, LinearProgress } from '@mui/joy';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import IconButton from '@mui/joy/IconButton';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
+import Sheet from '@mui/joy/Sheet';
 
 import CountrySelector from './CountrySelector';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AddStaffModal from './AddStaffModal';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 export default function Staff() {
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
-
-    const renderAddStaffModal = () => {
-        return (
-            <Modal
-                open={openAddStaff}
-                onClose={() => setOpenAddStaff(false)}
-                // title="Add Staff"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Card
-                    style={{
-                        width: '100%',
-                        maxWidth: 600,
-                        // borderRadius: 12,
-                        // overflow: 'hidden',
-                    }}
-                >
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal Information</Typography>
-                        <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack
-                        direction="row"
-                    >
-                        <Stack direction="column" spacing={1}>
-
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Your name" />
-                                </FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Phone" />
-                                </FormControl>
-
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        defaultValue="1"
-                                    >
-                                        <Option value="1">
-                                            <Typography level='body-sm'>
-                                                GATHERING
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            <Typography level='body-sm'>
-                                                TRANSACTION
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="@magic-post.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <CountrySelector />
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <CardOverflow >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenAddStaff(false)}>
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="outlined" color="primary">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
-            </Modal>
-        );
-    }
 
     const renderFilters = () => (
         <React.Fragment>
@@ -149,6 +53,7 @@ export default function Staff() {
 
         </React.Fragment>
     );
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div>
@@ -183,7 +88,7 @@ export default function Staff() {
                     }}
                 >
                     <Typography level="h2" component="h1" style={{ color: 'var(--joy-palette-text-secondary)', fontWeight: "600" }}>
-                        Staffs
+                        Leaders
                     </Typography>
 
                     <Box>
@@ -214,13 +119,13 @@ export default function Staff() {
 
                     <Button
                         color="primary"
-                        startDecorator={<AddIcon />}
+                        startDecorator={<AddCircleOutlineIcon />}
                         size="sm"
                         variant="outlined"
                         onClick={() => setOpenAddStaff(true)}
                         style={{ fontWeight: "600" }}
                     >
-                        Add Staff
+                        Add Leader
                     </Button>
                 </Box>
                 <Box
@@ -237,14 +142,59 @@ export default function Staff() {
                     }}
                 >
                     <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for staff</FormLabel>
+                        <FormLabel >Search for Leader</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
+                    {/* <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for Office</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl> */}
                     {renderFilters()}
                 </Box>
+                <Sheet
+                    className="SearchAndFilters-mobile"
+                    sx={{
+                        display: { xs: 'flex', sm: 'none' },
+                        my: 1,
+                        gap: 1,
+                    }}
+                >
+                    <Input
+                        size="sm"
+                        placeholder="Search"
+                        startDecorator={<SearchIcon />}
+                        sx={{ flexGrow: 1 }}
+                    />
+                    <IconButton
+                        size="sm"
+                        variant="outlined"
+                        color="neutral"
+                        onClick={() => setOpen(true)}
+                    >
+                        <FilterAltIcon />
+                    </IconButton>
+                    <Modal open={open} onClose={() => setOpen(false)}>
+                        <ModalDialog aria-labelledby="filter-modal" layout="fullscreen">
+                            <ModalClose />
+                            <Typography id="filter-modal" level="h2">
+                                Filters
+                            </Typography>
+                            <Divider sx={{ my: 2 }} />
+                            <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                {renderFilters()}
+                                <Button color="primary" onClick={() => setOpen(false)} variant='outlined'>
+                                    Submit
+                                </Button>
+                            </Sheet>
+                        </ModalDialog>
+                    </Modal>
+                </Sheet>
+
+
                 <StaffTable />
+                <StaffList />
             </Box>
-            {renderAddStaffModal()}
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
         </div >
     );
 }

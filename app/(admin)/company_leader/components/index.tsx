@@ -7,25 +7,26 @@ import Box from '@mui/joy/Box';
 import palette from '@/app/styles/palette';
 import SideBar from './SideBar';
 import Header from './Header';
-import Staff from './Staff';
+import Main from './Main';
 
 
 
 
-export default function CompanyLeader() {
+export default function Page() {
+    const [status, setStatus] = React.useState<string>('dashboard');
 
     return (
         <CssVarsProvider disableTransitionOnChange theme={palette}>
             <CssBaseline />
             <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
                 <Header />
-                <SideBar />
+                <SideBar status={status} onStatusChange={setStatus} />
                 {/* <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default' }}>
                     <Staff />
                     <Office />
 
                 </Box> */}
-                <Staff />
+                <Main status={status} onStatusChange={setStatus} />
             </Box>
         </CssVarsProvider>
     );

@@ -19,6 +19,15 @@ import EggIcon from '@mui/icons-material/Egg';
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
 
+import {
+    useSelector,
+    useDispatch,
+    selectUser,
+    getUserInfoAsync,
+    getAllOfficesInfoAsync,
+    getAllLeadersInfoAsync,
+} from '@/lib/redux';
+
 function Toggler({
     defaultExpanded = false,
     renderToggle,
@@ -51,9 +60,21 @@ function Toggler({
     );
 }
 
-export default function SideBar() {
-    // Home, Staff, Reports, Settings
-    const [selected, setSelected] = React.useState<string>("staff");
+type SideBarProps = {
+    status: string;
+    onStatusChange?: (status: string) => void;
+};
+
+export default function SideBar(props: SideBarProps) {
+
+    const dispatch = useDispatch();
+    const userInfo = useSelector(selectUser);
+
+    React.useEffect(() => {
+        dispatch(getUserInfoAsync())
+        dispatch(getAllLeadersInfoAsync());
+        dispatch(getAllOfficesInfoAsync())
+    }, []);
 
     return (
         <Sheet
@@ -111,7 +132,7 @@ export default function SideBar() {
                 <IconButton variant="soft" color="primary" size="sm">
                     <EggIcon />
                 </IconButton>
-                <Typography level="title-lg">MagicPost</Typography>
+                <Typography level="title-lg">Magic Post</Typography>
                 <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
             <Box
@@ -137,8 +158,8 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("dashboard")}
-                            selected={selected === "dashboard"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("dashboard")}
+                            selected={props.status === "dashboard"}
                         >
                             <DashboardRoundedIcon />
                             <ListItemContent>
@@ -149,8 +170,8 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("office")}
-                            selected={selected === "office"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("office")}
+                            selected={props.status === "office"}
                         >
                             <HomeWorkIcon />
                             <ListItemContent>
@@ -163,12 +184,12 @@ export default function SideBar() {
 
                     <ListItem>
                         <ListItemButton
-                            onClick={() => setSelected("staff")}
-                            selected={selected === "staff"}
+                            onClick={() => props.onStatusChange && props.onStatusChange("staff")}
+                            selected={props.status === "staff"}
                         >
                             <PeopleAltIcon />
                             <ListItemContent>
-                                <Typography level="title-sm">Staff</Typography>
+                                <Typography level="title-sm">Leader</Typography>
                             </ListItemContent>
                         </ListItemButton>
                     </ListItem>
@@ -188,14 +209,16 @@ export default function SideBar() {
             </Box>
             <Divider />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                <Avatar>JK</Avatar>
+                <Avatar src={userInfo?.avatar_url!} />
                 <Box sx={{ minWidth: 0, flex: 1 }}>
-                    <Typography level="title-sm">Zuanki</Typography>
-                    <Typography level="body-xs">zuanki@magic-post.com</Typography>
+                    <Typography level="title-sm">{userInfo?.full_name}</Typography>
+                    <Typography level="body-xs" style={{ wordWrap: 'break-word' }}>{userInfo?.email}</Typography>
                 </Box>
-                <IconButton size="sm" variant="plain" color="neutral">
-                    <LogoutRoundedIcon />
-                </IconButton>
+                <form action="/auth/logout" method="POST">
+                    <IconButton type='submit' size="sm" variant="plain" color="neutral">
+                        <LogoutRoundedIcon />
+                    </IconButton>
+                </form>
             </Box>
         </Sheet>
     );

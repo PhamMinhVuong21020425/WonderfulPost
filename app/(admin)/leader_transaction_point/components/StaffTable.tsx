@@ -53,526 +53,282 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { getAllStaffsInfoAsync, selectStaff, useDispatch, useSelector } from '@/lib/redux';
+import { PaginationLaptop } from '@/app/components/Pagination';
 
 
-const STAFFs: User[] = [
-    {
-        id: 'STAFF-0002',
-        name: 'Bob Smith',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'bob.smith@magic-post.com',
-        phone: '987-654-3210',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0003',
-        name: 'Eva Martinez',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'eva.martinez@magic-post.com',
-        phone: '333-222-1111',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0001',
-        name: 'Charlie Brown',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'charlie.brown@magic-post.com',
-        phone: '444-555-6666',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0002',
-        name: 'Diana Clark',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'diana.clark@magic-post.com',
-        phone: '777-888-9999',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0004',
-        name: 'Frank Rodriguez',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'frank.rodriguez@magic-post.com',
-        phone: '222-333-4444',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0003',
-        name: 'Grace Lee',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'grace.lee@magic-post.com',
-        phone: '555-666-7777',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0002',
-        name: 'Henry Davis',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'henry.davis@magic-post.com',
-        phone: '999-000-1111',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0005',
-        name: 'Isabella Flores',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'isabella.flores@magic-post.com',
-        phone: '666-777-8888',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0004',
-        name: 'Jack Wilson',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'jack.wilson@magic-post.com',
-        phone: '111-222-3333',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0003',
-        name: 'Katherine Moore',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'katherine.moore@magic-post.com',
-        phone: '123-987-4567',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0006',
-        name: 'Liam Harris',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'liam.harris@magic-post.com',
-        phone: '444-222-3333',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0005',
-        name: 'Mia Taylor',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'mia.taylor@magic-post.com',
-        phone: '222-333-4444',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0004',
-        name: 'Noah Anderson',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'noah.anderson@magic-post.com',
-        phone: '777-888-9999',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0007',
-        name: 'Olivia Wilson',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'olivia.wilson@magic-post.com',
-        phone: '999-000-1111',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0006',
-        name: 'Sophia Martin',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'sophia.martin@magic-post.com',
-        phone: '666-777-8888',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0005',
-        name: 'William Garcia',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'william.garcia@magic-post.com',
-        phone: '111-222-3333',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0008',
-        name: 'Emma Lopez',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'emma.lopez@magic-post.com',
-        phone: '123-987-4567',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0007',
-        name: 'James Turner',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'james.turner@magic-post.com',
-        phone: '444-222-3333',
-        role: 'STAFF',
-        position: 'GATHERING'
-    },
-    {
-        id: 'STAFF-0006',
-        name: 'Ava Cooper',
-        office: {
-            id: 'OFFICE-0002',
-            name: 'New York City',
-            address: '456 Broadway, New York, NY',
-            phone: '987-654-3210',
-            email: 'office-0002@magic-post.com',
-            fax: '987-654-3210',
-            sub_offices: [
-                {
-                    id: 'OFFICE-0003',
-                    name: 'Madrid',
-                    address: '789 Calle de Alcala, Madrid',
-                    phone: '333-222-1111',
-                    email: 'office-0003@magic-post.com',
-                    fax: '333-222-1111',
-                    sub_offices: []
-                },
-            ]
-        },
-        email: 'ava.cooper@magic-post.com',
-        phone: '777-999-1111',
-        role: 'STAFF',
-        position: 'GATHERING'
-    }
-];
+// const STAFFs: User[] = [
+//     {
+//         id: "1",
+//         email: "user1@example.com",
+//         office: {
+//             id: "office1",
+//             name: "Office A",
+//             country: "Country A",
+//             city: "City A",
+//             district: "District A",
+//             commune: "Commune A",
+//             address: "Address A",
+//             phone: "123456789",
+//             email: "officeA@example.com",
+//             fax: "987654321",
+//             sub_offices: [],
+//         },
+//         full_name: "John Doe",
+//         position: "ADMIN",
+//         phone: "1234567890",
+//         avatar_url: "https://example.com/avatar1.png",
+//         branch_id: "branch1",
+//     },
+//     {
+//         id: "2",
+//         email: "user2@example.com",
+//         office: null,
+//         full_name: "Alice Smith",
+//         position: "LEADER GATHERING",
+//         phone: "9876543210",
+//         avatar_url: "https://example.com/avatar2.png",
+//         branch_id: "branch2",
+//     },
+//     {
+//         id: "3",
+//         email: "user3@example.com",
+//         office: {
+//             id: "office2",
+//             name: "Office B",
+//             country: "Country B",
+//             city: "City B",
+//             district: "District B",
+//             commune: "Commune B",
+//             address: "Address B",
+//             phone: "567890123",
+//             email: "officeB@example.com",
+//             fax: "135792468",
+//             sub_offices: [],
+//         },
+//         full_name: "Emily Johnson",
+//         position: "STAFF TRANSACTION",
+//         phone: "5556667777",
+//         avatar_url: null,
+//         branch_id: "branch1",
+//     },
+//     {
+//         id: "4",
+//         email: "user4@example.com",
+//         office: null,
+//         full_name: "Mark Davis",
+//         position: "CUSTOMER",
+//         phone: null,
+//         avatar_url: null,
+//         branch_id: null,
+//     },
+//     {
+//         id: "5",
+//         email: "user5@example.com",
+//         office: {
+//             id: "office3",
+//             name: "Office C",
+//             country: "Country C",
+//             city: "City C",
+//             district: "District C",
+//             commune: "Commune C",
+//             address: "Address C",
+//             phone: "777888999",
+//             email: "officeC@example.com",
+//             fax: "246813579",
+//             sub_offices: [],
+//         },
+//         full_name: "Sophia Wilson",
+//         position: "STAFF GATHERING",
+//         phone: "4443332222",
+//         avatar_url: "https://example.com/avatar5.png",
+//         branch_id: "branch3",
+//     },
+//     {
+//         id: "6",
+//         email: "user6@example.com",
+//         office: {
+//             id: "office4",
+//             name: "Office D",
+//             country: "Country D",
+//             city: "City D",
+//             district: "District D",
+//             commune: "Commune D",
+//             address: "Address D",
+//             phone: "111222333",
+//             email: "officeD@example.com",
+//             fax: "987123654",
+//             sub_offices: [],
+//         },
+//         full_name: "Michael Lee",
+//         position: "STAFF GATHERING",
+//         phone: "9998887776",
+//         avatar_url: null,
+//         branch_id: "branch4",
+//     },
+//     // Mẫu 7
+//     {
+//         id: "7",
+//         email: "user7@example.com",
+//         office: null,
+//         full_name: "Sophie Brown",
+//         position: "LEADER TRANSACTION",
+//         phone: "7776665555",
+//         avatar_url: "https://example.com/avatar7.png",
+//         branch_id: "branch2",
+//     },
+//     // Mẫu 8
+//     {
+//         id: "8",
+//         email: "user8@example.com",
+//         office: {
+//             id: "office5",
+//             name: "Office E",
+//             country: "Country E",
+//             city: "City E",
+//             district: "District E",
+//             commune: "Commune E",
+//             address: "Address E",
+//             phone: "444555666",
+//             email: "officeE@example.com",
+//             fax: "369258147",
+//             sub_offices: [],
+//         },
+//         full_name: "William Johnson",
+//         position: "STAFF TRANSACTION",
+//         phone: "3332221111",
+//         avatar_url: "https://example.com/avatar8.png",
+//         branch_id: "branch1",
+//     },
+//     // Mẫu 9
+//     {
+//         id: "9",
+//         email: "user9@example.com",
+//         office: {
+//             id: "office6",
+//             name: "Office F",
+//             country: "Country F",
+//             city: "City F",
+//             district: "District F",
+//             commune: "Commune F",
+//             address: "Address F",
+//             phone: "888999000",
+//             email: "officeF@example.com",
+//             fax: "753951852",
+//             sub_offices: [],
+//         },
+//         full_name: "Olivia Garcia",
+//         position: "LEADER GATHERING",
+//         phone: "2223334444",
+//         avatar_url: "https://example.com/avatar9.png",
+//         branch_id: "branch3",
+//     },
+//     // Mẫu 10
+//     {
+//         id: "10",
+//         email: "user10@example.com",
+//         office: null,
+//         full_name: "Daniel Martinez",
+//         position: "CUSTOMER",
+//         phone: null,
+//         avatar_url: null,
+//         branch_id: null,
+//     },
+//     {
+//         id: "11",
+//         email: "user11@example.com",
+//         office: null,
+//         full_name: "Ethan Adams",
+//         position: "CUSTOMER",
+//         phone: null,
+//         avatar_url: null,
+//         branch_id: null,
+//     },
+//     // Mẫu 12
+//     {
+//         id: "12",
+//         email: "user12@example.com",
+//         office: {
+//             id: "office7",
+//             name: "Office G",
+//             country: "Country G",
+//             city: "City G",
+//             district: "District G",
+//             commune: "Commune G",
+//             address: "Address G",
+//             phone: "999000111",
+//             email: "officeG@example.com",
+//             fax: "852963741",
+//             sub_offices: [],
+//         },
+//         full_name: "Ava Wilson",
+//         position: "LEADER TRANSACTION",
+//         phone: "1112223333",
+//         avatar_url: "https://example.com/avatar12.png",
+//         branch_id: "branch2",
+//     },
+//     // Mẫu 13
+//     {
+//         id: "13",
+//         email: "user13@example.com",
+//         office: {
+//             id: "office8",
+//             name: "Office H",
+//             country: "Country H",
+//             city: "City H",
+//             district: "District H",
+//             commune: "Commune H",
+//             address: "Address H",
+//             phone: "222333444",
+//             email: "officeH@example.com",
+//             fax: "369852147",
+//             sub_offices: [],
+//         },
+//         full_name: "Liam Taylor",
+//         position: "ADMIN",
+//         phone: "4445556666",
+//         avatar_url: "https://example.com/avatar13.png",
+//         branch_id: "branch1",
+//     },
+//     // Mẫu 14
+//     {
+//         id: "14",
+//         email: "user14@example.com",
+//         office: null,
+//         full_name: "Mia Moore",
+//         position: "STAFF GATHERING",
+//         phone: "7778889999",
+//         avatar_url: null,
+//         branch_id: "branch3",
+//     },
+//     // Mẫu 15
+//     {
+//         id: "15",
+//         email: "user15@example.com",
+//         office: {
+//             id: "office9",
+//             name: "Office I",
+//             country: "Country I",
+//             city: "City I",
+//             district: "District I",
+//             commune: "Commune I",
+//             address: "Address I",
+//             phone: "555666777",
+//             email: "officeI@example.com",
+//             fax: "987654321",
+//             sub_offices: [],
+//         },
+//         full_name: "Noah Johnson",
+//         position: "STAFF TRANSACTION",
+//         phone: "3334445555",
+//         avatar_url: "https://example.com/avatar15.png",
+//         branch_id: "branch4",
+//     },
+// ];
 
 
 function initialName(name: string) {
+    if (!name) return '';
     return name.split(' ').map((word) => word[0]).join('');
 }
 
@@ -582,7 +338,7 @@ function Row(props: { row: any; initialOpen?: boolean }) {
     return (
         <React.Fragment>
             <tr key={row.id}>
-                <td style={{ width: '10%', padding: "6px 12px" }}>
+                <td style={{ width: '30%', padding: "6px 12px" }}>
                     <Typography
                         level="body-xs"
                     >{row.id}</Typography>
@@ -591,6 +347,7 @@ function Row(props: { row: any; initialOpen?: boolean }) {
                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
                         <Avatar
                             size="sm"
+                            src={row.avatar_url ?? ''}
                             color={row.position === 'TRANSACTION' ? 'success' : 'warning'}
                             style={{ fontSize: '0.75rem' }}
                         >
@@ -604,7 +361,7 @@ function Row(props: { row: any; initialOpen?: boolean }) {
                         </div>
                     </Box>
                 </td>
-                <td style={{ width: '45%', padding: "6px 12px" }}>
+                <td style={{ width: '25%', padding: "6px 12px" }}>
                     <Box
                         sx={{ display: 'flex', gap: 2, alignItems: 'center' }}
                     >
@@ -787,6 +544,28 @@ function RowMenu() {
 }
 
 export default function StaffTable() {
+    // Table Pagination
+    const dispatch = useDispatch();
+    const STAFFs = useSelector(selectStaff);
+
+    React.useEffect(() => {
+        dispatch(getAllStaffsInfoAsync());
+    }, []);
+    const rowPerPage = 5;
+    const totalRows = STAFFs.length;
+
+    const [currentPage, setCurrentPage] = React.useState(1);
+
+    // Calculate the index range for the current page
+    const indexOfLastRow = currentPage * rowPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowPerPage;
+    const currentRows = STAFFs.slice(indexOfFirstRow, indexOfLastRow);
+
+    // Function to change page
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    }
+
     return (
         <React.Fragment>
             <Sheet
@@ -816,15 +595,15 @@ export default function StaffTable() {
                 >
                     <thead>
                         <tr>
-                            <th style={{ width: '10%', padding: "6px 12px" }}>Staff ID</th>
+                            <th style={{ width: '30%', padding: "6px 12px" }}>Staff ID</th>
                             <th style={{ width: '35%', padding: "6px 12px" }}>Staff</th>
-                            <th style={{ width: '45%', padding: "6px 12px" }}>Phone</th>
+                            <th style={{ width: '25%', padding: "6px 12px" }}>Phone</th>
                             <th style={{ width: '10%', padding: "6px 12px" }}></th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            STAFFs.map((STAFF) => (
+                            currentRows.map((STAFF) => (
                                 <Row key={STAFF.id} row={STAFF} />
                             ))
                         }
@@ -832,49 +611,15 @@ export default function StaffTable() {
                 </Table>
 
             </Sheet>
-            <Box
-                className="Pagination-laptopUp"
-                sx={{
-                    pt: 2,
-                    gap: 1,
-                    [`& .${iconButtonClasses.root}`]: { borderRadius: '50%' },
-                    display: {
-                        xs: 'none',
-                        md: 'flex',
-                    },
-                }}
-            >
-                <Button
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    startDecorator={<KeyboardArrowLeftIcon />}
-                >
-                    Previous
-                </Button>
-
-                <Box sx={{ flex: 1 }} />
-                {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
-                    <IconButton
-                        key={page}
-                        size="sm"
-                        variant={Number(page) ? 'outlined' : 'plain'}
-                        color="neutral"
-                    >
-                        {page}
-                    </IconButton>
-                ))}
-                <Box sx={{ flex: 1 }} />
-
-                <Button
-                    size="sm"
-                    variant="outlined"
-                    color="neutral"
-                    endDecorator={<KeyboardArrowRightIcon />}
-                >
-                    Next
-                </Button>
-            </Box>
+            <PaginationLaptop
+                rowPerPage={rowPerPage}
+                currentPage={currentPage}
+                totalRows={totalRows}
+                indexOfLastRow={indexOfLastRow}
+                indexOfFirstRow={indexOfFirstRow}
+                setCurrentPage={setCurrentPage}
+                handlePageChange={handlePageChange}
+            />
         </React.Fragment >
     )
 }
