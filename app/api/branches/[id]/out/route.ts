@@ -14,8 +14,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
     const { data } = await supabase
         .from("parcel_tracks")
         .select(`*, from_branch:from(*), to_branch:to(*), parcel:parcel_id(*)`)
-        .eq("to", params.id)
-        .eq("status", "ON GOING")
+        .eq("from", params.id)
         .order("created_at", { ascending: true })
     return NextResponse.json(data)
 }

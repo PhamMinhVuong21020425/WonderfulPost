@@ -63,7 +63,6 @@ export interface Database {
             parcel_tracks: {
                 Row: {
                     created_at: string | null
-                    current_branch: string | null
                     from: string | null
                     id: number
                     parcel_id: number
@@ -73,7 +72,6 @@ export interface Database {
                 }
                 Insert: {
                     created_at?: string | null
-                    current_branch?: string | null
                     from?: string | null
                     id?: number
                     parcel_id: number
@@ -83,7 +81,6 @@ export interface Database {
                 }
                 Update: {
                     created_at?: string | null
-                    current_branch?: string | null
                     from?: string | null
                     id?: number
                     parcel_id?: number

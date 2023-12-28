@@ -16,7 +16,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         .select("*")
         .eq('parcel_id', params.id)
         .order('updated_at', { ascending: false })
-        .limit(1);
+        .limit(1)
+        .single();
     return NextResponse.json(data);
 }
 

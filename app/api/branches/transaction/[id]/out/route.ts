@@ -16,6 +16,5 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         .select(`*, from_branch:from(*), to_branch:to(*), parcel:parcel_id(*)`)
         .eq("from", params.id)
         .neq("status", "ON PENDING");
-
     return NextResponse.json(data);
 }
