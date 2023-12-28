@@ -43,541 +43,14 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import User from '@/app/types/UserType';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
-const LEADERs: User[] = [
-    {
-        id: "1",
-        email: "user1@example.com",
-        office: {
-            id: "office1",
-            name: "Office A",
-            country: "Country A",
-            city: "City A",
-            district: "District A",
-            commune: "Commune A",
-            address: "Address A",
-            phone: "123456789",
-            email: "officeA@example.com",
-            fax: "987654321",
-            sub_offices: [],
-        },
-        full_name: "John Doe",
-        position: "ADMIN",
-        phone: "1234567890",
-        avatar_url: "https://example.com/avatar1.png",
-        branch_id: "branch1",
-    },
-    {
-        id: "2",
-        email: "user2@example.com",
-        office: null,
-        full_name: "Alice Smith",
-        position: "LEADER GATHERING",
-        phone: "9876543210",
-        avatar_url: "https://example.com/avatar2.png",
-        branch_id: "branch2",
-    },
-    {
-        id: "3",
-        email: "user3@example.com",
-        office: {
-            id: "office2",
-            name: "Office B",
-            country: "Country B",
-            city: "City B",
-            district: "District B",
-            commune: "Commune B",
-            address: "Address B",
-            phone: "567890123",
-            email: "officeB@example.com",
-            fax: "135792468",
-            sub_offices: [],
-        },
-        full_name: "Emily Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "5556667777",
-        avatar_url: null,
-        branch_id: "branch1",
-    },
-    {
-        id: "4",
-        email: "user4@example.com",
-        office: null,
-        full_name: "Mark Davis",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    {
-        id: "5",
-        email: "user5@example.com",
-        office: {
-            id: "office3",
-            name: "Office C",
-            country: "Country C",
-            city: "City C",
-            district: "District C",
-            commune: "Commune C",
-            address: "Address C",
-            phone: "777888999",
-            email: "officeC@example.com",
-            fax: "246813579",
-            sub_offices: [],
-        },
-        full_name: "Sophia Wilson",
-        position: "STAFF GATHERING",
-        phone: "4443332222",
-        avatar_url: "https://example.com/avatar5.png",
-        branch_id: "branch3",
-    },
-    {
-        id: "6",
-        email: "user6@example.com",
-        office: {
-            id: "office4",
-            name: "Office D",
-            country: "Country D",
-            city: "City D",
-            district: "District D",
-            commune: "Commune D",
-            address: "Address D",
-            phone: "111222333",
-            email: "officeD@example.com",
-            fax: "987123654",
-            sub_offices: [],
-        },
-        full_name: "Michael Lee",
-        position: "STAFF GATHERING",
-        phone: "9998887776",
-        avatar_url: null,
-        branch_id: "branch4",
-    },
-    // Mẫu 7
-    {
-        id: "7",
-        email: "user7@example.com",
-        office: null,
-        full_name: "Sophie Brown",
-        position: "LEADER TRANSACTION",
-        phone: "7776665555",
-        avatar_url: "https://example.com/avatar7.png",
-        branch_id: "branch2",
-    },
-    // Mẫu 8
-    {
-        id: "8",
-        email: "user8@example.com",
-        office: {
-            id: "office5",
-            name: "Office E",
-            country: "Country E",
-            city: "City E",
-            district: "District E",
-            commune: "Commune E",
-            address: "Address E",
-            phone: "444555666",
-            email: "officeE@example.com",
-            fax: "369258147",
-            sub_offices: [],
-        },
-        full_name: "William Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "3332221111",
-        avatar_url: "https://example.com/avatar8.png",
-        branch_id: "branch1",
-    },
-    // Mẫu 9
-    {
-        id: "9",
-        email: "user9@example.com",
-        office: {
-            id: "office6",
-            name: "Office F",
-            country: "Country F",
-            city: "City F",
-            district: "District F",
-            commune: "Commune F",
-            address: "Address F",
-            phone: "888999000",
-            email: "officeF@example.com",
-            fax: "753951852",
-            sub_offices: [],
-        },
-        full_name: "Olivia Garcia",
-        position: "LEADER GATHERING",
-        phone: "2223334444",
-        avatar_url: "https://example.com/avatar9.png",
-        branch_id: "branch3",
-    },
-    // Mẫu 10
-    {
-        id: "10",
-        email: "user10@example.com",
-        office: null,
-        full_name: "Daniel Martinez",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    {
-        id: "11",
-        email: "user11@example.com",
-        office: null,
-        full_name: "Ethan Adams",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    // Mẫu 12
-    {
-        id: "12",
-        email: "user12@example.com",
-        office: {
-            id: "office7",
-            name: "Office G",
-            country: "Country G",
-            city: "City G",
-            district: "District G",
-            commune: "Commune G",
-            address: "Address G",
-            phone: "999000111",
-            email: "officeG@example.com",
-            fax: "852963741",
-            sub_offices: [],
-        },
-        full_name: "Ava Wilson",
-        position: "LEADER TRANSACTION",
-        phone: "1112223333",
-        avatar_url: "https://example.com/avatar12.png",
-        branch_id: "branch2",
-    },
-    // Mẫu 13
-    {
-        id: "13",
-        email: "user13@example.com",
-        office: {
-            id: "office8",
-            name: "Office H",
-            country: "Country H",
-            city: "City H",
-            district: "District H",
-            commune: "Commune H",
-            address: "Address H",
-            phone: "222333444",
-            email: "officeH@example.com",
-            fax: "369852147",
-            sub_offices: [],
-        },
-        full_name: "Liam Taylor",
-        position: "ADMIN",
-        phone: "4445556666",
-        avatar_url: "https://example.com/avatar13.png",
-        branch_id: "branch1",
-    },
-    // Mẫu 14
-    {
-        id: "14",
-        email: "user14@example.com",
-        office: null,
-        full_name: "Mia Moore",
-        position: "STAFF GATHERING",
-        phone: "7778889999",
-        avatar_url: null,
-        branch_id: "branch3",
-    },
-    // Mẫu 15
-    {
-        id: "15",
-        email: "user15@example.com",
-        office: {
-            id: "office9",
-            name: "Office I",
-            country: "Country I",
-            city: "City I",
-            district: "District I",
-            commune: "Commune I",
-            address: "Address I",
-            phone: "555666777",
-            email: "officeI@example.com",
-            fax: "987654321",
-            sub_offices: [],
-        },
-        full_name: "Noah Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "3334445555",
-        avatar_url: "https://example.com/avatar15.png",
-        branch_id: "branch4",
-    },
-    {
-        id: "1",
-        email: "user1@example.com",
-        office: {
-            id: "office1",
-            name: "Office A",
-            country: "Country A",
-            city: "City A",
-            district: "District A",
-            commune: "Commune A",
-            address: "Address A",
-            phone: "123456789",
-            email: "officeA@example.com",
-            fax: "987654321",
-            sub_offices: [],
-        },
-        full_name: "John Doe",
-        position: "ADMIN",
-        phone: "1234567890",
-        avatar_url: "https://example.com/avatar1.png",
-        branch_id: "branch1",
-    },
-    {
-        id: "2",
-        email: "user2@example.com",
-        office: null,
-        full_name: "Alice Smith",
-        position: "LEADER GATHERING",
-        phone: "9876543210",
-        avatar_url: "https://example.com/avatar2.png",
-        branch_id: "branch2",
-    },
-    {
-        id: "3",
-        email: "user3@example.com",
-        office: {
-            id: "office2",
-            name: "Office B",
-            country: "Country B",
-            city: "City B",
-            district: "District B",
-            commune: "Commune B",
-            address: "Address B",
-            phone: "567890123",
-            email: "officeB@example.com",
-            fax: "135792468",
-            sub_offices: [],
-        },
-        full_name: "Emily Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "5556667777",
-        avatar_url: null,
-        branch_id: "branch1",
-    },
-    {
-        id: "4",
-        email: "user4@example.com",
-        office: null,
-        full_name: "Mark Davis",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    {
-        id: "5",
-        email: "user5@example.com",
-        office: {
-            id: "office3",
-            name: "Office C",
-            country: "Country C",
-            city: "City C",
-            district: "District C",
-            commune: "Commune C",
-            address: "Address C",
-            phone: "777888999",
-            email: "officeC@example.com",
-            fax: "246813579",
-            sub_offices: [],
-        },
-        full_name: "Sophia Wilson",
-        position: "STAFF GATHERING",
-        phone: "4443332222",
-        avatar_url: "https://example.com/avatar5.png",
-        branch_id: "branch3",
-    },
-    {
-        id: "6",
-        email: "user6@example.com",
-        office: {
-            id: "office4",
-            name: "Office D",
-            country: "Country D",
-            city: "City D",
-            district: "District D",
-            commune: "Commune D",
-            address: "Address D",
-            phone: "111222333",
-            email: "officeD@example.com",
-            fax: "987123654",
-            sub_offices: [],
-        },
-        full_name: "Michael Lee",
-        position: "STAFF GATHERING",
-        phone: "9998887776",
-        avatar_url: null,
-        branch_id: "branch4",
-    },
-    // Mẫu 7
-    {
-        id: "7",
-        email: "user7@example.com",
-        office: null,
-        full_name: "Sophie Brown",
-        position: "LEADER TRANSACTION",
-        phone: "7776665555",
-        avatar_url: "https://example.com/avatar7.png",
-        branch_id: "branch2",
-    },
-    // Mẫu 8
-    {
-        id: "8",
-        email: "user8@example.com",
-        office: {
-            id: "office5",
-            name: "Office E",
-            country: "Country E",
-            city: "City E",
-            district: "District E",
-            commune: "Commune E",
-            address: "Address E",
-            phone: "444555666",
-            email: "officeE@example.com",
-            fax: "369258147",
-            sub_offices: [],
-        },
-        full_name: "William Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "3332221111",
-        avatar_url: "https://example.com/avatar8.png",
-        branch_id: "branch1",
-    },
-    // Mẫu 9
-    {
-        id: "9",
-        email: "user9@example.com",
-        office: {
-            id: "office6",
-            name: "Office F",
-            country: "Country F",
-            city: "City F",
-            district: "District F",
-            commune: "Commune F",
-            address: "Address F",
-            phone: "888999000",
-            email: "officeF@example.com",
-            fax: "753951852",
-            sub_offices: [],
-        },
-        full_name: "Olivia Garcia",
-        position: "LEADER GATHERING",
-        phone: "2223334444",
-        avatar_url: "https://example.com/avatar9.png",
-        branch_id: "branch3",
-    },
-    // Mẫu 10
-    {
-        id: "10",
-        email: "user10@example.com",
-        office: null,
-        full_name: "Daniel Martinez",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    {
-        id: "11",
-        email: "user11@example.com",
-        office: null,
-        full_name: "Ethan Adams",
-        position: "CUSTOMER",
-        phone: null,
-        avatar_url: null,
-        branch_id: null,
-    },
-    // Mẫu 12
-    {
-        id: "12",
-        email: "user12@example.com",
-        office: {
-            id: "office7",
-            name: "Office G",
-            country: "Country G",
-            city: "City G",
-            district: "District G",
-            commune: "Commune G",
-            address: "Address G",
-            phone: "999000111",
-            email: "officeG@example.com",
-            fax: "852963741",
-            sub_offices: [],
-        },
-        full_name: "Ava Wilson",
-        position: "LEADER TRANSACTION",
-        phone: "1112223333",
-        avatar_url: "https://example.com/avatar12.png",
-        branch_id: "branch2",
-    },
-    // Mẫu 13
-    {
-        id: "13",
-        email: "user13@example.com",
-        office: {
-            id: "office8",
-            name: "Office H",
-            country: "Country H",
-            city: "City H",
-            district: "District H",
-            commune: "Commune H",
-            address: "Address H",
-            phone: "222333444",
-            email: "officeH@example.com",
-            fax: "369852147",
-            sub_offices: [],
-        },
-        full_name: "Liam Taylor",
-        position: "ADMIN",
-        phone: "4445556666",
-        avatar_url: "https://example.com/avatar13.png",
-        branch_id: "branch1",
-    },
-    // Mẫu 14
-    {
-        id: "14",
-        email: "user14@example.com",
-        office: null,
-        full_name: "Mia Moore",
-        position: "STAFF GATHERING",
-        phone: "7778889999",
-        avatar_url: null,
-        branch_id: "branch3",
-    },
-    // Mẫu 15
-    {
-        id: "15",
-        email: "user15@example.com",
-        office: {
-            id: "office9",
-            name: "Office I",
-            country: "Country I",
-            city: "City I",
-            district: "District I",
-            commune: "Commune I",
-            address: "Address I",
-            phone: "555666777",
-            email: "officeI@example.com",
-            fax: "987654321",
-            sub_offices: [],
-        },
-        full_name: "Noah Johnson",
-        position: "STAFF TRANSACTION",
-        phone: "3334445555",
-        avatar_url: "https://example.com/avatar15.png",
-        branch_id: "branch4",
-    },
-];
+import {
+    useSelector,
+    useDispatch,
+    selectOffice,
+    getAllOfficesInfoAsync,
+    getSubOfficesInfoAsync,
+} from '@/lib/redux';
+import Office from '@/app/types/OfficeType';
 
 function initialName(name: string) {
     if (!name) return '';
@@ -588,6 +61,8 @@ export default function OfficeList() {
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
+
+    const offices = useSelector(selectOffice);
 
     const renderEditModal = (index: number) => {
         return (
@@ -714,7 +189,7 @@ export default function OfficeList() {
         );
     }
 
-    const renderViewModal = (leader: User, index: number) => {
+    const renderViewModal = (office: Office, index: number) => {
         return (
             <Modal
                 open={openViewModalIndex == index}
@@ -744,14 +219,14 @@ export default function OfficeList() {
 
     // Table Pagination
     const rowPerPage = 5;
-    const totalRows = LEADERs.length;
+    const totalRows = offices.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
 
     // Calculate the index range for the current page
     const indexOfLastRow = currentPage * rowPerPage;
     const indexOfFirstRow = indexOfLastRow - rowPerPage;
-    const currentRows = LEADERs.slice(indexOfFirstRow, indexOfLastRow);
+    const currentRows = offices.slice(indexOfFirstRow, indexOfLastRow);
 
     // Function to change page
     const handlePageChange = (page: number) => {
@@ -761,9 +236,9 @@ export default function OfficeList() {
     return (
         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             {
-                currentRows.map((leader, index) => (
+                currentRows.map((office, index) => (
                     <List
-                        key={leader.id}
+                        key={office.id}
                         size="sm"
                         sx={{
                             '--ListItem-paddingX': 0,
@@ -780,14 +255,16 @@ export default function OfficeList() {
                                 <ListItemDecorator>
                                     <Avatar
                                         size="sm"
-                                        color={leader.position.includes('LEADER') ? leader.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+                                        color={(office.type === 'GATHERING') ? 'success' : 'warning'}
 
                                         style={{ fontSize: '0.75rem' }}
-                                    >{initialName(leader.full_name ?? 'Anonymous User')}</Avatar>
+                                    >
+                                        {initialName(office.name ?? 'Anonymous Office')}
+                                    </Avatar>
                                 </ListItemDecorator>
                                 <div>
                                     <Typography fontWeight={600} gutterBottom>
-                                        {leader.full_name}
+                                        {office.name}
                                     </Typography>
                                     {/* <Typography level="body-xs" gutterBottom>
                                         {leader.position}
@@ -801,9 +278,9 @@ export default function OfficeList() {
                                             mb: 1,
                                         }}
                                     >
-                                        <Typography level="body-xs">{leader.email}</Typography>
+                                        <Typography level="body-xs">{office.city}</Typography>
                                         <Typography level="body-xs">&bull;</Typography>
-                                        <Typography level="body-xs">{leader.phone}</Typography>
+                                        <Typography level="body-xs">{office.phone}</Typography>
                                     </Box>
                                     {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                                         <Link level="body-sm" component="button">
@@ -833,7 +310,7 @@ export default function OfficeList() {
                                             </Box>
                                         </MenuItem>
                                         {
-                                            leader.position == 'LEADER GATHERING' &&
+                                            office.type == 'GATHERING' &&
                                             <MenuItem onClick={() => setOpenViewModalIndex(index)}>
                                                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                     <VisibilityIcon />
@@ -851,7 +328,7 @@ export default function OfficeList() {
                                     </Menu>
                                     {renderEditModal(index)}
                                     {renderDeleteModal(index)}
-                                    {renderViewModal(leader, index)}
+                                    {renderViewModal(office, index)}
                                 </Dropdown >
                             </IconButton>
                         </ListItem>
