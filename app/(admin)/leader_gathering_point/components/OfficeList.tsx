@@ -43,8 +43,14 @@ import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import User from '@/app/types/UserType';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
-const LEADERs: User[] = [];
+import {
+    useSelector,
+    useDispatch,
+    selectOffice,
+    getAllOfficesInfoAsync,
+    getSubOfficesInfoAsync,
+} from '@/lib/redux';
+import Office from '@/app/types/OfficeType';
 
 function initialName(name: string) {
     if (!name) return '';
@@ -55,6 +61,8 @@ export default function OfficeList() {
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
+
+    const offices = useSelector(selectOffice);
 
     const renderEditModal = (index: number) => {
         return (
@@ -166,7 +174,7 @@ export default function OfficeList() {
                     </DialogTitle>
                     <Divider />
                     <DialogContent>
-                        Are you sure you want to delete this LEADER?
+                        Are you sure you want to delete this STAFF?
                     </DialogContent>
                     <DialogActions>
                         <Button variant="outlined" color="danger" onClick={() => setOpenDeleteModalIndex(null)}>
@@ -181,7 +189,7 @@ export default function OfficeList() {
         );
     }
 
-    const renderViewModal = (leader: User, index: number) => {
+    const renderViewModal = (office: Office, index: number) => {
         return (
             <Modal
                 open={openViewModalIndex == index}
@@ -211,14 +219,14 @@ export default function OfficeList() {
 
     // Table Pagination
     const rowPerPage = 5;
-    const totalRows = LEADERs.length;
+    const totalRows = offices.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
 
     // Calculate the index range for the current page
     const indexOfLastRow = currentPage * rowPerPage;
     const indexOfFirstRow = indexOfLastRow - rowPerPage;
-    const currentRows = LEADERs.slice(indexOfFirstRow, indexOfLastRow);
+    const currentRows = offices.slice(indexOfFirstRow, indexOfLastRow);
 
     // Function to change page
     const handlePageChange = (page: number) => {
@@ -228,9 +236,9 @@ export default function OfficeList() {
     return (
         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             {
-                currentRows.map((leader, index) => (
+                currentRows.map((office, index) => (
                     <List
-                        key={leader.id}
+                        key={office.id}
                         size="sm"
                         sx={{
                             '--ListItem-paddingX': 0,
@@ -247,17 +255,19 @@ export default function OfficeList() {
                                 <ListItemDecorator>
                                     <Avatar
                                         size="sm"
-                                        color={leader.position.includes('LEADER') ? leader.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+                                        color={(office.type === 'GATHERING') ? 'success' : 'warning'}
 
                                         style={{ fontSize: '0.75rem' }}
-                                    >{initialName(leader.full_name ?? 'Anonymous User')}</Avatar>
+                                    >
+                                        {initialName(office.name ?? 'Anonymous Office')}
+                                    </Avatar>
                                 </ListItemDecorator>
                                 <div>
                                     <Typography fontWeight={600} gutterBottom>
-                                        {leader.full_name}
+                                        {office.name}
                                     </Typography>
                                     {/* <Typography level="body-xs" gutterBottom>
-                                        {leader.position}
+                                        {staff.position}
                                     </Typography> */}
                                     <Box
                                         sx={{
@@ -268,9 +278,9 @@ export default function OfficeList() {
                                             mb: 1,
                                         }}
                                     >
-                                        <Typography level="body-xs">{leader.email}</Typography>
+                                        <Typography level="body-xs">{office.city}</Typography>
                                         <Typography level="body-xs">&bull;</Typography>
-                                        <Typography level="body-xs">{leader.phone}</Typography>
+                                        <Typography level="body-xs">{office.phone}</Typography>
                                     </Box>
                                     {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                                         <Link level="body-sm" component="button">
@@ -300,7 +310,7 @@ export default function OfficeList() {
                                             </Box>
                                         </MenuItem>
                                         {
-                                            leader.position == 'LEADER GATHERING' &&
+                                            office.type == 'GATHERING' &&
                                             <MenuItem onClick={() => setOpenViewModalIndex(index)}>
                                                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                     <VisibilityIcon />
@@ -318,7 +328,7 @@ export default function OfficeList() {
                                     </Menu>
                                     {renderEditModal(index)}
                                     {renderDeleteModal(index)}
-                                    {renderViewModal(leader, index)}
+                                    {renderViewModal(office, index)}
                                 </Dropdown >
                             </IconButton>
                         </ListItem>

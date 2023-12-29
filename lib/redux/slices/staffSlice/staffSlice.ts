@@ -1,9 +1,10 @@
 /* Core */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type User from '@/app/types/UserType'
+import type Office from '@/app/types/OfficeType'
 
 /* Instruments */
-import { getAllStaffsInfoAsync } from './thunkActions'
+import { getAllStaffsInfoAsync, getSubOfficesStaffAsync, addStaffAsync, editStaffAsync, deleteStaffAsync } from './thunkActions'
 
 const initialState: StaffSliceState = {
     value: [] as User[],
@@ -27,6 +28,50 @@ export const staffSlice = createSlice({
             .addCase(getAllStaffsInfoAsync.fulfilled, (state, action: PayloadAction<User[]>) => {
                 state.status = 'idle'
                 state.value = action.payload
+            })
+            .addCase(getSubOfficesStaffAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(getSubOfficesStaffAsync.fulfilled, (state, action: PayloadAction<Office[]>) => {
+                state.status = 'idle'
+                state.value.forEach((item, index) => {
+                    if (item.office && item.office.id === action.payload[0]?.reference_id) {
+                        item.office.branches = action.payload
+                        const newItem = { ...item }
+                        state.value[index] = newItem
+                    }
+                })
+            })
+            .addCase(addStaffAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(addStaffAsync.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'idle'
+                state.value = [action.payload, ...state.value]
+            })
+            .addCase(editStaffAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(editStaffAsync.fulfilled, (state, action: PayloadAction<User>) => {
+                state.status = 'idle'
+                state.value = state.value.map((item) => {
+                    if (item.id === action.payload.id) {
+                        return action.payload
+                    }
+                    return item
+                })
+            })
+            .addCase(deleteStaffAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(deleteStaffAsync.fulfilled, (state, action: PayloadAction<string>) => {
+                state.status = 'idle'
+                state.value = state.value.filter((item) => {
+                    if (item.id === action.payload) {
+                        return false
+                    }
+                    return true
+                })
             })
     },
 })
