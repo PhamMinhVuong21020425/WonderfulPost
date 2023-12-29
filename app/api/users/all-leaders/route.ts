@@ -29,7 +29,6 @@ export async function GET(req: Request, res: Response) {
 
 export async function POST(request: Request) {
   const formData = await request.json();
-  console.log(formData);
   const name = String(formData?.full_name);
   const email = String(formData?.email);
   const password = "12345678";

@@ -36,13 +36,12 @@ import PdfParcel from './PdfParcel';
 
 import Parcel from "@/app/types/ParcelType";
 import { PaginationLaptop, PaginationMobile } from '@/app/components/Pagination';
-
+import { useSelector, useDispatch, selectParcel } from "@/lib/redux";
 
 const data: Parcel[] = []
-
-
 export default function ConfirmedParcelList() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
+    // const data = useSelector(selectParcel).deliveredParcels ?? []
 
     const renderModal = (item: Parcel, index: number) => {
         return (

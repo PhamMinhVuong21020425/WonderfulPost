@@ -1,10 +1,18 @@
 
+import { useRouter } from "next/navigation"
+
 type Props = {
     status: string
     handleStatus: (status: string) => void
 }
 
 export default function Navbar({ status, handleStatus }: Props) {
+    const router = useRouter();
+
+    const handleClick = () => {
+        router.push('/login')
+    }
+    
     return (
         <div className="flex m-2 md:w-1/3 md:justify-between md:items-center md:mx-auto rounded-2xl text-sm justify-between items-center text-gray-400 bg-gray-100 px-4 py-2 border-2 border-gray-200">
             <button
@@ -25,7 +33,7 @@ export default function Navbar({ status, handleStatus }: Props) {
             >
                 Contact Us
             </button>
-            <button className="font-bold border-gray-200 border-2 rounded-xl bg-green-600 text-gray-200 px-4 py-1 hover:bg-green-500 hover:text-white cursor-pointer">
+            <button onClick={handleClick} className="font-bold border-gray-200 border-2 rounded-xl bg-green-600 text-gray-200 px-4 py-1 hover:bg-green-500 hover:text-white cursor-pointer">
                 Login
             </button>
         </div>

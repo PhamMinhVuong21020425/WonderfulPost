@@ -20,32 +20,33 @@ import {
     useSelector,
     useDispatch,
     selectOffice,
-    addLeaderAsync
+    editStaffAsync
 } from '@/lib/redux';
+import User from '@/app/types/UserType';
 
 
 type Props = {
-    openAddStaff: boolean;
-    setOpenAddStaff: (b: boolean) => void;
-    setOpenSnackbar: (b: boolean) => void;
+    openEditStaff: string | null;
+    setOpenEditStaff: (b: string | null) => void;
+    staff: User;
 };
 
 let officeFilters: Office[] = [];
 let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
-let officeId: string = '';
 
-const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props) => {
-    const [city, setCity] = React.useState<string>('-- Select City --');
-    const [district, setDistrict] = React.useState<string>('-- Select District --');
-    const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
-    const [position, setPosition] = React.useState<string>('ADMIN');
+const EditStaffModal = ({ openEditStaff, setOpenEditStaff, staff }: Props) => {
+    const [data, setData] = React.useState<User>(staff);
+    const [city, setCity] = React.useState<string>(staff.office?.city ?? '-- Select City --');
+    const [district, setDistrict] = React.useState<string>(staff.office?.district ?? '-- Select District --');
+    const [officeName, setOfficeName] = React.useState<string>(staff.office?.name ?? '-- Select Office --');
+    const [position, setPosition] = React.useState<string>(staff.position ?? 'ADMIN');
+    const [postalCode, setPostalCode] = React.useState<string>(staff.office?.id ?? '');
 
-    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"]; //  This is the list of positions
+    const positionList = ["STAFF TRANSACTION"];
 
-    const offices: Office[] = useSelector(selectOffice);
     const dispatch = useDispatch();
-
+    const offices: Office[] = useSelector(selectOffice);
     const citiesSet = new Set<string>();
 
     offices.forEach((item) => {
@@ -56,82 +57,67 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
 
     const cities = ['-- Select City --', ...citiesSet].sort((a: string, b: string) => a.localeCompare(b));
 
+    const districtsSet = new Set<string>();
+    const officeNamesSet = new Set<string>();
+    officeFilters = offices.filter((item) => {
+        if (item.district && item.city === city) {
+            districtsSet.add(item.district);
+            return true;
+        }
+        return false;
+    });
 
-    // Comment: This function is used to handle the change of position
+    districts = [...districtsSet].sort((a: string, b: string) => a.localeCompare(b));
+    districts = ['-- Select District --', ...districts];
+
+    officeFilters = officeFilters.filter((item) => {
+        if (item.name && item.city === city && item.district === district) {
+            officeNamesSet.add(item.name);
+            return true;
+        }
+        return false;
+    });
+
+    officeNames = [...officeNamesSet].sort((a: string, b: string) => a.localeCompare(b));
+    officeNames = ['-- Select Office --', ...officeNames];
+
+    const handleDataChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>): void => {
+        let key = event.target.name;
+        setData((prevState) => ({ ...prevState, [key]: event.target.value }));
+    }
+
     const handlePositionChange = (value: string | null) => {
         if (value) {
             setPosition(value);
         }
     }
 
-
-    // Comment: This function is used to handle the change of city
-    const handleCityChange = (value: string | null) => {
-        const districtsSet = new Set<string>();
-        officeFilters = offices.filter((item) => {
-            if (item.district && item.city === value) {
-                districtsSet.add(item.district);
-                return true;
-            }
-            return false;
-        });
-
-        districts = [...districtsSet].sort((a: string, b: string) => a.localeCompare(b));
-        districts = ['-- Select District --', ...districts];
-
-        officeNames = ['-- Select Office --'];
-        setCity(value ?? '-- Select City --');
-
-    }
-
-    // Comment: This function is used to handle the change of district
-    const handleDistrictChange = (value: string | null) => {
-        if (value) {
-            const officeNamesSet = new Set<string>();
-            officeFilters = offices.filter((item) => {
-                if (item.name && item.city === city && item.district === value) {
-                    officeNamesSet.add(item.name);
-                    return true;
-                }
-                return false;
-            });
-
-            officeNames = [...officeNamesSet].sort((a: string, b: string) => a.localeCompare(b));
-            officeNames = ['-- Select Office --', ...officeNames];
-
-            setDistrict(value);
-        }
-    }
-
-    // Comment: This function is used to handle the change of office name
     const handleOfficeNameChange = (value: string | null) => {
         if (value) {
             const officeFinal = officeFilters.find((item) => item.name === value);
-            officeId = officeFinal?.id ?? '';
+            setPostalCode(officeFinal?.id!);
             setOfficeName(value);
         }
     }
 
-    // Comment: This function is used to handle the submit of the form
-
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData: object = {
-            full_name: event.currentTarget.fullName.value,
-            phone: event.currentTarget.phone.value,
-            email: event.currentTarget.email.value,
+            id: staff.id,
+            full_name: data.full_name,
+            phone: data.phone,
+            email: data.email,
             position: position,
-            branch_id: officeId,
+            branch_id: postalCode,
         }
-        dispatch(addLeaderAsync(formData));
-        setOpenAddStaff(false);
-        setOpenSnackbar(true);
+        dispatch(editStaffAsync(formData));
+        setOpenEditStaff(null);
     }
 
     return (
         <Modal
-            open={openAddStaff}
-            onClose={() => setOpenAddStaff(false)}
+            open={openEditStaff === staff.id}
+            onClose={() => setOpenEditStaff(null)}
             // title="Add Staff"
             style={{
                 display: 'flex',
@@ -150,6 +136,9 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                 <form onSubmit={handleSubmit}>
                     <Box sx={{ mb: 1 }}>
                         <Typography level="title-md">Personal Information</Typography>
+                        <Typography level="body-sm">
+                            Customize how your profile information will appear to the networks.
+                        </Typography>
                     </Box>
                     <Divider />
                     <Stack
@@ -163,12 +152,12 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                 <FormLabel>Name</FormLabel>
                                 <FormControl
                                 >
-                                    <Input name='fullName' size="sm" placeholder="" />
+                                    <Input name='full_name' onChange={handleDataChange} value={data.full_name!} size="sm" placeholder="" />
                                 </FormControl>
                                 <FormLabel>Phone</FormLabel>
                                 <FormControl
                                 >
-                                    <Input name='phone' size="sm" placeholder="" />
+                                    <Input name='phone' onChange={handleDataChange} value={data.phone!} size="sm" placeholder="" />
                                 </FormControl>
 
                             </Stack>
@@ -179,7 +168,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                         size="sm"
                                         name='position'
                                         value={position}
-                                        onChange={(event: any, value: string | null) => handlePositionChange(value)}
+                                        onChange={(event: any, value: string | any) => handlePositionChange(value)}
                                         style={{
                                             color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600"
                                         }}
@@ -200,6 +189,8 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                     <Input
                                         size="sm"
                                         name='email'
+                                        value={data.email}
+                                        onChange={handleDataChange}
                                         type="email"
                                         startDecorator={<EmailRoundedIcon />}
                                         placeholder="@magic-post.com"
@@ -219,7 +210,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                         }}
                                         name="city"
                                         value={city}
-                                        onChange={(event: any, value: string | null) => handleCityChange(value)}
+                                        onChange={(event: any, value: string | null) => setCity(value!)}
                                     >
                                         {cities.map((item) => {
                                             return (
@@ -242,7 +233,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                         }}
                                         name='district'
                                         value={district}
-                                        onChange={(event: any, value: string | null) => handleDistrictChange(value)}
+                                        onChange={(event: any, value: string | null) => setDistrict(value!)}
                                     >
                                         {districts.map((item) => {
                                             return (
@@ -285,7 +276,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                                         size="sm"
                                         type="text"
                                         name='postalCode'
-                                        value={officeId}
+                                        value={postalCode}
                                         style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
                                         sx={{ flexGrow: 1 }}
                                     />
@@ -299,7 +290,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
                     </Stack>
                     <CardOverflow >
                         <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenAddStaff(false)}>
+                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenEditStaff(null)}>
                                 Cancel
                             </Button>
                             <Button type='submit' size="sm" variant="outlined" color="primary">
@@ -313,4 +304,4 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
     );
 }
 
-export default AddStaffModal;
+export default EditStaffModal;

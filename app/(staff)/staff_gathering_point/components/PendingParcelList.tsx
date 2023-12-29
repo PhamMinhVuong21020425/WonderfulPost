@@ -36,15 +36,15 @@ import PdfParcel from './PdfParcel';
 
 import Parcel from "@/app/types/ParcelType";
 import { PaginationLaptop, PaginationMobile } from '@/app/components/Pagination';
-
-
-const data: Parcel[] = []
-
+import { useSelector, useDispatch, selectUser, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, selectParcel } from "@/lib/redux";
+import { AnyAction } from '@reduxjs/toolkit';
 
 export default function PendingParcelList() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
 
-    const renderModal = (item: Parcel, index: number) => {
+    const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status == "ON_PENDING") ?? []
+
+    const renderModal = (item: any, index: any) => {
         return (
             <Modal
                 open={openModalIndex === index}
@@ -109,26 +109,26 @@ export default function PendingParcelList() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr key={item.id}>
+                                <tr key={item.parcel.id}>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.length}
+                                            {item.parcel.length}
                                         </Typography>
                                     </td>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.price}
+                                            {item.parcel.price}
                                         </Typography>
                                     </td>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.height}
+                                            {item.parcel.height}
                                         </Typography>
                                     </td>
 
@@ -136,7 +136,7 @@ export default function PendingParcelList() {
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.weight}
+                                            {item.parcel.weight}
                                         </Typography>
 
                                     </td>
@@ -144,7 +144,7 @@ export default function PendingParcelList() {
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.width}
+                                            {item.parcel.width}
                                         </Typography>
                                     </td>
                                 </tr>
@@ -180,7 +180,7 @@ export default function PendingParcelList() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
 
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
@@ -193,7 +193,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_name}
+                                                {item.parcel.recipient_name}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -209,7 +209,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_contact}
+                                                {item.parcel.recipient_contact}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -225,7 +225,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_address}
+                                                {item.parcel.recipient_address}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -254,7 +254,7 @@ export default function PendingParcelList() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
 
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
@@ -267,7 +267,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_name}
+                                                {item.parcel.sender_name}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -283,7 +283,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_contact}
+                                                {item.parcel.sender_contact}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -299,7 +299,7 @@ export default function PendingParcelList() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_address}
+                                                {item.parcel.sender_address}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -361,7 +361,7 @@ export default function PendingParcelList() {
                     {
                         currentRows.map((parcel, index) => (
                             <List
-                                key={parcel.id}
+                                key={parcel.parcel?.id}
                                 size="sm"
                                 sx={{
                                     '--ListItem-paddingX': 0,
@@ -385,10 +385,10 @@ export default function PendingParcelList() {
                                         </Box>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                             <Typography level="body-xs" color="neutral" fontWeight="600" paddingTop={0.5}>
-                                                {parcel.sender_name}
+                                                {parcel.parcel?.sender_name}
                                             </Typography>
                                             <Typography level="body-xs" color="neutral" fontWeight="600">
-                                                {parcel.recipient_name}
+                                                {parcel.parcel?.recipient_name}
                                             </Typography>
                                         </Box>
                                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
@@ -405,7 +405,7 @@ export default function PendingParcelList() {
                                                 </Chip>
                                             </Typography>
                                             <Typography level="body-xs" color="neutral" fontWeight="600">
-                                                {parcel.recipient_address}
+                                                {parcel.parcel?.recipient_address}
                                             </Typography>
                                         </Box>
                                     </ListItemContent>

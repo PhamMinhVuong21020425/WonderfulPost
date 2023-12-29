@@ -2,118 +2,32 @@ import * as React from 'react';
 import Box from '@mui/joy/Box';
 
 import StaffTable from './StaffTable';
+import StaffList from './StaffList';
 import Button from '@mui/joy/Button';
-import AddIcon from '@mui/icons-material/Add';
-import Typography from '@mui/joy/Typography';
 import Modal from '@mui/joy/Modal';
+import Typography from '@mui/joy/Typography';
 
 import FormControl from '@mui/joy/FormControl';
 import Input from '@mui/joy/Input';
-import Card from '@mui/joy/Card';
-import CardActions from '@mui/joy/CardActions';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Stack from '@mui/joy/Stack';
 import FormLabel from '@mui/joy/FormLabel';
+import { Chip } from '@mui/joy';
 import Divider from '@mui/joy/Divider';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import IconButton from '@mui/joy/IconButton';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
+import Sheet from '@mui/joy/Sheet';
 
 import CountrySelector from './CountrySelector';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
-import EmailRoundedIcon from '@mui/icons-material/EmailRounded';
 import SearchIcon from '@mui/icons-material/Search';
+import AddStaffModal from './AddStaffModal';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import StaffList from './StaffList';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import IconButton from '@mui/joy/IconButton';
-import Sheet from '@mui/joy/Sheet';
-import ModalDialog from '@mui/joy/ModalDialog';
-import ModalClose from '@mui/joy/ModalClose';
 
 
 export default function Staff() {
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
-
-    const renderAddStaffModal = () => {
-        return (
-            <Modal
-                open={openAddStaff}
-                onClose={() => setOpenAddStaff(false)}
-                // title="Add Staff"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Card
-                    style={{
-                        width: '100%',
-                        maxWidth: 600,
-                        // borderRadius: 12,
-                        // overflow: 'hidden',
-                    }}
-                >
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal Information</Typography>
-                        <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack
-                        direction="row"
-                    >
-                        <Stack direction="column" spacing={1}>
-
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Your name" />
-                                </FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Phone" />
-                                </FormControl>
-
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="@magic-post.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <CountrySelector />
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <CardOverflow >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenAddStaff(false)}>
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="outlined" color="primary">
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
-            </Modal>
-        );
-    }
 
     const renderFilters = () => (
         <React.Fragment>
@@ -139,6 +53,7 @@ export default function Staff() {
 
         </React.Fragment>
     );
+    const [open, setOpen] = React.useState(false);
 
     return (
         <div>
@@ -172,15 +87,43 @@ export default function Staff() {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Typography level="h2" component="h1">
+                    <Typography level="h2" component="h1" style={{ color: 'var(--joy-palette-text-secondary)', fontWeight: "600" }}>
                         Staffs
                     </Typography>
+
+                    <Box>
+                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                            <Chip
+                                size="sm"
+                                color="warning"
+                                sx={{ minWidth: 100, minHeight: 5 }}
+                            />
+                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
+                                Gathering
+                            </Typography>
+
+                        </Box>
+                        <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
+                            <Chip
+                                size="sm"
+                                color="success"
+                                sx={{ minWidth: 100, minHeight: 5 }}
+                            />
+                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>
+                                Transaction
+                            </Typography>
+
+                        </Box>
+                    </Box>
+
+
                     <Button
                         color="primary"
                         startDecorator={<AddCircleOutlineIcon />}
                         size="sm"
                         variant="outlined"
                         onClick={() => setOpenAddStaff(true)}
+                        style={{ fontWeight: "600" }}
                     >
                         Add Staff
                     </Button>
@@ -199,9 +142,14 @@ export default function Staff() {
                     }}
                 >
                     <FormControl sx={{ flex: 1 }} size="sm">
-                        <FormLabel >Search for staff</FormLabel>
+                        <FormLabel >Search for Staff</FormLabel>
                         <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
                     </FormControl>
+                    {/* <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for Office</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl> */}
+                    {renderFilters()}
                 </Box>
                 <Sheet
                     className="SearchAndFilters-mobile"
@@ -241,10 +189,12 @@ export default function Staff() {
                         </ModalDialog>
                     </Modal>
                 </Sheet>
+
+
                 <StaffTable />
                 <StaffList />
             </Box>
-            {renderAddStaffModal()}
-        </div>
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
+        </div >
     );
 }

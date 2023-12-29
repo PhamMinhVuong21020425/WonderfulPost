@@ -18,8 +18,30 @@ export async function middleware(req: NextRequest) {
     const session = sessionObject?.data.session
     // console.log({ user })
 
-    if (!user && !session && requestUrl.pathname !== '/login' && requestUrl.pathname !== '/signup') {
+    if (!user && !session && requestUrl.pathname !== '/login' && requestUrl.pathname !== '/signup' && requestUrl.pathname !== '/') {
         return NextResponse.redirect(`${requestUrl.origin}/login`)
+    }
+
+    if (user && session && requestUrl.pathname === '/') {
+        if (user.id) {
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+            const position = profile?.position;
+            switch (position) {
+                case 'ADMIN':
+                    return NextResponse.redirect(`${requestUrl.origin}/company_leader`)
+                case 'LEADER GATHERING':
+                    return NextResponse.redirect(`${requestUrl.origin}/leader_gathering_point`)
+                case 'LEADER TRANSACTION':
+                    return NextResponse.redirect(`${requestUrl.origin}/leader_transaction_point`)
+                case 'STAFF GATHERING':
+                    return NextResponse.redirect(`${requestUrl.origin}/staff_gathering_point`)
+                case 'STAFF TRANSACTION':
+                    return NextResponse.redirect(`${requestUrl.origin}/staff_transaction_point`)
+                default:
+                    return NextResponse.redirect(`${requestUrl.origin}/`)
+            }
+
+        }
     }
 
     if (user && session && (requestUrl.pathname === '/login' || requestUrl.pathname === '/signup')) {

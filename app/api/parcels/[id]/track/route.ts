@@ -5,7 +5,7 @@ import { Database } from "@/lib/database.type";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: { id: number } }) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient<Database>({
         cookies: () => cookieStore,

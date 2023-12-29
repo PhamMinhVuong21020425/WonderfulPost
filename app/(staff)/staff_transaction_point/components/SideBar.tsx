@@ -25,6 +25,8 @@ import {
     useDispatch,
     selectUser,
     getUserInfoAsync,
+    getDeliveredParcelsInfoAsync,
+    getReceivedParcelsInfoAsync,
 } from '@/lib/redux'
 
 function Toggler({
@@ -75,7 +77,9 @@ export default function Sidebar(props: SideBarProps) {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync())
-    }, []);
+        dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
+        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
+    }, [userInfo]);
 
 
     return (

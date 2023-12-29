@@ -44,7 +44,14 @@ import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import User from '@/app/types/UserType';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import { getAllStaffsInfoAsync, selectStaff, useDispatch, useSelector } from '@/lib/redux';
+import {
+    useSelector,
+    useDispatch,
+    selectStaff,
+    getSubOfficesInfoAsync,
+    deleteStaffAsync,
+} from '@/lib/redux';
+import EditStaffModal from './EditStaffModal';
 
 function initialName(name: string) {
     if (!name) return '';
@@ -52,114 +59,23 @@ function initialName(name: string) {
 }
 
 export default function StaffList() {
-    const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
-    const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
+    const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
+    const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
 
     const dispatch = useDispatch();
     const STAFFs = useSelector(selectStaff);
 
-    const renderEditModal = (index: number) => {
-        return (
-            <Modal
-                open={openEditModalIndex == index}
-                onClose={() => setOpenEditModalIndex(null)}
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
-                <Card
-                    style={{
-                        width: '100%',
-                        maxWidth: 600,
-                        // borderRadius: 12,
-                        // overflow: 'hidden',
-                    }}
-                >
-                    <Box sx={{ mb: 1 }}>
-                        <Typography level="title-md">Personal Information</Typography>
-                        <Typography level="body-sm">
-                            Customize how your profile information will apper to the networks.
-                        </Typography>
-                    </Box>
-                    <Divider />
-                    <Stack
-                        direction="row"
-                    >
-                        <Stack direction="column" spacing={1}>
-
-                        </Stack>
-                        <Stack spacing={2} sx={{ flexGrow: 1 }}>
-                            <Stack spacing={1}>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Your name" />
-                                </FormControl>
-                                <FormLabel>Phone</FormLabel>
-                                <FormControl
-                                >
-                                    <Input size="sm" placeholder="Phone" />
-                                </FormControl>
-
-                            </Stack>
-                            <Stack direction="row" spacing={2}>
-                                <FormControl>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        size="sm"
-                                        defaultValue="1"
-                                    >
-                                        <Option value="1">
-                                            <Typography>
-                                                GATHERING
-                                            </Typography>
-                                        </Option>
-                                        <Option value="2">
-                                            <Typography level='body-sm'>
-                                                TRANSACTION
-                                            </Typography>
-                                        </Option>
-                                    </Select>
-                                </FormControl>
-                                <FormControl sx={{ flexGrow: 1 }}>
-                                    <FormLabel>Email</FormLabel>
-                                    <Input
-                                        size="sm"
-                                        type="email"
-                                        startDecorator={<EmailRoundedIcon />}
-                                        placeholder="@magic-post.com"
-                                        sx={{ flexGrow: 1 }}
-                                    />
-                                </FormControl>
-                            </Stack>
-                            <div>
-                                <CountrySelector />
-                            </div>
-                        </Stack>
-                    </Stack>
-                    <CardOverflow >
-                        <CardActions sx={{ alignSelf: 'flex-end', pt: 2 }}>
-                            <Button size="sm" variant="outlined" color="neutral" onClick={() => setOpenEditModalIndex(null)}>
-                                Cancel
-                            </Button>
-                            <Button size="sm" variant="outlined" color="primary" onClick={() => setOpenEditModalIndex(null)}>
-                                Save
-                            </Button>
-                        </CardActions>
-                    </CardOverflow>
-                </Card>
-
-            </Modal>
-        );
+    const handleDelete = (event: React.FormEvent<HTMLFormElement>, id: string) => {
+        event.preventDefault();
+        dispatch(deleteStaffAsync(id));
+        setOpenDeleteModalIndex(null);
     }
 
-    const renderDeleteModal = (index: number) => {
+    const renderDeleteModal = (id: string) => {
         return (
             <Modal
-                open={openDeleteModalIndex == index}
+                open={openDeleteModalIndex === id}
                 onClose={() => setOpenDeleteModalIndex(null)}
             >
                 <ModalDialog variant="outlined" role="alertdialog">
@@ -169,12 +85,14 @@ export default function StaffList() {
                     </DialogTitle>
                     <Divider />
                     <DialogContent>
-                        Are you sure you want to delete this LEADER?
+                        Are you sure you want to delete this STAFF?
                     </DialogContent>
                     <DialogActions>
-                        <Button variant="outlined" color="danger" onClick={() => setOpenDeleteModalIndex(null)}>
-                            Discard notes
-                        </Button>
+                        <form onSubmit={(event: React.FormEvent<HTMLFormElement>) => handleDelete(event, id)}>
+                            <Button type='submit' variant="outlined" color="danger">
+                                Discard notes
+                            </Button>
+                        </form>
                         <Button variant="outlined" color="neutral" onClick={() => setOpenDeleteModalIndex(null)}>
                             Cancel
                         </Button>
@@ -184,7 +102,7 @@ export default function StaffList() {
         );
     }
 
-    const renderViewModal = (leader: User, index: number) => {
+    const renderViewModal = (staff: User, index: number) => {
         return (
             <Modal
                 open={openViewModalIndex == index}
@@ -213,7 +131,7 @@ export default function StaffList() {
     }
 
     // Table Pagination
-    const rowPerPage = 8;
+    const rowPerPage = 5;
     const totalRows = STAFFs.length;
 
     const [currentPage, setCurrentPage] = React.useState(1);
@@ -231,9 +149,9 @@ export default function StaffList() {
     return (
         <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
             {
-                currentRows.map((leader, index) => (
+                currentRows.map((staff, index) => (
                     <List
-                        key={leader.id}
+                        key={staff.id}
                         size="sm"
                         sx={{
                             '--ListItem-paddingX': 0,
@@ -250,17 +168,16 @@ export default function StaffList() {
                                 <ListItemDecorator>
                                     <Avatar
                                         size="sm"
-                                        color={leader.position.includes('LEADER') ? leader.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
-
+                                        color={staff.position.includes('STAFF') ? staff.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
                                         style={{ fontSize: '0.75rem' }}
-                                    >{initialName(leader.full_name ?? 'Anonymous User')}</Avatar>
+                                    >{initialName(staff.full_name ?? 'Anonymous User')}</Avatar>
                                 </ListItemDecorator>
                                 <div>
                                     <Typography fontWeight={600} gutterBottom>
-                                        {leader.full_name}
+                                        {staff.full_name}
                                     </Typography>
                                     {/* <Typography level="body-xs" gutterBottom>
-                                        {leader.position}
+                                        {staff.position}
                                     </Typography> */}
                                     <Box
                                         sx={{
@@ -271,9 +188,9 @@ export default function StaffList() {
                                             mb: 1,
                                         }}
                                     >
-                                        <Typography level="body-xs">{leader.email}</Typography>
+                                        <Typography level="body-xs">{staff.email}</Typography>
                                         <Typography level="body-xs">&bull;</Typography>
-                                        <Typography level="body-xs">{leader.phone}</Typography>
+                                        <Typography level="body-xs">{staff.phone}</Typography>
                                     </Box>
                                     {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
                                         <Link level="body-sm" component="button">
@@ -291,7 +208,7 @@ export default function StaffList() {
                                         <MoreHorizRoundedIcon />
                                     </MenuButton>
                                     <Menu size="sm" sx={{ minWidth: 140 }}>
-                                        <MenuItem onClick={() => setOpenEditModalIndex(index)}>
+                                        <MenuItem onClick={() => setOpenEditModal(staff.id)}>
                                             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                 <EditRoundedIcon />
                                                 <Typography
@@ -303,15 +220,20 @@ export default function StaffList() {
                                             </Box>
                                         </MenuItem>
                                         {
-                                            leader.position == 'LEADER GATHERING' &&
-                                            <MenuItem onClick={() => setOpenViewModalIndex(index)}>
+                                            staff.position == 'STAFF GATHERING' &&
+                                            <MenuItem onClick={() => {
+                                                if (staff.branch_id) {
+                                                    dispatch(getSubOfficesInfoAsync(staff.branch_id))
+                                                }
+                                                setOpenViewModalIndex(index);
+                                            }}>
                                                 <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                     <VisibilityIcon />
                                                     <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>View</Typography>
                                                 </Box>
                                             </MenuItem>
                                         }
-                                        <MenuItem onClick={() => setOpenDeleteModalIndex(index)}>
+                                        <MenuItem onClick={() => setOpenDeleteModalIndex(staff.id)}>
                                             <Box sx={{ display: 'flex', gap: 1.5, alignItems: 'center' }}>
                                                 <DeleteRoundedIcon />
                                                 <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Delete</Typography>
@@ -319,9 +241,9 @@ export default function StaffList() {
                                         </MenuItem>
 
                                     </Menu>
-                                    {renderEditModal(index)}
-                                    {renderDeleteModal(index)}
-                                    {renderViewModal(leader, index)}
+                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} staff={staff} />
+                                    {renderDeleteModal(staff.id)}
+                                    {renderViewModal(staff, index)}
                                 </Dropdown >
                             </IconButton>
                         </ListItem>

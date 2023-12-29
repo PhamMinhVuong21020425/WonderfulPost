@@ -24,10 +24,11 @@ import {
 } from '@/lib/redux';
 import User from '@/app/types/UserType';
 
-
+// Props type
 type Props = {
     openEditStaff: string | null;
     setOpenEditStaff: (b: string | null) => void;
+    setOpen: (b: boolean) => void;
     leader: User;
 };
 
@@ -35,7 +36,7 @@ let officeFilters: Office[] = [];
 let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 
-const EditStaffModal = ({ openEditStaff, setOpenEditStaff, leader }: Props) => {
+const EditStaffModal = ({ openEditStaff, setOpenEditStaff, leader, setOpen }: Props) => {
     const [data, setData] = React.useState<User>(leader);
     const [city, setCity] = React.useState<string>(leader.office?.city ?? '-- Select City --');
     const [district, setDistrict] = React.useState<string>(leader.office?.district ?? '-- Select District --');
@@ -112,6 +113,7 @@ const EditStaffModal = ({ openEditStaff, setOpenEditStaff, leader }: Props) => {
         }
         dispatch(editLeaderAsync(formData));
         setOpenEditStaff(null);
+        setOpen(true);
     }
 
     return (

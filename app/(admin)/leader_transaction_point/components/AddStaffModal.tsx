@@ -20,14 +20,13 @@ import {
     useSelector,
     useDispatch,
     selectOffice,
-    addLeaderAsync
+    addStaffAsync
 } from '@/lib/redux';
 
 
 type Props = {
     openAddStaff: boolean;
     setOpenAddStaff: (b: boolean) => void;
-    setOpenSnackbar: (b: boolean) => void;
 };
 
 let officeFilters: Office[] = [];
@@ -35,13 +34,13 @@ let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 let officeId: string = '';
 
-const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props) => {
+const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
     const [city, setCity] = React.useState<string>('-- Select City --');
     const [district, setDistrict] = React.useState<string>('-- Select District --');
     const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
-    const [position, setPosition] = React.useState<string>('ADMIN');
+    const [position, setPosition] = React.useState<string>("STAFF TRANSACTION");
 
-    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"]; //  This is the list of positions
+    const positionList = ["STAFF TRANSACTION"];
 
     const offices: Office[] = useSelector(selectOffice);
     const dispatch = useDispatch();
@@ -56,16 +55,12 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
 
     const cities = ['-- Select City --', ...citiesSet].sort((a: string, b: string) => a.localeCompare(b));
 
-
-    // Comment: This function is used to handle the change of position
     const handlePositionChange = (value: string | null) => {
         if (value) {
             setPosition(value);
         }
     }
 
-
-    // Comment: This function is used to handle the change of city
     const handleCityChange = (value: string | null) => {
         const districtsSet = new Set<string>();
         officeFilters = offices.filter((item) => {
@@ -84,7 +79,6 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
 
     }
 
-    // Comment: This function is used to handle the change of district
     const handleDistrictChange = (value: string | null) => {
         if (value) {
             const officeNamesSet = new Set<string>();
@@ -103,7 +97,6 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
         }
     }
 
-    // Comment: This function is used to handle the change of office name
     const handleOfficeNameChange = (value: string | null) => {
         if (value) {
             const officeFinal = officeFilters.find((item) => item.name === value);
@@ -111,8 +104,6 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
             setOfficeName(value);
         }
     }
-
-    // Comment: This function is used to handle the submit of the form
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -123,9 +114,8 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props
             position: position,
             branch_id: officeId,
         }
-        dispatch(addLeaderAsync(formData));
+        dispatch(addStaffAsync(formData));
         setOpenAddStaff(false);
-        setOpenSnackbar(true);
     }
 
     return (

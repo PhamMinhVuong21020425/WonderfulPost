@@ -34,8 +34,10 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import { PaginationLaptop, PaginationMobile } from '@/app/components/Pagination';
+import Snackbar from '@mui/joy/Snackbar';
 
 // Icons
+import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
@@ -59,6 +61,7 @@ function initialName(name: string) {
 }
 
 export default function StaffList() {
+    const [open, setOpen] = React.useState(false);
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
@@ -168,7 +171,7 @@ export default function StaffList() {
                                 <ListItemDecorator>
                                     <Avatar
                                         size="sm"
-                                        color={leader.position.includes('LEADER') ? leader.position.includes('TRANSACTION') ? 'success' : 'warning' : 'neutral'}
+                                        color={leader.position?.includes('TRANSACTION') ? 'success' : 'warning'}
                                         style={{ fontSize: '0.75rem' }}
                                     >{initialName(leader.full_name ?? 'Anonymous User')}</Avatar>
                                 </ListItemDecorator>
@@ -241,11 +244,32 @@ export default function StaffList() {
                                         </MenuItem>
 
                                     </Menu>
-                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} leader={leader} />
+                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} leader={leader} setOpen={setOpen} />
                                     {renderDeleteModal(leader.id)}
                                     {renderViewModal(leader, index)}
                                 </Dropdown >
                             </IconButton>
+                            <Snackbar
+                                autoHideDuration={4000}
+                                variant="soft"
+                                color="success"
+                                open={open}
+                                onClose={() => setOpen(false)}
+                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                startDecorator={<PlaylistAddCheckCircleRoundedIcon />}
+                                endDecorator={
+                                    <Button
+                                        onClick={() => setOpen(false)}
+                                        size="sm"
+                                        variant="soft"
+                                        color="success"
+                                    >
+                                        Dismiss
+                                    </Button>
+                                }
+                            >
+                                Leader was updated successfully.
+                            </Snackbar>
                         </ListItem>
                         <ListDivider />
                     </List>

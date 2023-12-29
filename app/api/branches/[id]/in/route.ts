@@ -1,7 +1,7 @@
+import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { Database } from "@/lib/database.type";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +15,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         .from("parcel_tracks")
         .select(`*, from_branch:from(*), to_branch:to(*), parcel:parcel_id(*)`)
         .eq("to", params.id)
-        .neq("status", "ON GOING")
-        .order("updated_at", { ascending: false })
+        .order("created_at", { ascending: true })
+
     return NextResponse.json(data)
 }

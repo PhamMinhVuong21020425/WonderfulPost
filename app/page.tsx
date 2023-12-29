@@ -3,6 +3,7 @@ import Banner from './components/Banner/Banner';
 import Services from './components/Services/Services';
 import Navbarin from './components/Navbar';
 import Footer from './components/Footer/Footer'
+import Home from './home/components';
 // import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 // import { cookies } from 'next/headers';
 
@@ -13,10 +14,11 @@ export default async function IndexPage() {
   return (
     <div>
       {/* <pre>{ JSON.stringify(data, null, 2) }</pre> */}
-      <Navbarin />
+      {/* <Navbarin />
       <Banner />
       <Services />
-      <Footer />
+      <Footer /> */}
+      <Home />
     </div>
   )
 }

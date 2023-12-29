@@ -27,8 +27,10 @@ import DialogTitle from '@mui/joy/DialogTitle';
 import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import { PaginationLaptop } from '@/app/components/Pagination';
+import Snackbar from '@mui/joy/Snackbar';
 
 // Icons
+import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
@@ -46,12 +48,16 @@ import {
     deleteLeaderAsync,
 } from '@/lib/redux';
 
+// Function to get the first letter of the name
 function initialName(name: string) {
     if (!name) return '';
     return name.split(' ').map((word) => word[0]).join('');
 }
 
+// Leader Table
+// Displays all the leaders in the company
 export default function LeaderTable() {
+    const [open, setOpen] = React.useState(false);
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
@@ -65,6 +71,7 @@ export default function LeaderTable() {
         setOpenDeleteModalIndex(null);
     }
 
+    // Render the delete modal
     const renderDeleteModal = (id: string) => {
         return (
             <Modal
@@ -95,6 +102,7 @@ export default function LeaderTable() {
         );
     }
 
+    // Render the view modal
     const renderViewModal = (leader: User, index: number) => {
         return (
             <Modal
@@ -330,11 +338,32 @@ export default function LeaderTable() {
                                                         </MenuItem>
 
                                                     </Menu>
-                                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} leader={LEADER} />
+                                                    <EditStaffModal openEditStaff={openEditModal} setOpenEditStaff={setOpenEditModal} leader={LEADER} setOpen={setOpen} />
                                                     {renderDeleteModal(LEADER.id)}
                                                     {renderViewModal(LEADER, index)}
                                                 </Dropdown>
                                             </IconButton>
+                                            <Snackbar
+                                                autoHideDuration={4000}
+                                                variant="soft"
+                                                color="success"
+                                                open={open}
+                                                onClose={() => setOpen(false)}
+                                                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                                                startDecorator={<PlaylistAddCheckCircleRoundedIcon />}
+                                                endDecorator={
+                                                    <Button
+                                                        onClick={() => setOpen(false)}
+                                                        size="sm"
+                                                        variant="soft"
+                                                        color="success"
+                                                    >
+                                                        Dismiss
+                                                    </Button>
+                                                }
+                                            >
+                                                Leader was updated successfully.
+                                            </Snackbar>
                                         </td>
 
                                     </tr>
