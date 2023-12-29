@@ -11,6 +11,9 @@ type Props = {
 };
 
 export default function Parcel(props: Props) {
+    // This is the main content component.
+    // It displays the main content based on the status.
+
     return (
         <div>
             <Box

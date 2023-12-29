@@ -27,6 +27,8 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 export default function Staff() {
+    // Staff component displays the staff table and staff list.
+    // It also contains the filters for the staff table and staff list.
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
 
     const renderFilters = () => (

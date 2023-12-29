@@ -58,6 +58,9 @@ function initialName(name: string) {
 }
 
 export default function OfficeTable() {
+    // OfficeTable component displays the office table.
+    // It also contains the filters for the office table.
+    // Use for laptop screens and above.
     const [openEditModalIndex, setOpenEditModalIndex] = React.useState<number | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<number | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);

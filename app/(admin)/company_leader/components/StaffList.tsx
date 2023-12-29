@@ -59,6 +59,11 @@ function initialName(name: string) {
 }
 
 export default function StaffList() {
+    // StaffList component displays the staff list.
+    // It also contains the filters for the staff list.
+    // Use the `useSelector` hook to get the list of staff from the redux store
+    // Use the `useDispatch` hook to dispatch actions
+    // Use the `selectStaff` selector to get the list of staff from the redux store
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);

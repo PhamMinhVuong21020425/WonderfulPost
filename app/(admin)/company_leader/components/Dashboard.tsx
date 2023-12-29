@@ -228,7 +228,7 @@ const pie = {
     ]
 };
 
-
+// This is a component that displays the dashboard.
 export default function Dashboard() {
     return (
         <Box
