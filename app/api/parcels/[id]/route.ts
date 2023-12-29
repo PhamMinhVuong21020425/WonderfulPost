@@ -6,7 +6,7 @@ import User from "@/app/types/UserType";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: { id: number } }) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient<Database>({
         cookies: () => cookieStore,
@@ -20,14 +20,14 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 }
 
 
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request, { params }: { params: { id: number } }) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient<Database>({
         cookies: () => cookieStore,
     });
 
     const formData = await req.formData();
-    const status = String(formData.get("status")) as "ON PENDING" | "ON GOING" | "SUCCESS" | "CANCEL" | null;
+    const status = String(formData.get("status")) as "ON_PENDING" | "ON_GOING" | "SUCCESS" | "CANCEL" | null;
 
     const { error } = await supabase
         .from("parcels")
@@ -39,7 +39,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     return NextResponse.json(error);
 }
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, { params }: { params: { id: number } }) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient<Database>({
         cookies: () => cookieStore,

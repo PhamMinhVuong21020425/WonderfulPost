@@ -26,14 +26,17 @@ import Parcel from "@/app/types/ParcelType";
 import { PaginationLaptop } from '@/app/components/Pagination';
 import PendingParcelList from './PendingParcelList';
 import PendingParcelReceiptList from './PendingParcelReceiptList';
-import { selectParcel, useSelector } from '@/lib/redux';
-
-
+import { putSuccessAsync, selectParcel, useDispatch, useSelector } from '@/lib/redux';
 
 export default function PendingParcelReceipt() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
     const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status == "ON_GOING") ?? []
 
+    const dispatch = useDispatch()
+    const handleClick = (id: number) => {
+        dispatch(putSuccessAsync(id))
+        setOpenModalIndex(null)
+    }
     const renderModal = (item: any, index: any) => {
         return (
             <Modal
@@ -301,7 +304,8 @@ export default function PendingParcelReceipt() {
                             variant="outlined"
                             color="success"
                             size="sm"
-                            onClick={() => setOpenModalIndex(null)}
+                            // onClick={() => setOpenModalIndex(null)}
+                            onClick={() => handleClick(item.id)}
                         >
                             Confirm
                         </Button>

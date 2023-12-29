@@ -14,15 +14,15 @@ import CircularProgress from '@mui/joy/CircularProgress';
 
 const data = [
     {
-        "id": "PARCEL_1",
-        "trackingNumber": "TRACKING_NUMBER_1",
+        "id": "1",
+        "trackingNumber": "1",
         "tracking_path": [
-            {
-                "time": "2021-10-01T00:00:00.000Z",
-                "address": "Xuan Thuy, Cau Giay, Ha Noi",
-                "type": "HOME",
-                "status": "DELIVERED"
-            },
+            // {
+            //     "time": "2021-10-01T00:00:00.000Z",
+            //     "address": "Xuan Thuy, Cau Giay, Ha Noi",
+            //     "type": "HOME",
+            //     "status": "DELIVERED"
+            // },
             {
                 "time": "2021-10-03T00:00:00.000Z",
                 "address": "Cau Giay, Ha Noi",
@@ -47,17 +47,17 @@ const data = [
                 "type": "TRANSACTION",
                 "status": "WAITING"
             },
-            {
-                "time": "2021-10-07T00:00:00.000Z",
-                "address": "Ngo 25, Gia Vien, Hai Phong",
-                "type": "HOME",
-                "status": "WAITING"
-            }
+            // {
+            //     "time": "2021-10-07T00:00:00.000Z",
+            //     "address": "Ngo 25, Gia Vien, Hai Phong",
+            //     "type": "HOME",
+            //     "status": "WAITING"
+            // }
         ]
     },
     {
-        "id": "PARCEL_2",
-        "trackingNumber": "TRACKING_NUMBER_2",
+        "id": "2",
+        "trackingNumber": "2",
         "tracking_path": [
             {
                 "time": "2022-01-15T00:00:00.000Z",
@@ -66,28 +66,16 @@ const data = [
                 "status": "DELIVERED"
             },
             {
-                "time": "2022-01-17T00:00:00.000Z",
-                "address": "District 1, Ho Chi Minh City",
-                "type": "TRANSACTION",
-                "status": "DELIVERED"
-            },
-            {
                 "time": "2022-01-20T00:00:00.000Z",
                 "address": "Tan Son Nhat, Ho Chi Minh City",
                 "type": "GATHERING",
-                "status": "DELIVERED"
+                "status": "ON_GOING"
             },
             {
                 "time": "2022-01-22T00:00:00.000Z",
                 "address": "Vung Tau",
                 "type": "GATHERING",
-                "status": "ON_GOING"
-            },
-            {
-                "time": "2022-01-25T00:00:00.000Z",
-                "address": "Long Hai, Vung Tau",
-                "type": "TRANSACTION",
-                "status": "ON_GOING"
+                "status": "WAITING"
             },
             {
                 "time": "2022-01-27T00:00:00.000Z",
@@ -98,8 +86,8 @@ const data = [
         ]
     },
     {
-        "id": "PARCEL_3",
-        "trackingNumber": "TRACKING_NUMBER_3",
+        "id": "3",
+        "trackingNumber": "3",
         "tracking_path": [
             {
                 "time": "2022-03-10T00:00:00.000Z",
@@ -140,8 +128,8 @@ const data = [
         ]
     },
     {
-        "id": "PARCEL_4",
-        "trackingNumber": "TRACKING_NUMBER_4",
+        "id": "4",
+        "trackingNumber": "4",
         "tracking_path": [
             {
                 "time": "2022-05-05T00:00:00.000Z",

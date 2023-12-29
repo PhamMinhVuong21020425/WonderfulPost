@@ -30,7 +30,7 @@ export async function POST(req: Request, res: Response) {
         parcel_id,
         from,
         to,
-        status: "ON PENDING",
+        status: "ON_PENDING",
     });
 
     return NextResponse.json(error);
