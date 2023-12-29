@@ -25,13 +25,17 @@ import PdfParcel from './PdfParcel';
 import Parcel from "@/app/types/ParcelType";
 import { PaginationLaptop } from '@/app/components/Pagination';
 import PendingParcelList from './PendingParcelList';
+import { getDeliveredParcelsInfoAsync, selectParcel, selectUser, useDispatch, useSelector } from '@/lib/redux';
 
 
-const data: Parcel[] = []
+// const data: Parcel[] = []
 
 
 export default function PendingParcel() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
+
+    const data = useSelector(selectParcel).parcels ?? []
+    console.log(data)
 
     const renderModal = (item: Parcel, index: number) => {
         return (
@@ -434,7 +438,7 @@ export default function PendingParcel() {
                         </thead>
                         <tbody>
                             {
-                                currentRows.map((row, index) => (
+                                currentRows.map((row: any, index: any) => (
                                     <React.Fragment key={index}>
                                         <tr key={row.id}>
                                             <td style={{ width: '16%', padding: "6px 12px" }}>
