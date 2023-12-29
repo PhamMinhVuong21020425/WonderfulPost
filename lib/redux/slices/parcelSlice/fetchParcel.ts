@@ -41,3 +41,23 @@ export const addParcel = async (formData: object): Promise<{ data: any }> => {
 
     return response
 }
+
+export const successParcelTrack = async (id: number): Promise<{ data: any }> => {
+    const response = await axios.put<any>(`/api/parcels/${id}/current/success`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return response
+}
+
+export const goingParcelTrack = async (id: number): Promise<{ data: any }> => {
+    const response = await axios.put<any>(`/api/parcels/${id}/current/going`, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+
+    return response
+}

@@ -48,11 +48,14 @@ import {
     deleteLeaderAsync,
 } from '@/lib/redux';
 
+// Function to get the first letter of the name
 function initialName(name: string) {
     if (!name) return '';
     return name.split(' ').map((word) => word[0]).join('');
 }
 
+// Leader Table
+// Displays all the leaders in the company
 export default function LeaderTable() {
     const [open, setOpen] = React.useState(false);
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
@@ -68,6 +71,7 @@ export default function LeaderTable() {
         setOpenDeleteModalIndex(null);
     }
 
+    // Render the delete modal
     const renderDeleteModal = (id: string) => {
         return (
             <Modal
@@ -98,6 +102,7 @@ export default function LeaderTable() {
         );
     }
 
+    // Render the view modal
     const renderViewModal = (leader: User, index: number) => {
         return (
             <Modal

@@ -3,14 +3,16 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type Parcel from '@/app/types/ParcelType'
 
 /* Instruments */
-import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync } from './thunkActions'
+import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync, putSuccessAsync, putGoingAsync } from './thunkActions'
 import ParcelTrack from '@/app/types/ParcelTrackType'
 
 const initialState: ParcelSliceState = {
     value: {
         parcels: [],
         deliveredParcels: [],
-        receivedParcels: []
+        receivedParcels: [],
+        // success: 'SUCCESS',
+        // going: 'ON_GOING',
     },
     status: 'idle',
 }
@@ -54,6 +56,20 @@ export const parcelSlice = createSlice({
                 state.status = 'idle'
                 state.value.parcels = [action.payload, ...state.value.parcels]
             })
+        // .addCase(putSuccessAsync.pending, (state) => {
+        //     state.status = 'loading'
+        // })
+        // .addCase(putSuccessAsync.fulfilled, (state, action: PayloadAction<any>) => {
+        //     state.status = 'idle'
+        //     state.value.parcels = action.payload
+        // })
+        // .addCase(putGoingAsync.pending, (state) => {
+        //     state.status = 'loading'
+        // })
+        // .addCase(putGoingAsync.fulfilled, (state, action: PayloadAction<any>) => {
+        //     state.status = 'idle'
+        //     state.value.parcels = action.payload
+        // })
     },
 })
 
@@ -62,7 +78,9 @@ export interface ParcelSliceState {
     value: {
         parcels: Parcel[],
         deliveredParcels: ParcelTrack[],
-        receivedParcels: ParcelTrack[]
+        receivedParcels: ParcelTrack[],
+        // success: any,
+        // going: any,
     }
     status: 'idle' | 'loading' | 'failed'
 }

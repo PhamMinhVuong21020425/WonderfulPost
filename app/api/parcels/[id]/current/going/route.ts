@@ -5,30 +5,11 @@ import { Database } from "@/lib/database.type";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: Request, { params }: { params: { id: number } }) {
-    const cookieStore = cookies();
-    const supabase = createRouteHandlerClient<Database>({
-        cookies: () => cookieStore,
-    });
-
-    const { data } = await supabase
-        .from("parcel_tracks")
-        .select("*")
-        .eq('parcel_id', params.id)
-        .order('updated_at', { ascending: false })
-        .limit(1)
-        .single();
-    return NextResponse.json(data);
-}
-
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
     const cookieStore = cookies();
     const supabase = createRouteHandlerClient<Database>({
         cookies: () => cookieStore,
     });
-
-    const formData = await req.formData();
-    const status = String(formData.get("status")) as "ON_PENDING" | "ON_GOING" | "SUCCESS" | "CANCEL" | null;
 
     const { data: cur } = await supabase
         .from("parcel_tracks")
@@ -42,10 +23,9 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
         const { data } = await supabase
             .from("parcel_tracks")
             .update({
-                status,
+                status: 'ON_GOING'
             })
             .eq('id', cur.id);
         return NextResponse.json(data);
     }
 }
-

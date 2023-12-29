@@ -24,7 +24,7 @@ import {
 } from '@/lib/redux';
 import User from '@/app/types/UserType';
 
-
+// Props type
 type Props = {
     openEditStaff: string | null;
     setOpenEditStaff: (b: string | null) => void;

@@ -13,6 +13,9 @@ import Main from './Main';
 
 
 export default function Page() {
+    // This is main component that displays the page.
+    // It contains the header, sidebar, and main content.
+    // The sidebar and main content are displayed conditionally based on the status.
     const [status, setStatus] = React.useState<string>('dashboard');
 
     return (

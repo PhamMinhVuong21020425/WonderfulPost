@@ -23,7 +23,7 @@ import {
     addStaffAsync
 } from '@/lib/redux';
 
-
+// Props type
 type Props = {
     openAddStaff: boolean;
     setOpenAddStaff: (b: boolean) => void;
@@ -34,6 +34,8 @@ let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 let officeId: string = '';
 
+
+// Staff modal component
 const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
     const [city, setCity] = React.useState<string>('-- Select City --');
     const [district, setDistrict] = React.useState<string>('-- Select District --');

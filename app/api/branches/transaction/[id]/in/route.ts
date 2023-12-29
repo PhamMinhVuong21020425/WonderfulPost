@@ -15,7 +15,7 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
         .from("parcel_tracks")
         .select(`*, from_branch:from(*), to_branch:to(*), parcel:parcel_id(*)`)
         .eq("from", params.id)
-        .eq("status", "ON PENDING");
+        .eq("status", "ON_PENDING");
 
     const { data: last } = await supabase
         .from("parcel_tracks")
