@@ -18,7 +18,10 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import ModalClose from '@mui/joy/ModalClose';
 import Sheet from '@mui/joy/Sheet';
 
-import CountrySelector from './CountrySelector';
+import Snackbar from '@mui/joy/Snackbar';
+
+// Icons
+import PlaylistAddCheckCircleRoundedIcon from '@mui/icons-material/PlaylistAddCheckCircleRounded';
 import Select from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import SearchIcon from '@mui/icons-material/Search';
@@ -27,6 +30,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 export default function Staff() {
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
 
     const renderFilters = () => (
@@ -194,7 +198,28 @@ export default function Staff() {
                 <StaffTable />
                 <StaffList />
             </Box>
-            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} setOpenSnackbar={setOpenSnackbar} />
+            <Snackbar
+                autoHideDuration={4000}
+                variant="soft"
+                color="success"
+                open={openSnackbar}
+                onClose={() => setOpenSnackbar(false)}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                startDecorator={<PlaylistAddCheckCircleRoundedIcon />}
+                endDecorator={
+                    <Button
+                        onClick={() => setOpenSnackbar(false)}
+                        size="sm"
+                        variant="soft"
+                        color="success"
+                    >
+                        Dismiss
+                    </Button>
+                }
+            >
+                Leader was added successfully.
+            </Snackbar>
         </div >
     );
 }

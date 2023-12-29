@@ -21,6 +21,7 @@ import Divider from '@mui/material/Divider';
 
 export default function Office() {
     const [open, setOpen] = React.useState(false);
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
 
@@ -127,7 +128,7 @@ export default function Office() {
                 <OfficeTable />
                 <OfficeList />
             </Box>
-            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} />
+            <AddStaffModal openAddStaff={openAddStaff} setOpenAddStaff={setOpenAddStaff} setOpenSnackbar={setOpenSnackbar} />
         </div >
     );
 }

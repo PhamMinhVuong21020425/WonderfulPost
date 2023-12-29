@@ -104,8 +104,6 @@ export default function PendingParcel() {
     const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
     const [postalCode, setPostalCode] = React.useState<string>('');
 
-    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"];
-
     const offices: Office[] = useSelector(selectOffice);
     const citiesSet = new Set<string>();
 

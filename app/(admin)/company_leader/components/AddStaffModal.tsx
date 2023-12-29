@@ -27,6 +27,7 @@ import {
 type Props = {
     openAddStaff: boolean;
     setOpenAddStaff: (b: boolean) => void;
+    setOpenSnackbar: (b: boolean) => void;
 };
 
 let officeFilters: Office[] = [];
@@ -34,7 +35,7 @@ let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 let officeId: string = '';
 
-const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
+const AddStaffModal = ({ openAddStaff, setOpenAddStaff, setOpenSnackbar }: Props) => {
     const [city, setCity] = React.useState<string>('-- Select City --');
     const [district, setDistrict] = React.useState<string>('-- Select District --');
     const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
@@ -116,6 +117,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
         }
         dispatch(addLeaderAsync(formData));
         setOpenAddStaff(false);
+        setOpenSnackbar(true);
     }
 
     return (
