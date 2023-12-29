@@ -22,6 +22,10 @@ export async function middleware(req: NextRequest) {
         return NextResponse.redirect(`${requestUrl.origin}/login`)
     }
 
+    // if (user && session && (requestUrl.pathname === '/login' || requestUrl.pathname === '/signup')) {
+    //     return NextResponse.redirect(`${requestUrl.origin}/`)
+    // }
+
     if (user && session && requestUrl.pathname === '/') {
         if (user.id) {
             const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
@@ -38,14 +42,10 @@ export async function middleware(req: NextRequest) {
                 case 'STAFF TRANSACTION':
                     return NextResponse.redirect(`${requestUrl.origin}/staff_transaction_point`)
                 default:
-                    return NextResponse.redirect(`${requestUrl.origin}/`)
+                    return NextResponse.next()
             }
 
         }
-    }
-
-    if (user && session && (requestUrl.pathname === '/login' || requestUrl.pathname === '/signup')) {
-        return NextResponse.redirect(`${requestUrl.origin}/`)
     }
 
     return NextResponse.next()

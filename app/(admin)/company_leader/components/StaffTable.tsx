@@ -61,6 +61,8 @@ export default function LeaderTable() {
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
+    const sent = [2, 4, 1, 0, 1, 3, 0, 1, 0, 2, 1, 2, 5, 0];
+    const received = [1, 0, 1, 0, 1, 2, 1, 0, 3, 0, 0, 3, 1];
 
     const dispatch = useDispatch();
     const LEADERs = useSelector(selectLeader);
@@ -288,10 +290,10 @@ export default function LeaderTable() {
                                         </td>
 
                                         <td style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{sent.pop()}</Typography>
                                         </td>
                                         <td style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{received.pop()}</Typography>
                                         </td>
 
                                         <td style={{ width: '6%', textAlign: 'center' }}>

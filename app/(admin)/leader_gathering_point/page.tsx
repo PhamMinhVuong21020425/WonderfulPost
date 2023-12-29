@@ -5,3 +5,8 @@ export default function Page() {
         <LeaderGatheringPoint />
     )
 }
+
+export const metadata = {
+    title: 'Leader gathering | Magic Post',
+    description: 'Page for leader gathering point',
+}
