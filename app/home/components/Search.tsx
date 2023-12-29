@@ -172,6 +172,8 @@ const data = [
 ]
 
 const Search = () => {
+    // Tracking ID state allows us to store the tracking ID entered by the user
+    // Search result state allows us to store the search result
     const [trackingId, setTrackingId] = useState('');
     const [searchResult, setSearchResult] = useState<any>(null);
 

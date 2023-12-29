@@ -34,13 +34,15 @@ let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 let officeId: string = '';
 
-const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
-    const [city, setCity] = React.useState<string>('-- Select City --');
-    const [district, setDistrict] = React.useState<string>('-- Select District --');
-    const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
-    const [position, setPosition] = React.useState<string>('ADMIN');
+// Comment: This component is used to add new staff to the system
 
-    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"];
+const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
+    const [city, setCity] = React.useState<string>('-- Select City --'); // This is the city of the office
+    const [district, setDistrict] = React.useState<string>('-- Select District --'); // This is the district of the office
+    const [officeName, setOfficeName] = React.useState<string>('-- Select Office --'); //  This is the name of the office
+    const [position, setPosition] = React.useState<string>('ADMIN'); //  This is the position of the staff
+
+    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"]; //  This is the list of positions
 
     const offices: Office[] = useSelector(selectOffice);
     const dispatch = useDispatch();
@@ -55,12 +57,16 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
 
     const cities = ['-- Select City --', ...citiesSet].sort((a: string, b: string) => a.localeCompare(b));
 
+
+    // Comment: This function is used to handle the change of position
     const handlePositionChange = (value: string | null) => {
         if (value) {
             setPosition(value);
         }
     }
 
+
+    // Comment: This function is used to handle the change of city
     const handleCityChange = (value: string | null) => {
         const districtsSet = new Set<string>();
         officeFilters = offices.filter((item) => {
@@ -79,6 +85,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
 
     }
 
+    // Comment: This function is used to handle the change of district
     const handleDistrictChange = (value: string | null) => {
         if (value) {
             const officeNamesSet = new Set<string>();
@@ -97,6 +104,7 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
         }
     }
 
+    // Comment: This function is used to handle the change of office name
     const handleOfficeNameChange = (value: string | null) => {
         if (value) {
             const officeFinal = officeFilters.find((item) => item.name === value);
@@ -104,6 +112,8 @@ const AddStaffModal = ({ openAddStaff, setOpenAddStaff }: Props) => {
             setOfficeName(value);
         }
     }
+
+    // Comment: This function is used to handle the submit of the form
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
