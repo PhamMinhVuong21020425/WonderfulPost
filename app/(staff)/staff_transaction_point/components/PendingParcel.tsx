@@ -65,24 +65,101 @@ import PdfParcel from './PdfParcel';
 import Parcel from "@/app/types/ParcelType"
 import PendingParcelList from './PendingParcelList';
 import { PaginationLaptop } from '@/app/components/Pagination';
-import { getReceivedParcelsInfoAsync, getDeliveredParcelsInfoAsync, selectParcel, selectUser, useDispatch, useSelector } from '@/lib/redux';
+import {
+    getReceivedParcelsInfoAsync,
+    getDeliveredParcelsInfoAsync,
+    selectOffice,
+    selectParcel,
+    selectUser,
+    useDispatch,
+    useSelector,
+    getAllOfficesInfoAsync,
+    addParcelAsync,
+} from '@/lib/redux';
 
-const data: Parcel[] = []
 
+let officeFilters: Office[] = [];
+let districts = ['-- Select District --'];
+let officeNames = ['-- Select Office --'];
 
 export default function PendingParcel() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
 
+    //filter data with status pending
     const userInfo = useSelector(selectUser);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
         dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
+        dispatch(getAllOfficesInfoAsync())
     }, []);
 
     const data1 = useSelector(selectParcel).deliveredParcels ?? []
     const data = data1.filter((item) => item.status == 'ON_PENDING') ?? []
+
+    const [dataParcel, setDataParcel] = React.useState<any>();
+    const [city, setCity] = React.useState<string>('-- Select City --');
+    const [district, setDistrict] = React.useState<string>('-- Select District --');
+    const [officeName, setOfficeName] = React.useState<string>('-- Select Office --');
+    const [postalCode, setPostalCode] = React.useState<string>('');
+
+    const positionList = ["ADMIN", "LEADER GATHERING", "LEADER TRANSACTION"];
+
+    const offices: Office[] = useSelector(selectOffice);
+    const citiesSet = new Set<string>();
+
+    offices.forEach((item) => {
+        if (item.city) {
+            citiesSet.add(item.city);
+        }
+    });
+
+    const cities = ['-- Select City --', ...citiesSet].sort((a: string, b: string) => a.localeCompare(b));
+
+    const districtsSet = new Set<string>();
+    const officeNamesSet = new Set<string>();
+    officeFilters = offices.filter((item) => {
+        if (item.district && item.city === city) {
+            districtsSet.add(item.district);
+            return true;
+        }
+        return false;
+    });
+
+    districts = [...districtsSet].sort((a: string, b: string) => a.localeCompare(b));
+    districts = ['-- Select District --', ...districts];
+
+    officeFilters = officeFilters.filter((item) => {
+        if (item.name && item.city === city && item.district === district) {
+            officeNamesSet.add(item.name);
+            return true;
+        }
+        return false;
+    });
+
+    officeNames = [...officeNamesSet].sort((a: string, b: string) => a.localeCompare(b));
+    officeNames = ['-- Select Office --', ...officeNames];
+
+    const handleDataChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>): void => {
+        let key = event.target.name;
+        setDataParcel((prevState: any) => ({ ...prevState, [key]: event.target.value }));
+    }
+
+    const handleOfficeNameChange = (value: string | null) => {
+        if (value) {
+            const officeFinal = officeFilters.find((item) => item.name === value);
+            setPostalCode(officeFinal?.id!);
+            setOfficeName(value);
+        }
+    }
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData: object = {
+        }
+        dispatch(addParcelAsync(formData));
+    }
 
     const renderModal = (item: any, index: any) => {
         return (
@@ -414,6 +491,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='sender_name'
                                             placeholder="Nguyen Van A"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -426,6 +504,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='sender_contact'
                                             placeholder="0123456789"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -439,6 +518,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='sender_address'
                                             placeholder="UET"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -450,7 +530,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
-                                            placeholder="Ha Noi"
+                                            value={userInfo?.office?.city!}
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
                                     </FormControl>
@@ -461,20 +541,32 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
-                                            placeholder="Cau Giay"
+                                            value={userInfo?.office?.district!}
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
                                     </FormControl>
                                     <FormControl>
                                         <FormLabel>
                                             <Typography level="title-sm">
-                                                Town <span style={{ color: 'red' }}>*</span>
+                                                Office Name <span style={{ color: 'red' }}>*</span>
                                             </Typography>
                                         </FormLabel>
                                         <Input
-                                            placeholder="Xuan Thuy"
+                                            value={userInfo?.office?.name!}
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
+                                    </FormControl>
+
+                                    <FormControl sx={{ flexGrow: 1 }} style={{ display: "none" }}>
+                                        <FormLabel>Postal Code</FormLabel>
+                                        <Input
+                                            size="sm"
+                                            type="text"
+                                            name='from_branch_id'
+                                            value={userInfo?.office?.id!}
+                                            style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }}
+                                            sx={{ flexGrow: 1 }}
+                                        />
                                     </FormControl>
                                 </Box>
                             </Box>
@@ -500,6 +592,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='recipient_name'
                                             placeholder="Nguyen Van A"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -512,6 +605,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='recipient_contact'
                                             placeholder="0123456789"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -525,6 +619,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="recipient_address"
                                             placeholder="UET"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -535,10 +630,30 @@ export default function PendingParcel() {
                                                 Province/City <span style={{ color: 'red' }}>*</span>
                                             </Typography>
                                         </FormLabel>
-                                        <Input
+                                        {/* <Input
                                             placeholder="Ha Noi"
                                             style={{ fontSize: '0.8rem' }}
-                                            variant='soft' />
+                                            variant='soft' /> */}
+                                        <Select
+                                            size="sm"
+                                            style={{
+                                                color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600"
+                                            }}
+                                            variant='soft'
+                                            name="city"
+                                            value={city}
+                                            onChange={(event: any, value: string | null) => setCity(value!)}
+                                        >
+                                            {cities.map((item) => {
+                                                return (
+                                                    <Option key={item} value={item}>
+                                                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }}>
+                                                            {item}
+                                                        </Typography>
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
                                     </FormControl>
                                     <FormControl >
                                         <FormLabel>
@@ -546,22 +661,77 @@ export default function PendingParcel() {
                                                 District <span style={{ color: 'red' }}>*</span>
                                             </Typography>
                                         </FormLabel>
-                                        <Input
+                                        {/* <Input
                                             placeholder="Cau Giay"
                                             style={{ fontSize: '0.8rem' }}
-                                            variant='soft' />
+                                            variant='soft' /> */}
+                                        <Select
+                                            size="sm"
+                                            style={{
+                                                color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600"
+                                            }}
+                                            variant='soft'
+                                            name='district'
+                                            value={district}
+                                            onChange={(event: any, value: string | null) => setDistrict(value!)}
+                                        >
+                                            {districts.map((item) => {
+                                                return (
+                                                    <Option key={item} value={item}>
+                                                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }}>
+                                                            {item}
+                                                        </Typography>
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
                                     </FormControl>
                                     <FormControl>
                                         <FormLabel>
                                             <Typography level="title-sm">
-                                                Town <span style={{ color: 'red' }}>*</span>
+                                                Office Name <span style={{ color: 'red' }}>*</span>
                                             </Typography>
                                         </FormLabel>
-                                        <Input
+                                        {/* <Input
                                             placeholder="Xuan Thuy"
                                             style={{ fontSize: '0.8rem' }}
-                                            variant='soft' />
+                                            variant='soft' /> */}
+
+                                        <Select
+                                            size="sm"
+                                            style={{
+                                                color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600"
+                                            }}
+                                            variant='soft'
+                                            name='officeName'
+                                            value={officeName}
+                                            onChange={(event: any, value: string | null) => handleOfficeNameChange(value)}
+                                        >
+                                            {officeNames.map((item) => {
+                                                return (
+                                                    <Option key={item} value={item}>
+                                                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }}>
+                                                            {item}
+                                                        </Typography>
+                                                    </Option>
+                                                );
+                                            })}
+                                        </Select>
                                     </FormControl>
+
+
+                                    <FormControl sx={{ flexGrow: 1 }} style={{ display: "none" }}>
+                                        <FormLabel>Postal Code</FormLabel>
+                                        <Input
+                                            size="sm"
+                                            type="text"
+                                            name='to_branch_id'
+                                            value={postalCode}
+                                            style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }}
+                                            sx={{ flexGrow: 1 }}
+                                        />
+                                    </FormControl>
+
                                 </Box>
 
                             </Box>
@@ -587,6 +757,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="length"
                                             placeholder="30"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -599,6 +770,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="height"
                                             placeholder="20"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -612,6 +784,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="width"
                                             placeholder="10"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -623,6 +796,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="weight"
                                             placeholder="200"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -664,6 +838,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name="cod_money"
                                             placeholder="VND"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -677,6 +852,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='main_fee'
                                             placeholder="VND"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft'
@@ -690,6 +866,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='extra_fee'
                                             placeholder="VND"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -701,6 +878,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='vat_fee'
                                             placeholder="VND"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -712,6 +890,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </FormLabel>
                                         <Input
+                                            name='total_vat_fee'
                                             placeholder="VND"
                                             style={{ fontSize: '0.8rem' }}
                                             variant='soft' />
@@ -837,7 +1016,7 @@ export default function PendingParcel() {
                 >
                     <FormControl sx={{ flex: 1 }} size="sm">
                         <FormLabel >Search for parcel</FormLabel>
-                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.8rem', fontWeight: "600" }} />
                     </FormControl>
                 </Box>
                 <Sheet

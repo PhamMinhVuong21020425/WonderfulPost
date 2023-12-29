@@ -78,8 +78,9 @@ export default function Sidebar(props: SideBarProps) {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync())
-        dispatch(getAllParcelsInfoAsync())
-    }, []);
+        dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
+        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
+    }, [userInfo]);
 
 
     return (

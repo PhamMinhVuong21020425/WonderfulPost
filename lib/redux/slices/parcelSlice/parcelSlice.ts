@@ -3,7 +3,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type Parcel from '@/app/types/ParcelType'
 
 /* Instruments */
-import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync } from './thunkActions'
+import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync } from './thunkActions'
 import ParcelTrack from '@/app/types/ParcelTrackType'
 
 const initialState: ParcelSliceState = {
@@ -46,6 +46,13 @@ export const parcelSlice = createSlice({
             .addCase(getReceivedParcelsInfoAsync.fulfilled, (state, action: PayloadAction<ParcelTrack[]>) => {
                 state.status = 'idle'
                 state.value.receivedParcels = action.payload
+            })
+            .addCase(addParcelAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(addParcelAsync.fulfilled, (state, action: PayloadAction<any>) => {
+                state.status = 'idle'
+                state.value.parcels = [action.payload, ...state.value.parcels]
             })
     },
 })

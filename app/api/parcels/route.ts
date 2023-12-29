@@ -51,7 +51,7 @@ export async function POST(req: Request, res: Response) {
         sender_address,
         sender_contact,
         sender_name,
-        status: "ON PENDING",
+        status: "ON_PENDING",
         to_branch_id,
         type,
         weight,
