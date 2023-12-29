@@ -24,7 +24,7 @@ import {
 } from '@/lib/redux';
 import User from '@/app/types/UserType';
 
-
+// Props type
 type Props = {
     openEditStaff: string | null;
     setOpenEditStaff: (b: string | null) => void;
@@ -35,6 +35,8 @@ let officeFilters: Office[] = [];
 let districts = ['-- Select District --'];
 let officeNames = ['-- Select Office --'];
 
+
+// This is a component that allows the user to edit staff.
 const EditStaffModal = ({ openEditStaff, setOpenEditStaff, leader }: Props) => {
     const [data, setData] = React.useState<User>(leader);
     const [city, setCity] = React.useState<string>(leader.office?.city ?? '-- Select City --');

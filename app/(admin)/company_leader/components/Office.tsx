@@ -20,6 +20,9 @@ import ModalClose from '@mui/joy/ModalClose';
 import Divider from '@mui/material/Divider';
 
 export default function Office() {
+    // Office component displays the office table and office list.
+    // It also contains the filters for the office table and office list.
+
     const [open, setOpen] = React.useState(false);
 
     const [openAddStaff, setOpenAddStaff] = React.useState(false);
