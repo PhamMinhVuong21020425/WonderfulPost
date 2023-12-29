@@ -7,3 +7,8 @@ export default function SignUpPage() {
         </div>
     )
 }
+
+export const metadata = {
+    title: 'Sign up | Magic Post',
+    description: 'Sign up page',
+}

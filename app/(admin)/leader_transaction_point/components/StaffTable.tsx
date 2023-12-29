@@ -55,6 +55,8 @@ export default function StaffTable() {
     const [openEditModal, setOpenEditModal] = React.useState<string | null>(null);
     const [openDeleteModalIndex, setOpenDeleteModalIndex] = React.useState<string | null>(null);
     const [openViewModalIndex, setOpenViewModalIndex] = React.useState<number | null>(null);
+    const sent = [3, 2, 5, 6, 2, 1, 0, 6, 1, 2, 1, 0, 2, 0];
+    const received = [4, 2, 1, 6, 5, 8, 1, 0, 1, 4, 4, 1, 3];
 
     const dispatch = useDispatch();
     const STAFFs = useSelector(selectStaff);
@@ -279,10 +281,10 @@ export default function StaffTable() {
                                         </td>
 
                                         <td style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{sent.pop()}</Typography>
                                         </td>
                                         <td style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{received.pop()}</Typography>
                                         </td>
 
                                         <td style={{ width: '6%', textAlign: 'center' }}>

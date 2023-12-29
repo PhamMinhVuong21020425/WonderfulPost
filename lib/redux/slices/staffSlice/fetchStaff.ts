@@ -3,7 +3,7 @@ import type User from '@/app/types/UserType';
 import type Office from '@/app/types/OfficeType';
 
 export const fetchAllStaffs = async (): Promise<{ data: User[] }> => {
-    const response = await axios.get<User[]>('/api/users/branch-staffs', {
+    const response = await axios.get<User[]>('/api/users/all-staffs', {
         headers: {
             'Content-Type': 'application/json'
         }

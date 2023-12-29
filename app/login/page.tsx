@@ -7,3 +7,8 @@ export default function LoginPage() {
     </div>
   )
 }
+
+export const metadata = {
+  title: 'Login | Magic Post',
+  description: 'Login page',
+}
