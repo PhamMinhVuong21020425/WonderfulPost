@@ -288,10 +288,10 @@ export default function LeaderTable() {
                                         </td>
 
                                         <td style={{ width: '8%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
                                         </td>
                                         <td style={{ width: '9%', padding: "6px 12px", textAlign: 'center' }}>
-                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>11</Typography>
+                                            <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>{Math.floor(Math.random() * 100) + 1}</Typography>
                                         </td>
 
                                         <td style={{ width: '6%', textAlign: 'center' }}>
