@@ -305,7 +305,7 @@ export interface Database {
             | "STAFF GATHERING"
             | "STAFF TRANSACTION"
             | "CUSTOMER"
-            status: "ON PENDING" | "ON GOING" | "SUCCESS" | "CANCEL"
+            status: "ON_PENDING" | "ON_GOING" | "SUCCESS" | "CANCEL"
         }
         CompositeTypes: {
             [_ in never]: never

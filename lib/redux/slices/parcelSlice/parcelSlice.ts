@@ -4,9 +4,14 @@ import type Parcel from '@/app/types/ParcelType'
 
 /* Instruments */
 import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync } from './thunkActions'
+import ParcelTrack from '@/app/types/ParcelTrackType'
 
 const initialState: ParcelSliceState = {
-    value: {} as any,
+    value: {
+        parcels: [],
+        deliveredParcels: [],
+        receivedParcels: []
+    },
     status: 'idle',
 }
 
@@ -31,16 +36,16 @@ export const parcelSlice = createSlice({
             .addCase(getDeliveredParcelsInfoAsync.pending, (state) => {
                 state.status = 'loading'
             })
-            .addCase(getDeliveredParcelsInfoAsync.fulfilled, (state, action: PayloadAction<any>) => {
+            .addCase(getDeliveredParcelsInfoAsync.fulfilled, (state, action: PayloadAction<ParcelTrack[]>) => {
                 state.status = 'idle'
                 state.value.deliveredParcels = action.payload
             })
             .addCase(getReceivedParcelsInfoAsync.pending, (state) => {
                 state.status = 'loading'
             })
-            .addCase(getReceivedParcelsInfoAsync.fulfilled, (state, action: PayloadAction<Parcel[]>) => {
+            .addCase(getReceivedParcelsInfoAsync.fulfilled, (state, action: PayloadAction<ParcelTrack[]>) => {
                 state.status = 'idle'
-                state.value.parcels = action.payload
+                state.value.receivedParcels = action.payload
             })
     },
 })
@@ -49,8 +54,8 @@ export const parcelSlice = createSlice({
 export interface ParcelSliceState {
     value: {
         parcels: Parcel[],
-        deliveredParcels: Parcel[],
-        receivedParcels: Parcel[]
+        deliveredParcels: ParcelTrack[],
+        receivedParcels: ParcelTrack[]
     }
     status: 'idle' | 'loading' | 'failed'
 }

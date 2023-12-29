@@ -19,6 +19,8 @@ export const getDeliveredParcelsInfoAsync = createAppAsyncThunk(
     async (id: string) => {
         const response = await fetchDeliveredParcels(id)
 
+        console.log(response.data)
+
         // The value we return becomes the `fulfilled` action payload
         return response.data
     }
@@ -28,6 +30,8 @@ export const getReceivedParcelsInfoAsync = createAppAsyncThunk(
     'user/fetchReceivedParcel',
     async (id: string) => {
         const response = await fetchReceivedParcels(id)
+
+        console.log(response.data)
 
         // The value we return becomes the `fulfilled` action payload
         return response.data
