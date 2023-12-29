@@ -33,7 +33,7 @@ export const fetchReceivedParcels = async (id: string): Promise<{ data: ParcelTr
 }
 
 export const addParcel = async (formData: object): Promise<{ data: any }> => {
-    const response = await axios.post<any>(`/api/parcels`, {
+    const response = await axios.post<any>(`/api/parcels`, formData, {
         headers: {
             'Content-Type': 'application/json'
         }

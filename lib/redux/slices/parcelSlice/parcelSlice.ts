@@ -56,20 +56,30 @@ export const parcelSlice = createSlice({
                 state.status = 'idle'
                 state.value.parcels = [action.payload, ...state.value.parcels]
             })
-        // .addCase(putSuccessAsync.pending, (state) => {
-        //     state.status = 'loading'
-        // })
-        // .addCase(putSuccessAsync.fulfilled, (state, action: PayloadAction<any>) => {
-        //     state.status = 'idle'
-        //     state.value.parcels = action.payload
-        // })
-        // .addCase(putGoingAsync.pending, (state) => {
-        //     state.status = 'loading'
-        // })
-        // .addCase(putGoingAsync.fulfilled, (state, action: PayloadAction<any>) => {
-        //     state.status = 'idle'
-        //     state.value.parcels = action.payload
-        // })
+            .addCase(putSuccessAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(putSuccessAsync.fulfilled, (state, action: PayloadAction<ParcelTrack>) => {
+                state.status = 'idle'
+                state.value.receivedParcels = state.value.receivedParcels.map((parcel: ParcelTrack) => {
+                    if (parcel.parcel_id === action.payload.id) {
+                        return action.payload
+                    }
+                    return parcel
+                })
+            })
+            .addCase(putGoingAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(putGoingAsync.fulfilled, (state, action: PayloadAction<ParcelTrack>) => {
+                state.status = 'idle'
+                state.value.deliveredParcels = state.value.deliveredParcels.map((parcel: ParcelTrack) => {
+                    if (parcel.parcel_id === action.payload.id) {
+                        return action.payload
+                    }
+                    return parcel
+                })
+            })
     },
 })
 

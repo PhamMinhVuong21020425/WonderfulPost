@@ -55,7 +55,7 @@ export const putSuccessAsync = createAppAsyncThunk(
 )
 
 export const putGoingAsync = createAppAsyncThunk(
-    'user/putSuccessParcel',
+    'user/goingSuccessParcel',
     async (id: number) => {
         const response = await goingParcelTrack(id)
 
