@@ -13,10 +13,9 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     const { data } = await supabase
         .from("parcel_tracks")
-        .select(`parcel:parcel_id(*)`)
+        .select(`*, from_branch:from(*), to_branch:to(*), parcel:parcel_id(*)`)
         .eq("to", params.id)
-    // .order("created_at", { ascending: true })
+        .order("created_at", { ascending: true })
 
-    const newData = data?.map((item) => item.parcel)
-    return NextResponse.json(newData)
+    return NextResponse.json(data)
 }

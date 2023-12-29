@@ -25,12 +25,12 @@ import PdfParcel from './PdfParcel';
 import Parcel from "@/app/types/ParcelType"
 import { PaginationLaptop } from '@/app/components/Pagination';
 import ConfirmedParcelReceiptList from './ConfirmedParcelReceiptList';
-
-const data: Parcel[] = []
+import { selectParcel, useSelector } from '@/lib/redux';
 
 
 export default function ConfirmedParcelReceipt() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
+    const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status != "ON_GOING") ?? []
 
     // Table Pagination
     const rowPerPage = 5;
@@ -48,7 +48,7 @@ export default function ConfirmedParcelReceipt() {
         setCurrentPage(page);
     }
 
-    const renderModal = (item: Parcel, index: number) => {
+    const renderModal = (item: any, index: any) => {
         return (
             <Modal
                 open={openModalIndex === index}
@@ -98,26 +98,26 @@ export default function ConfirmedParcelReceipt() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr key={item.id}>
+                                <tr key={item.parcel.id}>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.length}
+                                            {item.parcel.length}
                                         </Typography>
                                     </td>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.price}
+                                            {item.parcel.price}
                                         </Typography>
                                     </td>
                                     <td style={{ width: '20%', padding: "6px 12px", fontSize: "0.75rem", textAlign: 'center' }}>
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.height}
+                                            {item.parcel.height}
                                         </Typography>
                                     </td>
 
@@ -125,7 +125,7 @@ export default function ConfirmedParcelReceipt() {
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.weight}
+                                            {item.parcel.weight}
                                         </Typography>
 
                                     </td>
@@ -133,7 +133,7 @@ export default function ConfirmedParcelReceipt() {
                                         <Typography
                                             level="body-xs"
                                         >
-                                            {item.width}
+                                            {item.parcel.width}
                                         </Typography>
                                     </td>
                                 </tr>
@@ -169,7 +169,7 @@ export default function ConfirmedParcelReceipt() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
 
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
@@ -182,11 +182,11 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_name}
+                                                {item.parcel.recipient_name}
                                             </Typography>
                                         </td>
                                     </tr>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
                                                 style={{ fontWeight: 'bold' }}
@@ -198,11 +198,11 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_contact}
+                                                {item.parcel.recipient_contact}
                                             </Typography>
                                         </td>
                                     </tr>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
                                                 style={{ fontWeight: 'bold' }}
@@ -214,7 +214,7 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.recipient_address}
+                                                {item.parcel.recipient_address}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -243,7 +243,7 @@ export default function ConfirmedParcelReceipt() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
 
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
@@ -256,11 +256,11 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_name}
+                                                {item.parcel.sender_name}
                                             </Typography>
                                         </td>
                                     </tr>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
                                                 style={{ fontWeight: 'bold' }}
@@ -272,11 +272,11 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_contact}
+                                                {item.parcel.sender_contact}
                                             </Typography>
                                         </td>
                                     </tr>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
                                                 style={{ fontWeight: 'bold' }}
@@ -288,7 +288,7 @@ export default function ConfirmedParcelReceipt() {
                                             <Typography
                                                 level="body-xs"
                                             >
-                                                {item.sender_address}
+                                                {item.parcel.sender_address}
                                             </Typography>
                                         </td>
                                     </tr>
@@ -402,26 +402,26 @@ export default function ConfirmedParcelReceipt() {
                             {
                                 currentRows.map((row, index) => (
                                     <React.Fragment key={index}>
-                                        <tr key={row.id}>
+                                        <tr key={row.parcel?.id}>
                                             <td style={{ width: '16%', padding: "6px 12px" }}>
                                                 <Typography
                                                     level="body-xs"
                                                 >
-                                                    {row.id}
+                                                    {row.parcel?.id}
                                                 </Typography>
                                             </td>
                                             <td style={{ width: '16%', padding: "6px 12px" }}>
                                                 <Typography
                                                     level="body-xs"
                                                 >
-                                                    {row.sender_name}
+                                                    {row.parcel?.sender_name}
                                                 </Typography>
                                             </td>
                                             <td style={{ width: '16%', padding: "6px 12px" }}>
                                                 <Typography
                                                     level="body-xs"
                                                 >
-                                                    {row.recipient_name}
+                                                    {row.parcel?.recipient_name}
                                                 </Typography>
                                             </td>
 
@@ -429,7 +429,7 @@ export default function ConfirmedParcelReceipt() {
                                                 <Typography
                                                     level="body-xs"
                                                 >
-                                                    {row.recipient_address}
+                                                    {row.parcel?.recipient_address}
                                                 </Typography>
 
                                             </td>
@@ -437,7 +437,7 @@ export default function ConfirmedParcelReceipt() {
                                                 <Typography
                                                     level="body-xs"
                                                 >
-                                                    {row.recipient_contact}
+                                                    {row.parcel?.recipient_contact}
                                                 </Typography>
                                             </td>
                                             <td style={{ width: '14%', padding: "6px 12px" }}>

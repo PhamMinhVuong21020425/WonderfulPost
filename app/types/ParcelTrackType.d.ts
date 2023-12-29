@@ -9,9 +9,9 @@ type ParcelTrack = {
     status: "ON_PENDING" | "ON_GOING" | "SUCCESS" | "CANCEL"
     to?: string | null
     updated_at?: string | null
-    from_branch?: Office
-    to_branch?: Office
-    parcel?: Parcel
+    from_branch?: Office | null
+    to_branch?: Office | null
+    parcel?: Parcel | null
 }
 
 export default ParcelTrack;

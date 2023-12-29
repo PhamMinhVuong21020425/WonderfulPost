@@ -1,8 +1,9 @@
 import axios from '@/lib/axios';
 import type Parcel from '@/app/types/ParcelType';
+import ParcelTrack from '@/app/types/ParcelTrackType';
 
-export const fetchAllParcels = async (): Promise<{ data: any }> => {
-    const response = await axios.get<any>('/api/parcels', {
+export const fetchAllParcels = async (): Promise<{ data: Parcel[] }> => {
+    const response = await axios.get<Parcel[]>('/api/parcels', {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -11,8 +12,8 @@ export const fetchAllParcels = async (): Promise<{ data: any }> => {
     return response
 }
 
-export const fetchDeliveredParcels = async (id: string): Promise<{ data: any }> => {
-    const response = await axios.get<any>(`/api/branches/${id}/out`, {
+export const fetchDeliveredParcels = async (id: string): Promise<{ data: ParcelTrack[] }> => {
+    const response = await axios.get<ParcelTrack[]>(`/api/branches/${id}/out`, {
         headers: {
             'Content-Type': 'application/json'
         }
@@ -21,8 +22,8 @@ export const fetchDeliveredParcels = async (id: string): Promise<{ data: any }> 
     return response
 }
 
-export const fetchReceivedParcels = async (id: string): Promise<{ data: any }> => {
-    const response = await axios.get<any>(`/api/branches/${id}/in`, {
+export const fetchReceivedParcels = async (id: string): Promise<{ data: ParcelTrack[] }> => {
+    const response = await axios.get<ParcelTrack[]>(`/api/branches/${id}/in`, {
         headers: {
             'Content-Type': 'application/json'
         }
