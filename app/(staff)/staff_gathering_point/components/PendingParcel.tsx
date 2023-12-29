@@ -27,7 +27,7 @@ import { PaginationLaptop } from '@/app/components/Pagination';
 import PendingParcelList from './PendingParcelList';
 import { getReceivedParcelsInfoAsync, getDeliveredParcelsInfoAsync, selectParcel, selectUser, useDispatch, useSelector } from '@/lib/redux';
 
-
+import { supabase } from '@/lib/supabase';
 // const data: Parcel[] = []
 
 
@@ -38,14 +38,13 @@ export default function PendingParcel() {
     const userInfo = useSelector(selectUser);
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
-        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
-    }, []);
-
     const data1 = useSelector(selectParcel).deliveredParcels ?? []
     const data = data1.filter((item) => item.status == 'ON_PENDING') ?? []
 
+    const handleClick = async (item: any) => {
+        setOpenModalIndex(null)
+        const response = await supabase.from('parcel_tracks').update({ status: 'ON_GOING' }).eq('id', item.id).select('*')
+    }
     const renderModal = (item: any, index: any) => {
         return (
             <Modal
@@ -258,7 +257,7 @@ export default function PendingParcel() {
                                             </Typography>
                                         </td>
                                     </tr>
-                                    <tr key={item.id}>
+                                    <tr key={item.parcel.id}>
                                         <td style={{ width: '50%', padding: "6px 12px", fontSize: "0.75rem" }} colSpan={1}>
                                             <Typography
                                                 style={{ fontWeight: 'bold' }}
@@ -313,7 +312,7 @@ export default function PendingParcel() {
                             variant="outlined"
                             color="success"
                             size="sm"
-                            onClick={() => setOpenModalIndex(null)}
+                            onClick={() => handleClick(item)}
                         >
                             Confirm
                         </Button>
