@@ -25,6 +25,8 @@ import {
     useDispatch,
     selectUser,
     getUserInfoAsync,
+    getAllStaffsInfoAsync,
+    getAllOfficesInfoAsync,
 } from '@/lib/redux'
 
 function Toggler({
@@ -70,7 +72,8 @@ export default function Sidebar(props: SideBarProps) {
     const userInfo = useSelector(selectUser);
 
     React.useEffect(() => {
-        dispatch(getUserInfoAsync())
+        dispatch(getAllStaffsInfoAsync());
+        dispatch(getAllOfficesInfoAsync());
     }, []);
 
 
