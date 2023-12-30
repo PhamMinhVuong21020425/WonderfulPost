@@ -27,6 +27,7 @@ import {
     getUserInfoAsync,
     getDeliveredParcelsInfoAsync,
     getReceivedParcelsInfoAsync,
+    getAllOfficesInfoAsync,
 } from '@/lib/redux'
 
 function Toggler({
@@ -79,6 +80,7 @@ export default function Sidebar(props: SideBarProps) {
         dispatch(getUserInfoAsync())
         dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
         dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
+        dispatch(getAllOfficesInfoAsync())
     }, [userInfo]);
 
 
