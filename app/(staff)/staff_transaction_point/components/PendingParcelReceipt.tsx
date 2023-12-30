@@ -28,6 +28,7 @@ import PendingParcelList from './PendingParcelList';
 import PendingParcelReceiptList from './PendingParcelReceiptList';
 import { getReceivedParcelsInfoAsync, getDeliveredParcelsInfoAsync, selectParcel, selectUser, useDispatch, useSelector } from '@/lib/redux';
 
+import { supabase } from '@/lib/supabase';
 
 const data: Parcel[] = []
 
@@ -37,6 +38,15 @@ export default function PendingParcelReceipt() {
 
     const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status == "ON_GOING") ?? []
 
+    const handleClick = async (item: any) => {
+        setOpenModalIndex(null)
+        const response = await supabase.from('parcel_tracks').update({ status: 'SUCCESS' }).eq('id', item.id).select('*')
+    }
+
+    const handleCancel = async (item: any) => {
+        setOpenModalIndex(null)
+        const response = await supabase.from('parcel_tracks').update({ status: 'CANCEL' }).eq('id', item.id).select('*')
+    }
     const renderModal = (item: any, index: any) => {
         return (
             <Modal
@@ -296,7 +306,8 @@ export default function PendingParcelReceipt() {
                             variant="outlined"
                             color="danger"
                             size="sm"
-                            onClick={() => setOpenModalIndex(null)}
+                            // onClick={() => setOpenModalIndex(null)}
+                            onClick={() => handleCancel(item)}
                         >
                             Cancel
                         </Button>
@@ -304,7 +315,8 @@ export default function PendingParcelReceipt() {
                             variant="outlined"
                             color="success"
                             size="sm"
-                            onClick={() => setOpenModalIndex(null)}
+                            // onClick={() => setOpenModalIndex(null)}
+                            onClick={() => handleClick(item)}
                         >
                             Confirm
                         </Button>

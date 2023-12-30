@@ -19,7 +19,6 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SearchIcon from '@mui/icons-material/Search';
 
-
 import PdfParcel from './PdfParcel';
 
 import Parcel from "@/app/types/ParcelType";
@@ -28,14 +27,20 @@ import PendingParcelList from './PendingParcelList';
 import PendingParcelReceiptList from './PendingParcelReceiptList';
 import { putSuccessAsync, selectParcel, useDispatch, useSelector } from '@/lib/redux';
 
+import { supabase } from '@/lib/supabase';
+
+
 export default function PendingParcelReceipt() {
+
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
     const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status == "ON_GOING") ?? []
 
     const dispatch = useDispatch()
-    const handleClick = (id: number) => {
-        dispatch(putSuccessAsync(id))
+    const handleClick = async (item: any) => {
         setOpenModalIndex(null)
+        const response = await supabase.from('parcel_tracks').update({ status: 'SUCCESS' }).eq('id', item.id).select('*')
+
+        const newTrack = await supabase.from('parcel_tracks').insert({ parcel_id: item.parcel_id, from: item.to, to: 129000, status: 'ON_PENDING' })
     }
     const renderModal = (item: any, index: any) => {
         return (
@@ -305,7 +310,7 @@ export default function PendingParcelReceipt() {
                             color="success"
                             size="sm"
                             // onClick={() => setOpenModalIndex(null)}
-                            onClick={() => handleClick(item.id)}
+                            onClick={() => handleClick(item)}
                         >
                             Confirm
                         </Button>
