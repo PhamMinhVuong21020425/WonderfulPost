@@ -9,7 +9,13 @@ import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Main from './Main';
 import PageNotFound from "@/app/components/PageNotFound";
-import { useSelector, useDispatch, selectUser, getUserInfoAsync } from '@/lib/redux'
+import {
+    useSelector, useDispatch, 
+    selectUser,
+    getUserInfoAsync,
+    getAllStaffsInfoAsync,
+    getAllOfficesInfoAsync, 
+} from '@/lib/redux'
 
 export default function Page() {
     const [status, setStatus] = React.useState<string>('dashboard');
@@ -18,10 +24,12 @@ export default function Page() {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync());
-    }, [user]);
+        dispatch(getAllStaffsInfoAsync());
+        dispatch(getAllOfficesInfoAsync());
+    }, []);
 
     return (
-        <>
+        <div className='overflow-hidden'>
             {
                 user?.position === 'LEADER GATHERING' ? (
                     <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -34,6 +42,6 @@ export default function Page() {
                     </CssVarsProvider>
                 ) : <PageNotFound />
             }
-        </>
+        </div>
     )
 }

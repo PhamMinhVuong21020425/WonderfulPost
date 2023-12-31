@@ -77,12 +77,9 @@ export default function Sidebar(props: SideBarProps) {
     const userInfo = useSelector(selectUser);
 
     React.useEffect(() => {
-        dispatch(getUserInfoAsync())
         dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
         dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
-        dispatch(getAllOfficesInfoAsync())
-    }, [userInfo]);
-
+    }, []);
 
     return (
         <Sheet

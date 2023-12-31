@@ -92,6 +92,11 @@ export default function PendingParcel() {
     const userInfo = useSelector(selectUser);
     const dispatch = useDispatch();
 
+    React.useEffect(() => {
+        dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
+        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
+    }, []);
+
     const data1 = useSelector(selectParcel).deliveredParcels ?? []
     const data = data1.filter((item) => item.status == 'ON_PENDING') ?? []
 
