@@ -19,10 +19,10 @@ export default function Page() {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync());
-    }, [user]);
+    }, []);
 
     return (
-        <>
+        <div className='overflow-hidden'>
             {
                 user?.position === 'STAFF GATHERING' ? (
                     <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -35,6 +35,6 @@ export default function Page() {
                     </CssVarsProvider>
                 ) : <PageNotFound />
             }
-        </>
+        </div>
     )
 }

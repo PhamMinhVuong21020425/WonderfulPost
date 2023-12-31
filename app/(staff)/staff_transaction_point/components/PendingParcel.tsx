@@ -94,7 +94,6 @@ export default function PendingParcel() {
     React.useEffect(() => {
         dispatch(getDeliveredParcelsInfoAsync(userInfo?.branch_id!))
         dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
-        dispatch(getAllOfficesInfoAsync())
     }, []);
 
     const data1 = useSelector(selectParcel).deliveredParcels ?? []

@@ -9,7 +9,13 @@ import SideBar from './SideBar';
 import Header from './Header';
 import Main from './Main';
 import PageNotFound from "@/app/components/PageNotFound";
-import { useSelector, useDispatch, selectUser, getUserInfoAsync } from '@/lib/redux'
+import {
+    useSelector, useDispatch, 
+    selectUser, 
+    getUserInfoAsync, 
+    getAllOfficesInfoAsync,
+    getAllLeadersInfoAsync, 
+} from '@/lib/redux'
 
 export default function Page() {
     // This is main component that displays the page.
@@ -22,10 +28,12 @@ export default function Page() {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync());
+        dispatch(getAllLeadersInfoAsync());
+        dispatch(getAllOfficesInfoAsync());
     }, []);
 
     return (
-        <>
+        <div className='overflow-hidden'>
             {
                 user?.position === 'ADMIN' ? (
                     <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -38,6 +46,6 @@ export default function Page() {
                     </CssVarsProvider>
                 ) : <PageNotFound />
             }
-        </>
+        </div>
     );
 }

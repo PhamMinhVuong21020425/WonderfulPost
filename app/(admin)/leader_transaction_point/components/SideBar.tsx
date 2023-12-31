@@ -19,15 +19,7 @@ import EggIcon from '@mui/icons-material/Egg';
 import ColorSchemeToggle from './ColorSchemeToggle';
 import { closeSidebar } from '../utils';
 
-import {
-    userSlice,
-    useSelector,
-    useDispatch,
-    selectUser,
-    getUserInfoAsync,
-    getAllStaffsInfoAsync,
-    getAllOfficesInfoAsync,
-} from '@/lib/redux'
+import { useSelector, selectUser } from '@/lib/redux'
 
 function Toggler({
     defaultExpanded = false,
@@ -67,15 +59,7 @@ type SideBarProps = {
 };
 
 export default function Sidebar(props: SideBarProps) {
-
-    const dispatch = useDispatch();
     const userInfo = useSelector(selectUser);
-
-    React.useEffect(() => {
-        dispatch(getAllStaffsInfoAsync());
-        dispatch(getAllOfficesInfoAsync());
-    }, []);
-
 
     return (
         <Sheet

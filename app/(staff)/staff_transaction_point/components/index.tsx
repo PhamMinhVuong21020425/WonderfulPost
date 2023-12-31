@@ -9,7 +9,7 @@ import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import PageNotFound from "@/app/components/PageNotFound";
-import { useSelector, useDispatch, selectUser, getUserInfoAsync } from '@/lib/redux'
+import { useSelector, useDispatch, selectUser, getUserInfoAsync, getAllOfficesInfoAsync } from '@/lib/redux'
 
 export default function Page() {
     // Status: dashboard, pending, confirmed, new
@@ -19,10 +19,11 @@ export default function Page() {
 
     React.useEffect(() => {
         dispatch(getUserInfoAsync());
-    }, [user]);
+        dispatch(getAllOfficesInfoAsync());
+    }, []);
 
     return (
-        <>
+        <div className='overflow-hidden'>
             {
                 user?.position === 'STAFF TRANSACTION' ? (
                     <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -35,6 +36,6 @@ export default function Page() {
                     </CssVarsProvider>
                 ) : <PageNotFound />
             }
-        </>
+        </div>
     )
 }
