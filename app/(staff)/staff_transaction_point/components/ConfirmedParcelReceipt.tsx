@@ -29,7 +29,7 @@ import { getReceivedParcelsInfoAsync, getDeliveredParcelsInfoAsync, selectParcel
 
 export default function ConfirmedParcelReceipt() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
-    const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status != "ON_GOING") ?? []
+    const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status != "ON_PENDING") ?? []
 
     // Table Pagination
     const rowPerPage = 5;
@@ -68,7 +68,7 @@ export default function ConfirmedParcelReceipt() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                         <Typography level='title-lg'>Parcel Details</Typography>
                         <Typography level='title-lg'>
-                            <PdfParcel />
+                            <PdfParcel parcelItem={item?.parcel} />
                         </Typography>
                     </Box>
                     <Sheet

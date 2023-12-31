@@ -5,8 +5,19 @@ import AboutUs from "./AboutUs"
 import Search from "./Search"
 import ContactUs from "./ContactUs";
 
+import {
+    useDispatch,
+    getUserInfoAsync,
+} from '@/lib/redux';
+
 export default function Home() {
     const [status, setStatus] = React.useState('magicpost')
+
+    const dispatch = useDispatch();
+
+    React.useEffect(() => {
+        dispatch(getUserInfoAsync());
+    }, []);
 
     const handleStatus = (status: string) => {
         setStatus(status)

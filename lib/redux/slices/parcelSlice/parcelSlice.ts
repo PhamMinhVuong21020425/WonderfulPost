@@ -5,6 +5,7 @@ import type Parcel from '@/app/types/ParcelType'
 /* Instruments */
 import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync, putSuccessAsync, putGoingAsync } from './thunkActions'
 import ParcelTrack from '@/app/types/ParcelTrackType'
+import { stat } from 'fs'
 
 const initialState: ParcelSliceState = {
     value: {
@@ -52,9 +53,10 @@ export const parcelSlice = createSlice({
             .addCase(addParcelAsync.pending, (state) => {
                 state.status = 'loading'
             })
-            .addCase(addParcelAsync.fulfilled, (state, action: PayloadAction<any>) => {
+            .addCase(addParcelAsync.fulfilled, (state, action: PayloadAction<ParcelTrack>) => {
                 state.status = 'idle'
-                state.value.parcels = [action.payload, ...state.value.parcels]
+                state.value.parcels = [action.payload?.parcel!, ...state.value.parcels]
+                state.value.deliveredParcels = [action.payload, ...state.value.deliveredParcels]
             })
             .addCase(putSuccessAsync.pending, (state) => {
                 state.status = 'loading'
