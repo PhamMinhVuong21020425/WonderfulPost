@@ -93,8 +93,8 @@ export default function PdfParcel() {
                                 }}
                             >
                                 <Text style={styles.TextBold}>1. Họ tên địa chỉ người gửi:</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Khai Tran</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Hung Yen</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Van Anh</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Hai Duong</Text>
                                 <View
                                     style={{ display: 'flex', flexDirection: 'row', marginTop: '25px', alignItems: 'center' }}
                                 >
@@ -103,7 +103,7 @@ export default function PdfParcel() {
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}>
                                     <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã khách hàng:</Text>
-                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính:</Text>
+                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: 421650</Text>
                                 </View>
                             </View>
 
@@ -176,7 +176,7 @@ export default function PdfParcel() {
 
                                         <tr>
                                             <th style={styles.TH2}>Tổng cộng</th>
-                                            <th style={styles.TH2}>0</th>
+                                            <th style={styles.TH2}>1</th>
                                             <th style={styles.TH2}></th>
                                             <th
                                                 style={{
@@ -348,8 +348,8 @@ export default function PdfParcel() {
                                 }}
                             >
                                 <Text style={styles.TextBold}>2. Họ tên địa chỉ người nhận:</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Minh Vuong</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Nam Dinh</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Phuc Nguyen</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Quang Ninh</Text>
                                 <Text
                                     style={{ fontSize: '16px', marginTop: '25px', fontWeight: 'bold' }}
                                 >{`Mã ĐH: UET`}</Text>
@@ -363,9 +363,9 @@ export default function PdfParcel() {
                                         }}
                                     >
                                         <Text style={styles.TextBold}>Số điện thoại:</Text>
-                                        <Text style={{ fontSize: '15px', marginLeft: '5px' }}>0136501170</Text>
+                                        <Text style={{ fontSize: '15px', marginLeft: '5px' }}>7777777</Text>
                                     </View>
-                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính:</Text>
+                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: 0400VN</Text>
                                 </View>
                             </View>
 

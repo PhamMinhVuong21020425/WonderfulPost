@@ -78,6 +78,7 @@ import {
     addParcelAsync,
 } from '@/lib/redux';
 
+import { supabase } from '@/lib/supabase';
 
 let officeFilters: Office[] = [];
 let districts = ['-- Select District --'];
@@ -98,6 +99,11 @@ export default function PendingParcel() {
 
     const data1 = useSelector(selectParcel).deliveredParcels ?? []
     const data = data1.filter((item) => item.status == 'ON_PENDING') ?? []
+
+    const handleClick = async (item: any) => {
+        setOpenModalIndex(null)
+        const response = await supabase.from('parcel_tracks').update({ status: 'ON_GOING' }).eq('id', item.id).select('*')
+    }
 
     const [city, setCity] = React.useState<string>('-- Select City --');
     const [district, setDistrict] = React.useState<string>('-- Select District --');
@@ -432,7 +438,7 @@ export default function PendingParcel() {
                             variant="outlined"
                             color="success"
                             size="sm"
-                            onClick={() => setOpenModalIndex(null)}
+                            onClick={() => handleClick(item)}
                         >
                             Confirm
                         </Button>
