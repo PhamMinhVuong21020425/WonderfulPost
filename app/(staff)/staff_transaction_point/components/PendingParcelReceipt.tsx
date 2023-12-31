@@ -27,25 +27,26 @@ import { PaginationLaptop } from '@/app/components/Pagination';
 import PendingParcelList from './PendingParcelList';
 import PendingParcelReceiptList from './PendingParcelReceiptList';
 import { getReceivedParcelsInfoAsync, getDeliveredParcelsInfoAsync, selectParcel, selectUser, useDispatch, useSelector } from '@/lib/redux';
-
 import { supabase } from '@/lib/supabase';
-
-const data: Parcel[] = []
 
 
 export default function PendingParcelReceipt() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
 
+    const dispatch = useDispatch();
+    const userInfo = useSelector(selectUser);
     const data = useSelector(selectParcel).receivedParcels.filter((item) => item.status == "ON_GOING") ?? []
 
     const handleClick = async (item: any) => {
         setOpenModalIndex(null)
         const response = await supabase.from('parcel_tracks').update({ status: 'SUCCESS' }).eq('id', item.id).select('*')
+        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
     }
 
     const handleCancel = async (item: any) => {
         setOpenModalIndex(null)
         const response = await supabase.from('parcel_tracks').update({ status: 'CANCEL' }).eq('id', item.id).select('*')
+        dispatch(getReceivedParcelsInfoAsync(userInfo?.branch_id!))
     }
     const renderModal = (item: any, index: any) => {
         return (
@@ -68,7 +69,7 @@ export default function PendingParcelReceipt() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                         <Typography level='title-lg'>Parcel Details</Typography>
                         <Typography level='title-lg'>
-                            <PdfParcel />
+                            <PdfParcel parcelItem={item?.parcel} />
                         </Typography>
                     </Box>
                     <Sheet
@@ -501,7 +502,7 @@ export default function PendingParcelReceipt() {
                                                         color={'warning'}
                                                         style={{ padding: "0px 10px" }}
                                                     >
-                                                        Going
+                                                        Pending
                                                     </Chip>
 
                                                 </Typography>

@@ -6,12 +6,7 @@ import Box from '@mui/joy/Box';
 import IconButton from '@mui/joy/IconButton';
 import Typography from '@mui/joy/Typography';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import {
-    useSelector,
-    useDispatch,
-    selectUser,
-    getUserInfoAsync,
-} from '@/lib/redux';
+import { useSelector, selectUser } from '@/lib/redux';
 import Menu from '@mui/joy/Menu';
 import MenuButton from '@mui/joy/MenuButton';
 import MenuItem from '@mui/joy/MenuItem';
@@ -25,11 +20,6 @@ type Props = {
 export default function Navbar({ status, handleStatus }: Props) {
     const router = useRouter();
     const userInfo = useSelector(selectUser);
-    const dispatch = useDispatch();
-    
-    React.useEffect(() => {
-        dispatch(getUserInfoAsync());
-    }, [userInfo]);
 
     const handleClick = () => {
         router.push('/login')
@@ -59,7 +49,7 @@ export default function Navbar({ status, handleStatus }: Props) {
                 userInfo ? (
                     <Box sx={{ display: 'flex', gap: 3, alignItems: 'center' }}>
                         <Dropdown>
-                            <MenuButton>
+                            <MenuButton variant='plain' size="sm">
                                 <Avatar src={userInfo?.avatar_url!} />
                             </MenuButton>
                             <Menu>

@@ -5,7 +5,7 @@ import { fetchAllParcels, fetchDeliveredParcels, fetchReceivedParcels, addParcel
 import { selectParcel } from './selectors'
 
 export const getAllParcelsInfoAsync = createAppAsyncThunk(
-    'user/fetchParcel',
+    'parcel/fetchParcel',
     async () => {
         const response = await fetchAllParcels()
 
@@ -15,7 +15,7 @@ export const getAllParcelsInfoAsync = createAppAsyncThunk(
 )
 
 export const getDeliveredParcelsInfoAsync = createAppAsyncThunk(
-    'user/fetchDeliveredParcel',
+    'parcel/fetchDeliveredParcel',
     async (id: string) => {
         const response = await fetchDeliveredParcels(id)
 
@@ -25,7 +25,7 @@ export const getDeliveredParcelsInfoAsync = createAppAsyncThunk(
 )
 
 export const getReceivedParcelsInfoAsync = createAppAsyncThunk(
-    'user/fetchReceivedParcel',
+    'parcel/fetchReceivedParcel',
     async (id: string) => {
         const response = await fetchReceivedParcels(id)
 
@@ -35,7 +35,7 @@ export const getReceivedParcelsInfoAsync = createAppAsyncThunk(
 )
 
 export const addParcelAsync = createAppAsyncThunk(
-    'user/addParcel',
+    'parcel/addParcel',
     async (formData: object) => {
         const response = await addParcel(formData)
 
@@ -45,7 +45,7 @@ export const addParcelAsync = createAppAsyncThunk(
 )
 
 export const putSuccessAsync = createAppAsyncThunk(
-    'user/putSuccessParcel',
+    'parcel/putSuccessParcel',
     async (id: number) => {
         const response = await successParcelTrack(id)
 
@@ -55,7 +55,7 @@ export const putSuccessAsync = createAppAsyncThunk(
 )
 
 export const putGoingAsync = createAppAsyncThunk(
-    'user/goingSuccessParcel',
+    'parcel/goingSuccessParcel',
     async (id: number) => {
         const response = await goingParcelTrack(id)
 

@@ -15,7 +15,8 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
     const { data } = await supabase
         .from("parcels")
         .select("*")
-        .eq('id', params.id);
+        .eq('id', params.id)
+        .order("updated_at", { ascending: false });
     return NextResponse.json(data);
 }
 

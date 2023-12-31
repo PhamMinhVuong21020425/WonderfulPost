@@ -11,7 +11,10 @@ export async function GET(req: Request, res: Response) {
         cookies: () => cookieStore,
     });
 
-    const { data } = await supabase.from("parcels").select("*");
+    const { data } = await supabase
+        .from("parcels")
+        .select("*")
+        .order("updated_at", { ascending: false });
     return NextResponse.json(data);
 }
 
@@ -21,71 +24,86 @@ export async function POST(req: Request, res: Response) {
         cookies: () => cookieStore,
     });
 
-    const formData = await req.json()
-    console.log(formData)
-    // const from_branch_id = String(formData.from_branch_id);
-    // const height = Number(formData.get("height"));
-    // const length = Number(formData.get("length"));
-    // const price = Number(formData.get("price"));
-    // const recipient_address = String(formData.get("recipient_address"));
-    // const recipient_contact = String(formData.get("recipient_contact"));
-    // const recipient_name = String(formData.get("recipient_name"));
-    // const reference_number = String(formData.get("reference_number"));
-    // const sender_address = String(formData.get("sender_address"));
-    // const sender_contact = String(formData.get("sender_contact"));
-    // const sender_name = String(formData.get("sender_name"));
-    // const status = String(formData.get("status"));
-    // const to_branch_id = String(formData.get("to_branch_id"));
-    // const type = String(formData.get("type")) as "GOODS" | "DOCUMENTS" | null | undefined;
-    // const weight = Number(formData.get("weight"));
-    // const width = Number(formData.get("width"));
+    const formData = await req.json();
+    const { id, ...rest } = formData;
+    const parcelInsert = {
+        ...rest,
+        length: Number(rest.length),
+        width: Number(rest.width),
+        height: Number(rest.height),
+        weight: Number(rest.weight),
+        price: Number(rest.price),
+    };
 
-    const newParcel = await supabase.from("parcels").insert({
-        from_branch_id: "421650",
-        height: 10,
-        length: 10,
-        price: 100000,
-        recipient_address: "Ha Noi",
-        recipient_contact: "0192849384",
-        recipient_name: "Khai Tran",
-        sender_address: "Nam Dinh",
-        sender_contact: "0123456789",
-        sender_name: "Minh Vuong",
-        status: "ON_PENDING",
-        to_branch_id: "0400VN",
-        type: "GOODS",
-        weight: 10,
-        width: 10,
-    }).select("*").single();
+    const { data: newParcel, error } = await supabase
+        .from("parcels")
+        .insert([{ ...parcelInsert }])
+        .select()
+        .single();
 
-    const newId = newParcel.data?.id
+    if (error) console.log(error);
 
-    if (newId) {
-        const track = await supabase.from("parcel_tracks").insert({
-            parcel_id: newId,
-            from: "421650",
-            to: "420000",
-            status: "ON_PENDING",
-        });
+    if (newParcel) {
+        const { data: track } = await supabase
+            .from("parcel_tracks")
+            .insert({
+                parcel_id: newParcel.id,
+                from: newParcel.from_branch_id,
+                to: newParcel.to_branch_id,
+                status: "ON_PENDING",
+            })
+            .select()
+            .single();
+        const result = {
+            ...track,
+            parcel: newParcel,
+        }
+
+        return NextResponse.json(result);
     }
+
+    return NextResponse.json(null);
 }
 
-// export async function PUT(req: Request, res: Response) {
-//     const cookieStore = cookies();
-//     const supabase = createRouteHandlerClient<Database>({
-//         cookies: () => cookieStore,
-//     });
+export async function PUT(req: Request, res: Response) {
+    const cookieStore = cookies();
+    const supabase = createRouteHandlerClient<Database>({
+        cookies: () => cookieStore,
+    });
 
-//     await supabase.from("parcels").update([]).eq('id', '');
+    const formData = await req.json();
+    const { id, ...rest } = formData;
+    const parcelInsert = {
+        ...rest,
+        length: Number(rest.length),
+        width: Number(rest.width),
+        height: Number(rest.height),
+        weight: Number(rest.weight),
+        price: Number(rest.price),
+    };
 
-// }
+    const { data: newParcel, error } = await supabase
+        .from("parcels")
+        .update([{ ...parcelInsert }])
+        .eq("id", id)
+        .select()
+        .single();
 
-// export async function DELETE(req: Request, res: Response) {
-//     const cookieStore = cookies();
-//     const supabase = createRouteHandlerClient<Database>({
-//         cookies: () => cookieStore,
-//     });
+    if (error) console.log(error);
 
-//     await supabase.from("parcels").delete().eq('id', 'someValue');
-// }
+    return NextResponse.json(newParcel);
+}
 
+export async function DELETE(req: Request, res: Response) {
+    const cookieStore = cookies();
+    const supabase = createRouteHandlerClient<Database>({
+        cookies: () => cookieStore,
+    });
+
+    const formData = await req.json();
+    const id = String(formData?.id);
+
+    await supabase.from("parcels").delete().eq("id", id);
+
+    return NextResponse.json(id);
+}

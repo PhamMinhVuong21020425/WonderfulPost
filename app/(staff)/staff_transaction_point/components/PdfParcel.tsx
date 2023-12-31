@@ -68,8 +68,16 @@ Font.register({
     ],
 });
 
+type Props = {
+    parcelItem: any
+}
+
+function formatPrice(price: any) {
+    return price ? price.replace(/\B(?=(\d{3})+(?!\d))/g, ".") : null;
+}
+
 // Create Document Component
-export default function PdfParcel() {
+export default function PdfParcel({ parcelItem }: Props) {
     const componentRef = React.useRef<any>(null);
 
     const handlePrint = useReactToPrint({
@@ -93,17 +101,17 @@ export default function PdfParcel() {
                                 }}
                             >
                                 <Text style={styles.TextBold}>1. Họ tên địa chỉ người gửi:</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Van Anh</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Hai Duong</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>{parcelItem.sender_name}</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>{parcelItem.sender_address}</Text>
                                 <View
                                     style={{ display: 'flex', flexDirection: 'row', marginTop: '25px', alignItems: 'center' }}
                                 >
                                     <Text style={styles.TextBold}>Số điện thoại:</Text>
-                                    <Text style={{ fontSize: '15px', marginLeft: '5px' }}>Sender Phone</Text>
+                                    <Text style={{ fontSize: '15px', marginLeft: '5px' }}>{parcelItem.sender_contact}</Text>
                                 </View>
                                 <View style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}>
-                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã khách hàng:</Text>
-                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: 421650</Text>
+                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã khách hàng: {}</Text>
+                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: {parcelItem.from_branch_id}</Text>
                                 </View>
                             </View>
 
@@ -327,7 +335,7 @@ export default function PdfParcel() {
                                     <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>8. Ngày giờ gửi:</Text>
                                     <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Chữ ký người gửi</Text>
                                 </View>
-                                <Text style={{ fontSize: '15px', marginTop: '15px' }}>07h52/18/10/2023</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '15px' }}>{parcelItem.created_at}</Text>
                             </View>
                         </View>
 
@@ -348,11 +356,11 @@ export default function PdfParcel() {
                                 }}
                             >
                                 <Text style={styles.TextBold}>2. Họ tên địa chỉ người nhận:</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Phuc Nguyen</Text>
-                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>Quang Ninh</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>{parcelItem.recipient_name}</Text>
+                                <Text style={{ fontSize: '15px', marginTop: '5px' }}>{parcelItem.recipient_address}</Text>
                                 <Text
                                     style={{ fontSize: '16px', marginTop: '25px', fontWeight: 'bold' }}
-                                >{`Mã ĐH: UET`}</Text>
+                                >Mã ĐH: {parcelItem.reference_number}</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row', marginTop: '5px' }}>
                                     <View
                                         style={{
@@ -363,9 +371,9 @@ export default function PdfParcel() {
                                         }}
                                     >
                                         <Text style={styles.TextBold}>Số điện thoại:</Text>
-                                        <Text style={{ fontSize: '15px', marginLeft: '5px' }}>7777777</Text>
+                                        <Text style={{ fontSize: '15px', marginLeft: '5px' }}>{parcelItem.recipient_contact}</Text>
                                     </View>
-                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: 0400VN</Text>
+                                    <Text style={{ fontSize: '16px', fontWeight: 'bold', flex: '1' }}>Mã bưu chính: {parcelItem.to_branch_id}</Text>
                                 </View>
                             </View>
 
@@ -393,7 +401,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>a. Cước chính:</Text>
-                                            <Text style={{ fontSize: '15px' }}>52</Text>
+                                            <Text style={{ fontSize: '15px' }}>{formatPrice(String(parcelItem.price))}đ</Text>
                                         </View>
 
                                         <View
@@ -405,7 +413,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>b. Phụ phí:</Text>
-                                            <Text style={{ fontSize: '15px' }}>20000đ</Text>
+                                            <Text style={{ fontSize: '15px' }}>0đ</Text>
                                         </View>
 
                                         <View
@@ -417,7 +425,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>c. Cước GTGT:</Text>
-                                            <Text style={{ fontSize: '15px' }}>5%</Text>
+                                            <Text style={{ fontSize: '15px' }}>0%</Text>
                                         </View>
 
                                         <View
@@ -429,7 +437,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>d. Tổng cước (gồm VAT):</Text>
-                                            <Text style={{ fontSize: '15px' }}> 10%</Text>
+                                            <Text style={{ fontSize: '15px' }}> 0%</Text>
                                         </View>
 
                                         <View
@@ -453,7 +461,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={styles.TextBold}>Tổng thu:</Text>
-                                            <Text style={{ fontSize: '15px' }}>100.000đ</Text>
+                                            <Text style={{ fontSize: '15px' }}>{formatPrice(String(parcelItem.price))}đ</Text>
                                         </View>
                                     </View>
 
@@ -475,7 +483,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>COD:</Text>
-                                            <Text style={{ fontSize: '15px' }}>123456</Text>
+                                            <Text style={{ fontSize: '15px' }}>30.000đ</Text>
                                         </View>
                                         <View
                                             style={{
@@ -497,7 +505,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={styles.TextBold}>Tổng thu:</Text>
-                                            <Text style={{ fontSize: '15px' }}>0</Text>
+                                            <Text style={{ fontSize: '15px' }}>{formatPrice(String(parcelItem.price + 30000))}đ</Text>
                                         </View>
                                     </View>
 
@@ -541,7 +549,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>Khối lượng thực tế:</Text>
-                                            <Text style={{ fontSize: '15px' }}>20</Text>
+                                            <Text style={{ fontSize: '15px' }}>{parcelItem.weight/1000}</Text>
                                         </View>
                                         <View
                                             style={{
@@ -552,7 +560,7 @@ export default function PdfParcel() {
                                             }}
                                         >
                                             <Text style={{ fontSize: '15px' }}>Khối lượng quy đổi:</Text>
-                                            <Text style={{ fontSize: '15px' }}>10</Text>
+                                            <Text style={{ fontSize: '15px' }}>{parcelItem.weight / 1000}</Text>
                                         </View>
                                     </View>
 

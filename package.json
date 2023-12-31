@@ -21,6 +21,7 @@
     "@supabase/supabase-js": "^2.39.0",
     "antd": "^5.11.3",
     "axios": "^1.6.2",
+    "crypto": "^1.0.1",
     "echarts": "^5.4.3",
     "echarts-for-react": "^3.0.2",
     "framer-motion": "^10.16.16",

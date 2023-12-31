@@ -68,7 +68,7 @@ export default function ConfirmedParcel() {
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px' }}>
                         <Typography level='title-lg'>Parcel Details</Typography>
                         <Typography level='title-lg'>
-                            <PdfParcel />
+                            <PdfParcel parcelItem={item?.parcel} />
                         </Typography>
                     </Box>
                     <Sheet
