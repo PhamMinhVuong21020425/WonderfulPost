@@ -69,9 +69,23 @@ const ContactUs = () => {
                     Contact Us
 
                 </h1>
-                <div className='flex items-center justify-center'>
-
-
+                <div className="text-md mb-4">
+                    At <span className='bg-gradient-to-r font-bold from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'>MagicPost</span>, where speed, reliability, and customer satisfaction 
+                    are our top priorities.
+                </div>
+                <div className="text-md mb-4">
+                    We're dedicated to ensuring your parcels reach their destination swiftly and securely. If you have any inquiries, require assistance, or wish to provide feedback, we're here to help.
+                </div>
+                <div className="text-md mb-4">
+                    Thank you for choosing <span className='bg-gradient-to-r font-bold from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'> MagicPost</span>
+                    &nbsp;for your delivery needs. We look forward to serving you!
+                </div>
+                <div className="text-md mb-4">
+                    Sincerely,
+                </div>
+                <div className="text-md mb-4">
+                    <span className='bg-gradient-to-r font-bold from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'> MagicPost</span> 
+                    &nbsp;Team
                 </div>
             </div>
         </div>

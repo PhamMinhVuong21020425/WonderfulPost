@@ -31,7 +31,45 @@ export default function Office() {
     const renderFilters = () => (
         <React.Fragment>
             <FormControl size="sm" >
-                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Status</FormLabel>
+                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Select City</FormLabel>
+                <Select
+                    size="sm"
+                    placeholder="Filter by city"
+                    slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+                    style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
+                >
+                    <Option value="gathering">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Gathering</Typography>
+                    </Option>
+                    <Option value="transaction">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Transaction</Typography>
+                    </Option>
+                    <Option value="all">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>All</Typography>
+                    </Option>
+                </Select>
+            </FormControl>
+            <FormControl size="sm" >
+                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Select District</FormLabel>
+                <Select
+                    size="sm"
+                    placeholder="Filter by district"
+                    slotProps={{ button: { sx: { whiteSpace: 'nowrap' } } }}
+                    style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}
+                >
+                    <Option value="gathering">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Gathering</Typography>
+                    </Option>
+                    <Option value="transaction">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Transaction</Typography>
+                    </Option>
+                    <Option value="all">
+                        <Typography style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>All</Typography>
+                    </Option>
+                </Select>
+            </FormControl>
+            <FormControl size="sm" >
+                <FormLabel style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }}>Select Position</FormLabel>
                 <Select
                     size="sm"
                     placeholder="Filter by position"
@@ -49,7 +87,6 @@ export default function Office() {
                     </Option>
                 </Select>
             </FormControl>
-
         </React.Fragment>
     );
 
@@ -89,6 +126,25 @@ export default function Office() {
                         Offices
                     </Typography>
 
+                </Box>
+                <Box
+                    className="SearchAndFilters-tabletUp"
+                    sx={{
+                        borderRadius: 'sm',
+                        py: 2,
+                        display: { xs: 'none', sm: 'flex' },
+                        flexWrap: 'wrap',
+                        gap: 1.5,
+                        '& > *': {
+                            minWidth: { xs: '120px', md: '160px' },
+                        },
+                    }}
+                >
+                    <FormControl sx={{ flex: 1 }} size="sm">
+                        <FormLabel >Search for Office</FormLabel>
+                        <Input size="sm" placeholder="Search" startDecorator={<SearchIcon />} style={{ color: 'var(--joy-palette-text-secondary)', fontSize: '0.7rem', fontWeight: "600" }} />
+                    </FormControl>
+                    {renderFilters()}
                 </Box>
                 <Sheet
                     className="SearchAndFilters-mobile"
