@@ -3,7 +3,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type Parcel from '@/app/types/ParcelType'
 
 /* Instruments */
-import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync, putSuccessAsync, putGoingAsync } from './thunkActions'
+import { getAllParcelsInfoAsync, getDeliveredParcelsInfoAsync, getReceivedParcelsInfoAsync, addParcelAsync, deleteParcelAsync, putSuccessAsync, putGoingAsync } from './thunkActions'
 import ParcelTrack from '@/app/types/ParcelTrackType'
 import { stat } from 'fs'
 
@@ -57,6 +57,15 @@ export const parcelSlice = createSlice({
                 state.status = 'idle'
                 state.value.parcels = [action.payload?.parcel!, ...state.value.parcels]
                 state.value.deliveredParcels = [action.payload, ...state.value.deliveredParcels]
+            })
+            .addCase(deleteParcelAsync.pending, (state) => {
+                state.status = 'loading'
+            })
+            .addCase(deleteParcelAsync.fulfilled, (state, action: PayloadAction<number>) => {
+                state.status = 'idle'
+                state.value.parcels = [...state.value.parcels.filter((parcel: Parcel) => parcel.id !== action.payload)]
+                state.value.deliveredParcels = [...state.value.deliveredParcels.filter((parcel: ParcelTrack) => parcel.parcel_id !== action.payload)]
+                state.value.receivedParcels = [...state.value.receivedParcels.filter((parcel: ParcelTrack) => parcel.parcel_id !== action.payload)]
             })
             .addCase(putSuccessAsync.pending, (state) => {
                 state.status = 'loading'

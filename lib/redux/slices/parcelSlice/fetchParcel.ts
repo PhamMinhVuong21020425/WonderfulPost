@@ -42,6 +42,12 @@ export const addParcel = async (formData: object): Promise<{ data: ParcelTrack }
     return response
 }
 
+export const deleteParcel = async (id: number): Promise<{ data: number }> => {
+    const response = await axios.delete<number>('/api/parcels', { data: { id } })
+
+    return response
+}
+
 export const successParcelTrack = async (id: number): Promise<{ data: any }> => {
     const response = await axios.put<any>(`/api/parcels/${id}/current/success`, {
         headers: {

@@ -13,7 +13,7 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 
     const { data } = await supabase
         .from("parcels")
-        .select(`id, from_branch:from_branch_id(id, name, reference:reference_id(id,name)), to_branch:to_branch_id(id, name, reference:reference_id(id,name))`)
+        .select(`id, from_branch:from_branch_id(id, name, address, city, reference:reference_id(id,name,address,city)), to_branch:to_branch_id(id, name, address, city, reference:reference_id(id,name,address,city))`)
         .eq('id', params.id)
         .single();
 

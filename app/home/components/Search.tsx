@@ -9,7 +9,7 @@ import StepIndicator, { stepIndicatorClasses } from '@mui/joy/StepIndicator';
 import DoneIcon from '@mui/icons-material/Done';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import CircularProgress from '@mui/joy/CircularProgress';
-
+import axios from '@/lib/axios';
 
 
 const data = [
@@ -177,23 +177,66 @@ const Search = () => {
     const [trackingId, setTrackingId] = useState('');
     const [searchResult, setSearchResult] = useState<any>(null);
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         // Simulate API call to fetch tracking information
         // Replace this with your actual API call to retrieve parcel information
 
         setSearchResult('Loading...');
 
-        // Simulate delay with setTimeout
-        setTimeout(() => {
-            const parcel = data.find((item) => item.trackingNumber === trackingId);
-            if (parcel) {
-                setSearchResult(parcel);
-            }
+        const { data } = await axios.get(`/api/parcels/${trackingId}/track`);
 
-            else {
-                setSearchResult('Parcel not found');
+        if (data) {
+            const parcel = {
+                "id": trackingId,
+                "tracking_path": [
+                    {
+                        "time": "2021-10-03T00:00:00.000Z",
+                        "address": data.from_branch.address,
+                        "city": data.from_branch.city,
+                        "type": "TRANSACTION",
+                        "status": "DELIVERED"
+                    },
+                    {
+                        "time": "2021-10-04T00:00:00.000Z",
+                        "address": data.from_branch?.reference?.address,
+                        "city": data.from_branch?.reference?.city,
+                        "type": "GATHERING",
+                        "status": "DELIVERED"
+                    },
+                    {
+                        "time": "2021-10-05T00:00:00.000Z",
+                        "address": data.to_branch?.reference?.address,
+                        "city": data.to_branch?.reference?.city,
+                        "type": "GATHERING",
+                        "status": "ON_GOING"
+                    },
+                    {
+                        "time": "2021-10-06T00:00:00.000Z",
+                        "address": data.to_branch.address,
+                        "city": data.to_branch.city,
+                        "type": "TRANSACTION",
+                        "status": "WAITING"
+                    },
+                ]
             }
-        }, 3000);
+            setSearchResult(parcel);
+        }
+        else {
+            setSearchResult('Parcel not found');
+        }
+
+        // Test data
+        // Simulate delay with setTimeout
+        // setTimeout(() => {
+        //     const parcel = data.find((item) => item.trackingNumber === trackingId);
+        //     if (parcel) {
+        //         setSearchResult(parcel);
+        //     }
+
+        //     else {
+        //         setSearchResult('Parcel not found');
+        //     }
+        // }, 2000);
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,7 +261,7 @@ const Search = () => {
         if (searchResult === 'Parcel not found') {
             return (
                 <div className="mt-10 text-center">
-                    <p className="text-sm mt-4">Parcel not found</p>
+                    <p className="text-red-400 font-bold mt-4">Parcel not found</p>
                 </div>
             );
         }
@@ -237,46 +280,51 @@ const Search = () => {
                     orientation="vertical"
                 >
                     {tracking_path.map((item: any, index: any) => (
-                        <Step
-                            indicator={
-                                <StepIndicator className={`border-gray-200 border-2 bg-gray-100`}>
-                                    {
-                                        // item.status === 'DELIVERED' ? <DoneIcon className='text-green-400 text-sm' /> : <div className='text-xs font-bold text-gray-400'>
-                                        //     {index + 1}
-                                        // </div>
-                                        // Switch case
-                                        (() => {
-                                            switch (item.status) {
-                                                case 'DELIVERED':
-                                                    return <DoneIcon className='text-green-400 text-sm' />;
-                                                case 'ON_GOING':
-                                                    return <LocalShippingIcon className='text-sm' />;
+                        item.address ?
+                            <Step
+                                indicator={
+                                    <StepIndicator className={`border-gray-200 border-2 bg-gray-100`}>
+                                        {
+                                            // item.status === 'DELIVERED' ? <DoneIcon className='text-green-400 text-sm' /> : <div className='text-xs font-bold text-gray-400'>
+                                            //     {index + 1}
+                                            // </div>
+                                            // Switch case
+                                            (() => {
+                                                switch (item.status) {
+                                                    case 'DELIVERED':
+                                                        return <DoneIcon className='text-green-400 text-sm' />;
+                                                    case 'ON_GOING':
+                                                        return <LocalShippingIcon className='text-sm' />;
 
-                                                case 'WAITING':
-                                                    return <div className='text-xs font-bold text-gray-400'>
+                                                    case 'WAITING':
+                                                        return <div className='text-xs font-bold text-gray-400'>
 
-                                                    </div>;
-                                                default:
-                                                    return <div className='text-xs font-bold text-gray-400'>
+                                                        </div>;
+                                                    default:
+                                                        return <div className='text-xs font-bold text-gray-400'>
 
-                                                    </div>;
-                                            }
-                                        })()
-                                    }
-                                </StepIndicator>
+                                                        </div>;
+                                                }
+                                            })()
+                                        }
+                                    </StepIndicator>
 
-                            }
-                            completed
-                        >
-                            <div className='ml-3 flex items-center justify-between md:block'>
-                                <div className='text-xs text-gray-600 font-poppins'>
-                                    {item.address}
+                                }
+                                completed
+                            >
+                                <div className='ml-3 flex items-center justify-between md:block'>
+                                    <div className='text-xs text-gray-600 font-poppins'>
+                                        {item.address}
+                                    </div>
+                                    <div className='text-xs text-gray-600 font-poppins'>
+                                        {item.city}
+                                    </div>
+                                    <div className='text-xs text-gray-600 font-poppins mt-2'>
+                                        {new Date(item.time).toLocaleDateString()}
+                                    </div>
                                 </div>
-                                <div className='text-xs text-gray-600 font-poppins'>
-                                    {new Date(item.time).toLocaleDateString()}
-                                </div>
-                            </div>
-                        </Step>
+                            </Step> : null
+
                     ))}
                 </Stepper>
             </div>

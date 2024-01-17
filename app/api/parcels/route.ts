@@ -101,7 +101,7 @@ export async function DELETE(req: Request, res: Response) {
     });
 
     const formData = await req.json();
-    const id = String(formData?.id);
+    const id = Number(formData?.id);
 
     await supabase.from("parcels").delete().eq("id", id);
 

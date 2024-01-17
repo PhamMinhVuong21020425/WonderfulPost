@@ -33,6 +33,7 @@ import {
 } from '@/lib/redux';
 
 import { supabase } from '@/lib/supabase';
+import ParcelTrack from '@/app/types/ParcelTrackType';
 
 export default function PendingParcel() {
     const [openModalIndex, setOpenModalIndex] = React.useState<number | null>(null);
@@ -42,7 +43,7 @@ export default function PendingParcel() {
     const dispatch = useDispatch();
 
     const data1 = useSelector(selectParcel).deliveredParcels ?? []
-    const data = data1.filter((item) => item.status == 'ON_PENDING') ?? []
+    const data = data1.filter((item: ParcelTrack) => item.status == 'ON_PENDING') ?? []
 
     const handleConfirm = async (item: any) => {
         setOpenModalIndex(null)

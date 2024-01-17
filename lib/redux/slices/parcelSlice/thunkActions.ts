@@ -1,7 +1,7 @@
 /* Instruments */
 import { createAppAsyncThunk } from '@/lib/redux/createAppAsyncThunk'
 import type { ReduxThunkAction } from '@/lib/redux'
-import { fetchAllParcels, fetchDeliveredParcels, fetchReceivedParcels, addParcel, successParcelTrack, goingParcelTrack } from './fetchParcel'
+import { fetchAllParcels, fetchDeliveredParcels, fetchReceivedParcels, addParcel, deleteParcel, successParcelTrack, goingParcelTrack } from './fetchParcel'
 import { selectParcel } from './selectors'
 
 export const getAllParcelsInfoAsync = createAppAsyncThunk(
@@ -38,6 +38,16 @@ export const addParcelAsync = createAppAsyncThunk(
     'parcel/addParcel',
     async (formData: object) => {
         const response = await addParcel(formData)
+
+        // The value we return becomes the `fulfilled` action payload
+        return response.data
+    }
+)
+
+export const deleteParcelAsync = createAppAsyncThunk(
+    'parcel/deleteParcel',
+    async (id: number) => {
+        const response = await deleteParcel(id)
 
         // The value we return becomes the `fulfilled` action payload
         return response.data

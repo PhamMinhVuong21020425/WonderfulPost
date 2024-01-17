@@ -33,7 +33,7 @@ export default function Page() {
     }, []);
 
     return (
-        <div className='overflow-hidden'>
+        <>
             {
                 user?.position === 'ADMIN' ? (
                     <CssVarsProvider disableTransitionOnChange theme={palette}>
@@ -46,6 +46,6 @@ export default function Page() {
                     </CssVarsProvider>
                 ) : <PageNotFound />
             }
-        </div>
+        </>
     );
 }
